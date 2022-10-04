@@ -51,7 +51,6 @@ def main(args: Sequence = None) -> None:
         max_epochs=num_epochs,
         accelerator='auto',
         devices='auto',
-        overfit_batches=1,
         log_every_n_steps=1,
         logger=wandb_logger
     )
