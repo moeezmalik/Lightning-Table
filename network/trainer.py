@@ -36,7 +36,7 @@ def main(args: Sequence = None) -> None:
         path=path_to_dataset_folder,
         batch_size=2,
         train_eval_split=0.8,
-        subset=30,
+        subset=None,
         num_workers=2
     )
 

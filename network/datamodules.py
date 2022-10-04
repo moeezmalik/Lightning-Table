@@ -148,6 +148,13 @@ class TableDatasetModule(LightningDataModule):
         train_set_length = round(self.train_eval_split * full_set_length)
         eval_set_length = full_set_length - train_set_length
 
+        print()
+        print("Dataset Information")
+        print("Total Images in Dataset: " + str(full_set_length))
+        print("Number of Training Images: " + str(train_set_length))
+        print("Number of Evaluation Images: " + str(eval_set_length))
+        print()
+
         if stage == 'fit' or stage is None:
             self.train_set, self.eval_set = random_split(
                 dataset=self.full_dataset,
