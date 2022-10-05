@@ -184,7 +184,7 @@ class RetinaNet(LightningModule):
 
         # Calculate the average IoU over the validation set
         avg_iou = torch.stack([o["val_iou"] for o in outs]).mean()
-        self.log("val/avg_iou", avg_iou)
+        self.log("val/epoch/avg_iou", avg_iou)
         
         return None
 
