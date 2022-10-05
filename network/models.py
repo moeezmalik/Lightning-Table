@@ -23,7 +23,8 @@ import torch
 from torchvision.models.detection.faster_rcnn import fasterrcnn_resnet50_fpn, FastRCNNPredictor
 from torchvision.models.detection.retinanet import retinanet_resnet50_fpn, retinanet_resnet50_fpn_v2, RetinaNetHead
 from torchvision.ops import box_iou
-from torch.optim import SGD
+from torch.optim import SGD, Adam
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 
 # Others
@@ -136,10 +137,33 @@ class RetinaNet(LightningModule):
         # We need to sum that up so that PyTorch lightning perfoms a 
         # backward on both of them
         loss_dict = self.model(images, targets)
-        loss = sum(loss for loss in loss_dict.values())
-        self.log("train/loss", loss, prog_bar=True)
 
-        return loss
+        classification_loss = float(loss_dict['classification'])
+        regression_loss = float(loss_dict['bbox_regression'])
+
+        loss = sum(loss for loss in loss_dict.values())
+
+        # Log all the metrics
+        self.log("train/step/total_loss", loss, prog_bar=True)
+        self.log("train/step/classification_loss", classification_loss)
+        self.log("train/step/regression_loss", regression_loss)
+
+        return {"loss": loss}
+
+    def training_epoch_end(self, outputs) -> None:
+        
+        # Get list of losses from the outputs
+        list_of_losses = [o["loss"] for o in outputs]
+
+        # Get the means of the losses, we can use
+        # the stack functionality of torch tensors
+        # to do that
+
+        mean_epoch_loss = float(torch.stack(list_of_losses).mean())
+
+        self.log("train/epoch/mean_total_loss", mean_epoch_loss)
+
+        return None
 
     def validation_step(self, batch, batch_idx):
         
@@ -154,8 +178,6 @@ class RetinaNet(LightningModule):
         # Calculate Intersection over Union for the predicted boxes
         iou = torch.stack([self._evaluate_iou(p, t) for p, t in zip(preds, targets)]).mean()
 
-        self.log("val/iou", iou, prog_bar=True)
-
         return {"val_iou": iou}
 
     def validation_epoch_end(self, outs):
@@ -167,10 +189,51 @@ class RetinaNet(LightningModule):
         return None
 
     def configure_optimizers(self):
-        return torch.optim.SGD(
-            self.model.parameters(),
+
+        # This is the optimiser that we want to use
+        optimiser = Adam(
+            self.parameters(),
             lr=self.lr
         )
+
+        # This is the LR scheduler we want to use
+        lr_scheduler = ReduceLROnPlateau(
+            optimiser,
+            patience=3,
+            verbose=True
+        )
+
+        # Configuration for LR schedular
+        lr_scheduler_config = {
+            # This is the scheduler that we want to use
+            "scheduler": lr_scheduler,
+
+            # The unit of the scheduler's step size, could also be 'step'.
+            # 'epoch' updates the scheduler on epoch end whereas 'step'
+            # updates it after a optimizer update.
+            "interval": "epoch",
+
+            # How many epochs/steps should pass between calls to
+            # `scheduler.step()`. 1 corresponds to updating the learning
+            # rate after every epoch/step.
+            "frequency": 1,
+
+            # Metric to to monitor for schedulers like `ReduceLROnPlateau`
+            "monitor": "train/epoch/mean_total_loss",
+
+            # If set to `True`, will enforce that the value specified 'monitor'
+            # is available when the scheduler is updated, thus stopping
+            # training if not found. If set to `False`, it will only produce a warning
+            "strict": True
+        }
+
+        # The dictionary to return to the Lightning Module
+        to_return = {
+            "optimizer": optimiser,
+            "lr_scheduler": lr_scheduler_config
+        }
+
+        return to_return
 
     def _evaluate_iou(self, preds, targets):
         """

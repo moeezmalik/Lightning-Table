@@ -15,9 +15,10 @@ def main(args: Sequence = None) -> None:
     # Parse the arguments
     parser = argparse.ArgumentParser(description='Training Script for Training the Networks')
 
-    parser.add_argument('--dataset', help='Dataset type, must be one of csv or coco.')
-    parser.add_argument('--log_name', help='Dataset type, must be one of csv or coco.')
-    parser.add_argument('--num_classes', help='Number of epochs', type=int, default=2)
+    parser.add_argument('--dataset', help='Path to the dataset.')
+    parser.add_argument('--log_name', help='The name that will be used to log to Weights and Biases.', type=str, default=None)
+    parser.add_argument('--num_classes', help='Number of classes for the network in the given dataset', type=int, default=2)
+    parser.add_argument('--subset', help='Specify a value if a smaller subset of data is required', type=int, default=None)
     parser.add_argument('--epochs', help='Number of epochs', type=int, default=50)
 
     parser = parser.parse_args(args)
@@ -26,37 +27,50 @@ def main(args: Sequence = None) -> None:
     num_classes = parser.num_classes
     num_epochs = parser.epochs
     log_name = parser.log_name
+    subset = parser.subset
 
-
-    wandb_logger = WandbLogger(
-        project=log_name
-    )
 
     table_datamodule = TableDatasetModule(
         path=path_to_dataset_folder,
         batch_size=2,
         train_eval_split=0.8,
-        subset=None,
+        subset=subset,
         num_workers=2
     )
 
     model = RetinaNet(
-        lr=1e-2,
+        lr=1e-5,
         num_classes=num_classes,
         pretrained=True,
         batch_size=2
     )
 
-    trainer = Trainer(
-        max_epochs=num_epochs,
-        accelerator='auto',
-        devices='auto',
-        log_every_n_steps=1,
-        logger=wandb_logger
-    )
+    if log_name is not None:
+
+        wandb_logger = WandbLogger(
+            project=log_name
+        )
+
+        trainer = Trainer(
+            max_epochs=num_epochs,
+            accelerator='auto',
+            devices='auto',
+            log_every_n_steps=1,
+            logger=wandb_logger
+        )
+        
+        wandb.login()
+
+    else:
+
+        trainer = Trainer(
+            max_epochs=num_epochs,
+            accelerator='auto',
+            devices='auto',
+            log_every_n_steps=1
+        )
 
 
-    wandb.login()
     trainer.fit(model=model, datamodule=table_datamodule)
 
 

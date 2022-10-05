@@ -1,31 +1,45 @@
-import torch
-from utils.visualisers import float_to_uint8_image_tensor, show_uint8_image_tensor
-from torchvision.utils import draw_bounding_boxes
-from torch.utils.data import DataLoader
+from torch import Tensor
+from torchvision.ops.boxes import box_iou
 
-from torch.utils.data import Subset, random_split
-
-import torchvision.transforms.functional as F
-
-from network.datamodules import FullTableDatasetModule
-
-table_datamodule = FullTableDatasetModule(
-    path='dataset/',
-    batch_size=2,
-    train_eval_split=0.8
+box1 = Tensor(
+    [
+        [1, 1, 2, 2],
+        [2, 2, 3, 3]
+    ]
 )
 
-train_dataloader = table_datamodule.train_dataloader()
+box2 = Tensor(
+    [
+        [1, 1, 2, 2],
+        [3, 3, 4, 4],
+        [2, 2, 3, 3]
+    ]
+)
 
-images, targets = next(iter(train_dataloader))
+iou = box_iou(boxes1=box1, boxes2=box2).diag()
 
-for t in targets:
-    print(t)
-
+print(iou)
 
 
 
 
+
+##################################################################
+
+# table_datamodule = FullTableDatasetModule(
+#     path='dataset/',
+#     batch_size=2,
+#     train_eval_split=0.8
+# )
+
+# train_dataloader = table_datamodule.train_dataloader()
+
+# images, targets = next(iter(train_dataloader))
+
+# for t in targets:
+#     print(t)
+
+##################################################################
 
 # def collate_fn(batch):
 #     return tuple(zip(*batch))
