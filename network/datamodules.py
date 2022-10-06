@@ -18,8 +18,6 @@ Author:
 ### - IMPORTS - ###
 
 # PyTorch and Lightning
-from ast import Sub
-from re import sub
 from pytorch_lightning import LightningDataModule
 
 import torch

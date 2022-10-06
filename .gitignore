@@ -1,2 +1,3 @@
-dataset
-lightning_logs
+dataset/
+lightning_logs/
+misc/
