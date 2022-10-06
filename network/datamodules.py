@@ -71,24 +71,14 @@ class CSVDataset(Dataset):
                 is reserved for background classes, if the dataset
                 contains examples for the background class then 0
                 class_id can be used.
-    """
-    
-    def __init__(self, path, tranforms = None) -> None:
-        """
-        This is the contructor function of the class CSVDataset. This
-        will be called one time when the class is created.
-
-        Args:
-            path (str):
-                This is the path to the directory that contains
-                the dataset. See class description for more details
-                on the folder structure.
-
-            transforms (torchvision.transforms):
+        
+        transforms (Custom Transform Classes from transforms.py):
                 This area the transforms that will be applied to
                 all the images when the __get_item__ function is
                 called. Default value is None.
-        """
+    """
+    
+    def __init__(self, path, tranforms = None) -> None:
         
         # Get the full relative path to the CSV files
         path_to_annotations = join(path, "annotations.csv")
@@ -370,6 +360,14 @@ class TableDatasetModule(LightningDataModule):
         return None
 
     def prepare_data(self) -> None:
+        """
+        This function is one of the hooks for the PyTorch Lightning Data Modules.
+        The purpose of this function is initially prepare the dataset that will
+        eventually be fed into the data loaders. As it can be observed in the
+        implementations, it makes us of the custom CSVDataset that was built
+        above.
+        """
+
         original_dataset = CSVDataset(self.path, tranforms=self.transforms)
         len_original_data = original_dataset.__len__()
 
@@ -398,13 +396,21 @@ class TableDatasetModule(LightningDataModule):
         self,
         stage: Optional[str] = None
     ) -> None:
-        
+        """
+        This function is one of the hooks for the PyTorch Lightning Data Modules.
+        The purpose of this function is to return appropriate datasets depending
+        upon the current stage of the model i.e. either training or testing. It
+        also randomly splits the dataset into training and evaluation set depending
+        upon the percentage provided.
+        """
+
         full_set = self.full_dataset
         full_set_length = full_set.__len__()
 
         train_set_length = round(self.train_eval_split * full_set_length)
         eval_set_length = full_set_length - train_set_length
 
+        # Printout the dataset information.
         print()
         print("Dataset Information")
         print("Total Images in Dataset: " + str(full_set_length))
@@ -422,6 +428,11 @@ class TableDatasetModule(LightningDataModule):
             self.test_set = full_set
 
     def train_dataloader(self) -> DataLoader:
+        """
+        This function is one of the hooks for the PyTorch Lightning Data Modules.
+        It returns the Dataloader object for the training steps.
+        """
+
         return DataLoader(
             dataset=self.train_set,
             batch_size=self.batch_size,
@@ -430,6 +441,10 @@ class TableDatasetModule(LightningDataModule):
         )
 
     def val_dataloader(self) -> DataLoader:
+        """
+        This function is one of the hooks for the PyTorch Lightning Data Modules.
+        It returns the Dataloader object for the validation steps.
+        """
         return DataLoader(
             dataset=self.eval_set,
             batch_size=self.batch_size,

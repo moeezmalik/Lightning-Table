@@ -14,7 +14,6 @@ Author:
         muhammad.moeez.malik@ise.fraunhofer.de
 """
 
-from pyexpat import model
 from typing import Sequence
 from datamodules import TableDatasetModule
 from models import VanillaRetinaNet
