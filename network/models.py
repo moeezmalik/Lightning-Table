@@ -23,11 +23,14 @@ import torch
 from torchvision.models.detection.faster_rcnn import fasterrcnn_resnet50_fpn, FastRCNNPredictor
 from torchvision.models.detection.retinanet import retinanet_resnet50_fpn, retinanet_resnet50_fpn_v2, RetinaNetHead
 from torchvision.ops import box_iou
-from torch.optim import SGD, Adam
+from torch.optim import Adam
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 
 # Others
+from utilities import evaluate_iou
+
+# Misc
 from typing import Any
 
 ### - CLASSES - ###
@@ -76,36 +79,24 @@ class VanillaRetinaNet(LightningModule):
     ) -> None:
 
         super().__init__()
-        print("Hello, World! from RetinaNet")
 
-        self.lr = lr
-        
+        print()
+        print("Vanilla RetinaNet Object Created")
+        print()
+
         # Either load weights or not depending upon the pretrained flag specified
-        # in the arguments
+        # in the arguments and create the RetinaNet
         weights = "DEFAULT" if pretrained else None
         self.model = retinanet_resnet50_fpn(weights=weights, weights_backbone="DEFAULT")
 
+        # Replace the head based on the number of classes that we have.
         self.model.head = RetinaNetHead(
             in_channels=self.model.backbone.out_channels,
             num_anchors=self.model.head.classification_head.num_anchors,
             num_classes=num_classes,
         )
-        
 
-
-        # self.model = fasterrcnn_resnet50_fpn(
-        #     pretrained=pretrained,
-        #     pretrained_backbone=True,
-        #     trainable_backbone_layers=3,
-        # )
-
-        # in_features = self.model.roi_heads.box_predictor.cls_score.in_features
-        # self.model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
-
-
-
-
-
+        self.lr = lr
         self.batch_size = batch_size
 
         self.save_hyperparameters()
@@ -114,6 +105,27 @@ class VanillaRetinaNet(LightningModule):
         return None
 
     def forward(self, x) -> Any:
+        """
+        This is one of the default function for a PyTorch module. Whenever
+        we call model(x), basically this function gets called.
+
+        Args: 
+            images (List of Tensors [N, C, H, W]):
+                List of tensors, each of shape [C, H, W], one for each image, and should be in 0-1 range.
+                Different images can have different sizes.
+
+        Returrns:
+            The output of the model. Which in this case would be predictions made
+            by the model.
+
+            boxes (FloatTensor[N, 4]):
+                The predicted boxes in [x1, y1, x2, y2] format,
+                with 0 <= x1 < x2 <= W and 0 <= y1 < y2 <= H.
+            labels (Int64Tensor[N]):
+                The predicted labels for each detection
+            scores (Tensor[N]):
+                The scores of each detection
+        """
 
         # Setting the model in evaluation mode, don't understand why this
         # done automatically
@@ -123,6 +135,14 @@ class VanillaRetinaNet(LightningModule):
         return self.model(x)
 
     def training_step(self, batch, batch_idx):
+        """
+        This function is one of the hooks for the PyTorch Lightning Module.
+        This is the main training step. One batch of input tensors are
+        passed in by the training dataloaders and then we have to compute
+        the losses on it. The lightning framework would then take that
+        loss and compute the gradients and backpropagate using the 
+        optimiser automatically.
+        """
 
         # Get the images and targets from the batch loader
         images, targets = batch
@@ -139,7 +159,7 @@ class VanillaRetinaNet(LightningModule):
 
         loss = sum(loss for loss in loss_dict.values())
 
-        # Log all the metrics
+        # Log all the metrics for one training step
         self.log("train/step/total_loss", loss, prog_bar=True)
         self.log("train/step/classification_loss", classification_loss)
         self.log("train/step/regression_loss", regression_loss)
@@ -147,6 +167,11 @@ class VanillaRetinaNet(LightningModule):
         return {"loss": loss}
 
     def training_epoch_end(self, outputs) -> None:
+        """
+        This function is one of the hooks for the PyTorch Lightning Modules.
+        This function is called once the training epoch is complete. Thus we
+        can use this function to compute metrics that are interesting to us.
+        """
         
         # Get list of losses from the outputs
         list_of_losses = [o["loss"] for o in outputs]
@@ -162,6 +187,12 @@ class VanillaRetinaNet(LightningModule):
         return None
 
     def validation_step(self, batch, batch_idx):
+        """
+        This function is one of the hooks for the PyTorch Lightning Modules.
+        This function is very similar to the training step except it is
+        performed on the validation set passed on by the Lightning Data
+        Module.
+        """
         
         # Get the images and targets from the batch
         images, targets = batch
@@ -172,11 +203,16 @@ class VanillaRetinaNet(LightningModule):
         preds = self.model(images)
         
         # Calculate Intersection over Union for the predicted boxes
-        iou = torch.stack([self._evaluate_iou(p, t) for p, t in zip(preds, targets)]).mean()
+        iou = torch.stack([evaluate_iou(p, t) for p, t in zip(preds, targets)]).mean()
 
         return {"val_iou": iou}
 
     def validation_epoch_end(self, outs):
+        """
+        This function is one of the hooks for the PyTorch Lightning Modules.
+        This function is called at the end of the validation epoch. This can
+        be utilised to compute mean metrics that can guage the model performance.
+        """
 
         # Calculate the average IoU over the validation set
         avg_iou = torch.stack([o["val_iou"] for o in outs]).mean()
@@ -185,6 +221,11 @@ class VanillaRetinaNet(LightningModule):
         return None
 
     def configure_optimizers(self):
+        """
+        This function is one of the hooks for the PyTorch Lightning Modules.
+        This function is used to configure the optimisers that the Lightning
+        framework will use to optimise the network. 
+        """
 
         # This is the optimiser that we want to use
         optimiser = Adam(
@@ -230,14 +271,4 @@ class VanillaRetinaNet(LightningModule):
         }
 
         return to_return
-
-    def _evaluate_iou(self, preds, targets):
-        """
-        Evaluate intersection over union (IOU) for target from dataset and output prediction from model.
-        """
-        # no box detected, 0 IOU
-        if preds["boxes"].shape[0] == 0:
-            return torch.tensor(0.0, device=preds["boxes"].device)
-        
-        return box_iou(preds["boxes"], targets["boxes"]).diag().mean()
 

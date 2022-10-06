@@ -26,7 +26,7 @@ from torch.utils.data import Dataset,DataLoader, random_split, Subset
 # Others
 from transforms import Compose, PILToTensor, ConvertImageDtype
 import pandas as pd
-from utils import collate_fn
+from utilities import collate_fn
 import random
 from os.path import join
 from PIL import Image
