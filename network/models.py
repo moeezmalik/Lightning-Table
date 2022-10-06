@@ -33,7 +33,7 @@ from typing import Any
 ### - CLASSES - ###
 
 # RetinaNet
-class RetinaNet(LightningModule):
+class VanillaRetinaNet(LightningModule):
     """
     This class implements the RetinaNet using PyTorch and the higher
     level wrapper PyTorch Lighting modules

@@ -1,3 +1,21 @@
+"""
+Name:
+    transforms.py
+
+Description:
+    This file contains the object detection specific transform
+    functions that have been directly from the PyTorch implementations.
+    There might be some additional functions here but majority of them
+    are taken from: 
+        Link: https://github.com/pytorch/vision/blob/main/references/detection/transforms.py
+
+Author: 
+    Name:
+        M. Moeez Malik
+    Email:
+        muhammad.moeez.malik@ise.fraunhofer.de
+"""
+
 from typing import Dict, List, Optional, Tuple, Union
 
 import torch
