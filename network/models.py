@@ -127,10 +127,6 @@ class RetinaNet(LightningModule):
         # Get the images and targets from the batch loader
         images, targets = batch
 
-        # The batchloader returns the targets as a list of tuples,
-        # the following operation coverts those tuples to a list
-        # targets = [{k: v for k, v in t.items()} for t in targets]
-
         # The model takes both images and targets as in inputs in the
         # training mode and returns the a dictionary that contains
         # both the classification loss and the regression loss. 
