@@ -167,7 +167,7 @@ class OneClassPrecisionRecall(Metric):
 
             # Get all the predicted and ground truth boxes
             # on the current image
-            annotations = targets[i]["boxes"].numpy()
+            annotations = targets[i]["boxes"].cpu().numpy()
             num_annotations += annotations.shape[0]
             detected_annotations = []
 
@@ -178,7 +178,7 @@ class OneClassPrecisionRecall(Metric):
 
             idxs = torch.where(scores_tensor > self.score_threshold)
             selected_boxes = boxes_tensor[idxs]
-            detections = selected_boxes.numpy()
+            detections = selected_boxes.cpu().numpy()
 
 
             # Start evaluation
