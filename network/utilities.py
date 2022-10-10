@@ -218,8 +218,6 @@ class OneClassPrecisionRecall(Metric):
         # print("Recall: " + str(recall))
         # print("Precision: " + str(precision))
 
-        print()
-
 
     def compute(self) -> Dict:
         """
