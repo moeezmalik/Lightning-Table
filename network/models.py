@@ -28,7 +28,7 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 
 # Others
-from utilities import evaluate_iou
+from utilities import evaluate_iou, OneClassPrecisionRecall
 
 # Misc
 from typing import Any
@@ -98,6 +98,10 @@ class VanillaRetinaNet(LightningModule):
 
         self.lr = lr
         self.batch_size = batch_size
+
+        self.pr_metric_75_50 = OneClassPrecisionRecall(score_threshold=0.75, iou_threshold=0.5)
+        self.pr_metric_75_75 = OneClassPrecisionRecall(score_threshold=0.75, iou_threshold=0.75)
+        self.pr_metric_75_90 = OneClassPrecisionRecall(score_threshold=0.75, iou_threshold=0.9)
 
         self.save_hyperparameters()
             
@@ -205,6 +209,10 @@ class VanillaRetinaNet(LightningModule):
         # Calculate Intersection over Union for the predicted boxes
         iou = torch.stack([evaluate_iou(p, t) for p, t in zip(preds, targets)]).mean()
 
+        self.pr_metric_75_50.update(preds=preds, targets=targets)
+        self.pr_metric_75_75.update(preds=preds, targets=targets)
+        self.pr_metric_75_90.update(preds=preds, targets=targets)
+
         return {"val_iou": iou}
 
     def validation_epoch_end(self, outs):
@@ -216,7 +224,30 @@ class VanillaRetinaNet(LightningModule):
 
         # Calculate the average IoU over the validation set
         avg_iou = torch.stack([o["val_iou"] for o in outs]).mean()
+
+        precision_75_50 = self.pr_metric_75_50.compute()["precision"]
+        precision_75_75 = self.pr_metric_75_75.compute()["precision"]
+        precision_75_90 = self.pr_metric_75_90.compute()["precision"]
+
+        recall_75_50 = self.pr_metric_75_50.compute()["recall"]
+        recall_75_75 = self.pr_metric_75_75.compute()["recall"]
+        recall_75_90 = self.pr_metric_75_90.compute()["recall"]
+
+        # Log Everything
         self.log("val/epoch/avg_iou", avg_iou)
+
+        self.log("val/epoch/precision_75_50", precision_75_50)
+        self.log("val/epoch/precision_75_75", precision_75_75)
+        self.log("val/epoch/precision_75_90", precision_75_90)
+        
+        self.log("val/epoch/recall_75_50", recall_75_50)
+        self.log("val/epoch/recall_75_75", recall_75_75)
+        self.log("val/epoch/recall_75_90", recall_75_90)
+
+        # Reset the metrics
+        self.pr_metric_75_50.reset()
+        self.pr_metric_75_75.reset()
+        self.pr_metric_75_90.reset()
         
         return None
 
