@@ -58,8 +58,8 @@ class CSVDataset(Dataset):
                 A folder that contains all the images
 
             annotations.csv:
-                Annotations CSV file that contains in the following
-                format:
+                Annotations CSV file that contains the annotations
+                in the following format:
                 image_id,x1,y1,x2,y2,class_name
 
             classes.csv:
@@ -301,7 +301,7 @@ class TableDatasetModule(LightningDataModule):
                 A folder that contains all the images.
 
             annotations.csv:
-                Annotations CSV file that contains in the following
+                Annotations CSV file that contains the annotations in the following
                 format:
                 image_id,x1,y1,x2,y2,class_name
 

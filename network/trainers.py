@@ -112,21 +112,37 @@ class VanillaRetinaNetTrainer():
                 batch_size=2
             )
 
-            # Save the best checkpoint according to the evaluation criteria
-            best_checkpoint_callbck = ModelCheckpoint(
+            # Save the best checkpoint according to the evaluation average IoU
+            chkpnt_best_avgiou = ModelCheckpoint(
             monitor="val/epoch/avg_iou",
             mode="max",
-            filename="best-chkpnt-{epoch}",
+            filename="chkpnt-best-avgiou-{epoch}",
+            dirpath=path_to_save_ckpt
+            )
+
+            # Save the best checkpoint according to the evaluation precision
+            chkpnt_best_precision = ModelCheckpoint(
+            monitor="val/epoch/precision_75_90",
+            mode="max",
+            filename="chkpnt-best-precision-{epoch}",
+            dirpath=path_to_save_ckpt
+            )
+
+            # Save the best checkpoint according to the evaluation precision
+            chkpnt_best_recall = ModelCheckpoint(
+            monitor="val/epoch/recall_75_90",
+            mode="max",
+            filename="chkpnt-best-recall-{epoch}",
             dirpath=path_to_save_ckpt
             )
 
             # Save the last checkpoint so that it can be resumed
-            last_checkpoint_callbck = ModelCheckpoint(
-                filename="last-chkpnt-{epoch}",
+            chkpnt_last_epoch = ModelCheckpoint(
+                filename="chkpnt-last-{epoch}",
                 dirpath=path_to_save_ckpt
             )
 
-            callbacks_assembled = [best_checkpoint_callbck, last_checkpoint_callbck]
+            callbacks_assembled = [chkpnt_last_epoch, chkpnt_best_avgiou, chkpnt_best_precision, chkpnt_best_recall]
 
             if log_name is not None:
 
