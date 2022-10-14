@@ -84,7 +84,7 @@ The way the code has been setup, it requires the dataset folder to be in a very 
 ### 3.1. Folder Structure of Dataset
 The folder structure should be the following.
 
-> **IMPORTANT:** The name of the files and the folder should be exactly like mentioned here. This is because the names are hard coded so that only the path to root of the dataset folder needs to supplied when testing.
+> **IMPORTANT:** The name of the files and the folder should be exactly like mentioned here. This is because the names are hard coded so that only the path to root of the dataset folder needs to supplied when training.
 
 ```
 - dataset
