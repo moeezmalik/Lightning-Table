@@ -21,7 +21,6 @@ from models import VanillaRetinaNet
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers.wandb import WandbLogger
 from pytorch_lightning.callbacks import ModelCheckpoint
-import wandb
 
 import argparse
 
@@ -145,9 +144,7 @@ class VanillaRetinaNetTrainer():
             callbacks_assembled = [chkpnt_last_epoch, chkpnt_best_avgiou, chkpnt_best_precision, chkpnt_best_recall]
 
             if log_name is not None:
-                
-                wandb.login()
-                
+
                 wandb_logger = WandbLogger(
                     project=log_name
                 )
