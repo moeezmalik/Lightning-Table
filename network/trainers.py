@@ -145,7 +145,9 @@ class VanillaRetinaNetTrainer():
             callbacks_assembled = [chkpnt_last_epoch, chkpnt_best_avgiou, chkpnt_best_precision, chkpnt_best_recall]
 
             if log_name is not None:
-
+                
+                wandb.login()
+                
                 wandb_logger = WandbLogger(
                     project=log_name
                 )
@@ -158,8 +160,6 @@ class VanillaRetinaNetTrainer():
                     callbacks=callbacks_assembled,
                     logger=wandb_logger
                 )
-                
-                # wandb.login()
 
             else:
 
