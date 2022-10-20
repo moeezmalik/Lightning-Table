@@ -114,10 +114,10 @@ class VanillaRetinaNetTrainer():
 
             # Save the best checkpoint according to the evaluation average IoU
             chkpnt_best_avgiou = ModelCheckpoint(
-            monitor="val/epoch/avg_iou",
-            mode="max",
-            filename="chkpnt-best-avgiou-{epoch}",
-            dirpath=path_to_save_ckpt
+                monitor="val/epoch/avg_iou",
+                mode="max",
+                filename="chkpnt-best-avgiou-{epoch}",
+                dirpath=path_to_save_ckpt
             )
 
             # Save the best checkpoint according to the evaluation precision
@@ -159,7 +159,7 @@ class VanillaRetinaNetTrainer():
                     logger=wandb_logger
                 )
                 
-                wandb.login()
+                # wandb.login()
 
             else:
 
