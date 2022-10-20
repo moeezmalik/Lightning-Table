@@ -228,7 +228,8 @@ class CSVDataset(Dataset):
         # the target dictionary needs special tensors since the box and label lists
         # will be empty. This is done below. More information about this can be found
         # in this github issue: https://github.com/pytorch/vision/issues/2144
-
+        
+        # Even with the considerations, negative examples are not working yet
         if is_negative_example:
 
             boxes = torch.zeros((0, 4), dtype=torch.float32) 
