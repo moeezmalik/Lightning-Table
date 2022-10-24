@@ -1,0 +1,40 @@
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+  | Name            | Type                    | Params
+------------------------------------------------------------
+0 | model           | RetinaNet               | 32.2 M
+1 | pr_metric_75_50 | OneClassPrecisionRecall | 0
+2 | pr_metric_75_75 | OneClassPrecisionRecall | 0
+3 | pr_metric_75_90 | OneClassPrecisionRecall | 0
+------------------------------------------------------------
+31.9 M    Trainable params
+222 K     Non-trainable params
+32.2 M    Total params
+128.675   Total estimated model params size (MB)
+/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:241: PossibleUserWarning: The dataloader, val_dataloader 0, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 8 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+  category=PossibleUserWarning,
+Dataset Information
+Total Images in Dataset: 1113
+Number of Training Images: 890
+Number of Evaluation Images: 223
+
+Sanity Checking DataLoader 0:  50%|██████████████████▌                  | 1/2 [00:06<00:06,  6.12s/it]
+/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:241: PossibleUserWarning: The dataloader, train_dataloader, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 8 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 0:   2%| | 12/557 [02:44<2:04:17, 13.68s/it, loss=1.85, v_num=o42b, train/step/total_loss=1.740]
+/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/pytorch_lightning/trainer/trainer.py:653: UserWarning: Detected KeyboardInterrupt, attempting graceful shutdown...
+  rank_zero_warn("Detected KeyboardInterrupt, attempting graceful shutdown...")

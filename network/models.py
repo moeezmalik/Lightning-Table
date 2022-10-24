@@ -74,7 +74,7 @@ class VanillaRetinaNet(LightningModule):
         self,
         lr: float = 0.0001,
         num_classes: int = 91,
-        pretrained: bool = False,
+        pretrained: bool = True,
         batch_size: int = 2
     ) -> None:
 

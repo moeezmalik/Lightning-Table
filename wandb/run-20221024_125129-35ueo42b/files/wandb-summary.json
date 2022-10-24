@@ -1,0 +1,1 @@
+{"train/step/total_loss": 1.73564612865448, "train/step/classification_loss": 1.1353154182434082, "train/step/regression_loss": 0.6003307104110718, "epoch": 0, "trainer/global_step": 11, "_timestamp": 1666608873.399044, "_runtime": 183.61132097244263, "_step": 11, "_wandb": {"runtime": 196}}
