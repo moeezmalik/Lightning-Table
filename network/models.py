@@ -36,27 +36,18 @@ from typing import Any
 ### - CLASSES - ###
 
 # RetinaNet
-class VanillaRetinaNet(LightningModule):
-    """
-    This class implements the RetinaNet using PyTorch and the higher
-    level wrapper PyTorch Lighting modules
 
-    The network implementation follows the paper:
-        https://arxiv.org/abs/1708.02002
+class SuperNet(LightningModule):
+    """
+    This class serves to gather together the most common pieces in all of the
+    detection networks that we are going to use. This is done so that we dont
+    have to write the same code again and again. All the actual networks will
+    then derive the methods from this class and modify them. This class actually
+    itself inherits from the PyTorch Lightning Module.
 
     The code is heavily borrowed from the PyTorch Lightning Bolt Implementations
     which can be found here:
         https://github.com/Lightning-AI/lightning-bolts/blob/master/pl_bolts/models/detection/retinanet/retinanet_module.py
-
-    During training, the model expects:
-        images (List of Tensors [N, C, H, W]):
-            List of tensors, each of shape [C, H, W], one for each image, and should be in 0-1 range.
-            Different images can have different sizes.
-        targets (List of Dictionaries):
-            boxes (FloatTensor[N, 4]):
-                The ground truth boxes in `[x1, y1, x2, y2]` format.
-            labels (Int64Tensor[N]):
-                The class label for each ground truh box.
 
     Args:
         lr (float):
@@ -67,9 +58,8 @@ class VanillaRetinaNet(LightningModule):
             If set to true, RetinaNet will be generated with pretrained weights
         batch_size (int):
             This is the batch size that is being used with the data
-        
-
     """
+
     def __init__(
         self,
         lr: float = 0.0001,
@@ -81,20 +71,8 @@ class VanillaRetinaNet(LightningModule):
         super().__init__()
 
         print()
-        print("Vanilla RetinaNet Object Created")
+        print("SuperNet Object Created")
         print()
-
-        # Either load weights or not depending upon the pretrained flag specified
-        # in the arguments and create the RetinaNet
-        weights = "DEFAULT" if pretrained else None
-        self.model = retinanet_resnet50_fpn(weights=weights, weights_backbone="DEFAULT")
-
-        # Replace the head based on the number of classes that we have.
-        self.model.head = RetinaNetHead(
-            in_channels=self.model.backbone.out_channels,
-            num_anchors=self.model.head.classification_head.num_anchors,
-            num_classes=num_classes,
-        )
 
         self.lr = lr
         self.batch_size = batch_size
@@ -303,3 +281,123 @@ class VanillaRetinaNet(LightningModule):
 
         return to_return
 
+class VanillaRetinaNet(SuperNet):
+    """
+    This class implements the RetinaNet using PyTorch and the higher
+    level wrapper PyTorch Lighting modules
+
+    The network implementation follows the paper:
+        https://arxiv.org/abs/1708.02002
+
+    The code is heavily borrowed from the PyTorch Lightning Bolt Implementations
+    which can be found here:
+        https://github.com/Lightning-AI/lightning-bolts/blob/master/pl_bolts/models/detection/retinanet/retinanet_module.py
+
+    During training, the model expects:
+        images (List of Tensors [N, C, H, W]):
+            List of tensors, each of shape [C, H, W], one for each image, and should be in 0-1 range.
+            Different images can have different sizes.
+        targets (List of Dictionaries):
+            boxes (FloatTensor[N, 4]):
+                The ground truth boxes in `[x1, y1, x2, y2]` format.
+            labels (Int64Tensor[N]):
+                The class label for each ground truh box.
+
+    Args:
+        lr (float):
+            This is the learning rate that will be used when training the model
+        num_classes (int):
+            These are the number of classes that the data has
+        pretrained (bool):
+            If set to true, RetinaNet will be generated with pretrained weights
+        batch_size (int):
+            This is the batch size that is being used with the data
+    """
+    def __init__(
+        self,
+        lr: float = 0.0001,
+        num_classes: int = 91,
+        pretrained: bool = True,
+        batch_size: int = 2
+    ) -> None:
+
+        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size)
+
+        print()
+        print("Vanilla RetinaNet Object Created")
+        print()
+
+        # Either load weights or not depending upon the pretrained flag specified
+        # in the arguments and create the RetinaNet
+        weights = "DEFAULT" if pretrained else None
+        self.model = retinanet_resnet50_fpn(weights=weights, weights_backbone="DEFAULT")
+
+        # Replace the head based on the number of classes that we have.
+        self.model.head = RetinaNetHead(
+            in_channels=self.model.backbone.out_channels,
+            num_anchors=self.model.head.classification_head.num_anchors,
+            num_classes=num_classes,
+        )
+
+        return None
+
+class VanillaRetinaNetV2(SuperNet):
+    """
+    This class implements the RetinaNet V2 using PyTorch and the higher
+    level wrapper PyTorch Lighting modules. The implementation is one
+    that is directly available from PyTorch.
+
+    The network implementation follows the paper:
+        https://arxiv.org/abs/1708.02002
+
+    The code is heavily borrowed from the PyTorch Lightning Bolt Implementations
+    which can be found here:
+        https://github.com/Lightning-AI/lightning-bolts/blob/master/pl_bolts/models/detection/retinanet/retinanet_module.py
+
+    During training, the model expects:
+        images (List of Tensors [N, C, H, W]):
+            List of tensors, each of shape [C, H, W], one for each image, and should be in 0-1 range.
+            Different images can have different sizes.
+        targets (List of Dictionaries):
+            boxes (FloatTensor[N, 4]):
+                The ground truth boxes in `[x1, y1, x2, y2]` format.
+            labels (Int64Tensor[N]):
+                The class label for each ground truh box.
+
+    Args:
+        lr (float):
+            This is the learning rate that will be used when training the model
+        num_classes (int):
+            These are the number of classes that the data has
+        pretrained (bool):
+            If set to true, RetinaNet will be generated with pretrained weights
+        batch_size (int):
+            This is the batch size that is being used with the data
+    """
+    def __init__(
+        self,
+        lr: float = 0.0001,
+        num_classes: int = 91,
+        pretrained: bool = True,
+        batch_size: int = 2
+    ) -> None:
+
+        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size)
+
+        print()
+        print("Vanilla RetinaNet V2 Object Created")
+        print()
+
+        # Either load weights or not depending upon the pretrained flag specified
+        # in the arguments and create the RetinaNet
+        weights = "DEFAULT" if pretrained else None
+        self.model = retinanet_resnet50_fpn_v2(weights=weights, weights_backbone="DEFAULT")
+
+        # Replace the head based on the number of classes that we have.
+        self.model.head = RetinaNetHead(
+            in_channels=self.model.backbone.out_channels,
+            num_anchors=self.model.head.classification_head.num_anchors,
+            num_classes=num_classes,
+        )
+
+        return None

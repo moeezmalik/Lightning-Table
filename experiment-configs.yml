@@ -1,6 +1,14 @@
-vanilla_experiment:
-  name: "vanilla_experiment"
+vanilla:
+  name: "vanilla"
   model: "VanillaRetinaNet"
+  datamodule: "TableDatasetModule"
+  learning_rate: 1e-5
+  batch_size: 2
+  train_eval_split: 0.8
+
+vanilla_v2:
+  name: "vanilla_v2"
+  model: "VanillaRetinaNetV2"
   datamodule: "TableDatasetModule"
   learning_rate: 1e-5
   batch_size: 2
