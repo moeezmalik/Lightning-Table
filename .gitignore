@@ -1,3 +1,5 @@
 dataset/
 lightning_logs/
 misc/
+network/__pycache__
+training-results

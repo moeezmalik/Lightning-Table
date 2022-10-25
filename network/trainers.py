@@ -17,7 +17,7 @@ Author:
 from distutils.command.config import config
 from typing import Sequence, Dict
 from datamodules import TableDatasetModule
-from models import VanillaRetinaNet, VanillaRetinaNetV2
+from models import VanillaRetinaNet, VanillaRetinaNetV2, RetinaNetResnet18FPN
 
 from pytorch_lightning import LightningDataModule, LightningModule, Trainer
 from pytorch_lightning.loggers.wandb import WandbLogger
@@ -161,6 +161,9 @@ class ExperimentConfig():
 
         elif model_name == "VanillaRetinaNetV2":
             return VanillaRetinaNetV2
+
+        elif model_name == "RetinaNetResnet18FPN":
+            return RetinaNetResnet18FPN
         
         else:
             return None
