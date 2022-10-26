@@ -1,0 +1,16 @@
+site_name: Table Detection
+
+theme:
+  name: material
+  palette:
+    primary: teal
+    accent: deep orange
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+
+nav:
+  - Introduction: index.md
+  - How To Train: train.md
