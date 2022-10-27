@@ -50,8 +50,8 @@ vanilla_v2_5:
 
 
 # RetinaNet based on ResNet18 based experiments
-retinanet_resnet18_fpn:
-  name: "retinanet_resnet18_fpn"
+retinanet_resnet18_fpn_1:
+  name: "retinanet_resnet18_fpn_1"
   model: "RetinaNetResnet18FPN"
   datamodule: "TableDatasetModule"
   learning_rate: 1e-5
