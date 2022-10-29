@@ -1,4 +1,5 @@
 dataset/
+datasets/
 lightning_logs/
 misc/
 network/__pycache__
