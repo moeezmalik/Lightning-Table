@@ -65,3 +65,11 @@ vanilla_fasterrcnn_1:
   learning_rate: 1e-5
   batch_size: 2
   train_eval_split: 0.8
+
+vanilla_fasterrcnn_2:
+  name: "vanilla_fasterrcnn_2"
+  model: "VanillaFasterRCNN"
+  datamodule: "TableDatasetModule"
+  learning_rate: 1e-6
+  batch_size: 2
+  train_eval_split: 0.8
