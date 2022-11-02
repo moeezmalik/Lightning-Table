@@ -31,11 +31,54 @@ Author:
 import argparse
 import xml.etree.cElementTree as et
 import pandas as pd
+import sys
 
 from os import listdir
 from os.path import isfile, join
 
 from typing import Sequence
+
+# Helper utility functions
+
+def query_yes_no(question: str, default="yes") -> bool:
+    """
+    Purpose:
+        Ask a yes/no question via raw_input() and return their answer.
+    
+    Arguments:
+        question (str):
+            This is a question string that is presented to the user.
+        default (str):
+            This is the presumed answer if the user just hits <Enter>.
+            It must be "yes" (the default), "no" or None (meaning
+            an answer is required of the user).
+    
+    Returns:
+        answer (bool):
+            The "answer" return value is True for "yes" or False for "no".
+    """
+    
+    valid = {"yes": True, "y": True, "ye": True, "no": False, "n": False}
+    if default is None:
+        prompt = " [y/n] "
+    elif default == "yes":
+        prompt = " [Y/n] "
+    elif default == "no":
+        prompt = " [y/N] "
+    else:
+        raise ValueError("invalid default answer: '%s'" % default)
+
+    while True:
+        sys.stdout.write(question + prompt)
+        choice = input().lower()
+        if default is not None and choice == "":
+            return valid[default]
+        elif choice in valid:
+            return valid[choice]
+        else:
+            sys.stdout.write("Please respond with 'yes' or 'no' " "(or 'y' or 'n').\n")
+
+# Main utility functions
 
 def xml_to_list(
     path_to_folder: str = None,
@@ -108,7 +151,9 @@ def xml_to_list(
     
     return read_annotations
 
-def all_xmls_to_df(path_to_all_xml: str = None) -> pd.DataFrame:
+def all_xmls_to_df(
+    path_to_all_xml: str = None
+    ) -> pd.DataFrame:
     """
     Purpose:
         Given the folder where the annotations in XML file are placed,
@@ -160,6 +205,40 @@ def all_xmls_to_df(path_to_all_xml: str = None) -> pd.DataFrame:
 
     return image_labels
 
+def df_to_csv(
+    annotations_df: pd.DataFrame,
+    folder_to_save_in: str = "./",
+    filename: str = "annot.csv"
+    ) -> None:
+    """
+    Purpose:
+        The purpose of this function is to save the DataFrame
+        contain all the annotations read from the XML files to
+        a CSV file so that PyTorch can make use of it
+
+    Arguments:
+        annotations_df (pd.DataFrame):
+            This is the DataFrame that contains all the annotations
+            that need to be saved.
+        folder_to_save_in (str):
+            This specifies the folder where to save the CSV file.
+        filename (str):
+            This specifies the name of the CSV file that will be saved.
+    """
+
+    # Join together the path
+    filename_with_ext = filename + ".csv"
+    fullpath_to_csv = join(folder_to_save_in, filename_with_ext)
+
+    # Save to CSV without the header and the index
+    annotations_df.to_csv(
+        path_or_buf=fullpath_to_csv,
+        header=False,
+        index=False
+        )
+
+    return None
+
 def main(args: Sequence = None) -> None:
 
     # Setup the argument parser to get the required parameters
@@ -177,11 +256,34 @@ def main(args: Sequence = None) -> None:
 
     print()
     print("Folder Specified: " + pascalvoc_path)
+    
+    annot_df = all_xmls_to_df(path_to_all_xml=pascalvoc_path)
 
+    # Ask if saving the CSV is required
+    print()
+    reponse = query_yes_no("Do you want to save to CSV?")
 
-    df = all_xmls_to_df(pascalvoc_path)
-    print(df.dtypes)
+    if reponse:
 
+        # Get the filename
+        filename = input("Please enter the file name for CSV (without extension): ")
+
+        if filename == "":
+            print()
+            print("Invalid file name entered")
+            print("Exiting without saving to CSV")
+        
+        else:
+            print()
+            print("Saving to CSV")
+            df_to_csv(
+                annotations_df=annot_df,
+                folder_to_save_in=pascalvoc_path,
+                filename=filename
+                )
+
+    else:
+        print("Exiting without saving to CSV")
 
     return None
 

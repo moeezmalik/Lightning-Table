@@ -256,10 +256,10 @@ def rename(
         old_name_jpg = name + ".jpg"
         old_path_jpg = join(path_to_folder, old_name_jpg)
 
-        new_name_xml = "image-" + str(count) + ".xml"
+        new_name_xml = "image_" + str(count) + ".xml"
         new_path_xml = join(rename_folder_path, new_name_xml)
 
-        new_name_jpg = "image-" + str(count) + ".jpg"
+        new_name_jpg = "image_" + str(count) + ".jpg"
         new_path_jpg = join(rename_folder_path, new_name_jpg)
 
         copy(old_path_xml, new_path_xml)

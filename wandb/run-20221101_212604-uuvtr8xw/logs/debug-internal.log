@@ -1,0 +1,10 @@
+2022-11-01 21:26:04,059 INFO    StreamThr :82499 [internal.py:wandb_internal():91] W&B internal server running at pid: 82499, started at: 2022-11-01 21:26:04.058063
+2022-11-01 21:26:04,061 DEBUG   HandlerThread:82499 [handler.py:handle_request():138] handle_request: status
+2022-11-01 21:26:04,063 DEBUG   SenderThread:82499 [sender.py:send_request():315] send_request: status
+2022-11-01 21:26:04,064 INFO    WriterThread:82499 [datastore.py:open_for_write():75] open: ./wandb/run-20221101_212604-uuvtr8xw/run-uuvtr8xw.wandb
+2022-11-01 21:26:04,064 DEBUG   SenderThread:82499 [sender.py:send():301] send: header
+2022-11-01 21:26:04,086 DEBUG   SenderThread:82499 [sender.py:send():301] send: run
+2022-11-01 21:26:04,089 INFO    SenderThread:82499 [sender.py:_maybe_setup_resume():578] checking resume status for None/test-test/uuvtr8xw
+2022-11-01 21:26:14,108 DEBUG   HandlerThread:82499 [handler.py:handle_request():138] handle_request: poll_exit
+2022-11-01 21:26:20,090 INFO    MainThread:82499 [internal.py:handle_exit():78] Internal process exited
+2022-11-01 21:26:20,092 WARNING MsgRouterThr:82499 [router.py:message_loop():74] EOFError seen in message_loop

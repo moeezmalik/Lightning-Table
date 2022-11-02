@@ -194,6 +194,7 @@ class CSVDataset(Dataset):
         path_to_image = join(self.path_to_images_folder, image_name)
 
         # Read the image as a PIL Image object and convert to RGB format
+        Image.MAX_IMAGE_PIXELS = None
         image = Image.open(path_to_image).convert('RGB')
 
         # Get the corresponding objects to the image loaded

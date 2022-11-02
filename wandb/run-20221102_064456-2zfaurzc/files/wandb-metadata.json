@@ -1,0 +1,37 @@
+{
+    "os": "Darwin-21.6.0-x86_64-i386-64bit",
+    "python": "3.7.13",
+    "heartbeatAt": "2022-11-02T05:44:57.160842",
+    "startedAt": "2022-11-02T05:44:56.512641",
+    "docker": null,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [
+        "--dataset_path",
+        "datasets/original/",
+        "--epochs",
+        "50",
+        "--subset",
+        "10",
+        "--checkpoint_path",
+        "checkpoint/",
+        "--config_path",
+        "experiment-configs.yml",
+        "--config_name",
+        "vanilla_fasterrcnn_v2_1",
+        "--log_name",
+        "test-test"
+    ],
+    "state": "running",
+    "program": "network/trainers.py",
+    "codePath": "network/trainers.py",
+    "git": {
+        "remote": "https://github.com/moeezmalik/Lightning-Table.git",
+        "commit": "21798037f4b859fe20b6a5995fc3bfa43778a36a"
+    },
+    "email": "moeezmalik13@gmail.com",
+    "root": "/Users/moeezmalik/Documents/Main/work/fraunhofer/thesis/Lightning-Table",
+    "host": "MacBook-Pro-von-Moeez.local",
+    "username": "moeezmalik",
+    "executable": "/usr/local/anaconda3/envs/Lightning-Table/bin/python"
+}

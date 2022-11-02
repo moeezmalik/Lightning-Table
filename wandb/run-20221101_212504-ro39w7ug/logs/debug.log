@@ -1,0 +1,31 @@
+2022-11-01 21:25:04,914 INFO    MainThread:82405 [wandb_setup.py:_flush():68] Configure stats pid to 82405
+2022-11-01 21:25:04,914 INFO    MainThread:82405 [wandb_setup.py:_flush():68] Loading settings from /Users/moeezmalik/.config/wandb/settings
+2022-11-01 21:25:04,914 INFO    MainThread:82405 [wandb_setup.py:_flush():68] Loading settings from /Users/moeezmalik/Documents/Main/work/fraunhofer/thesis/Lightning-Table/wandb/settings
+2022-11-01 21:25:04,914 INFO    MainThread:82405 [wandb_setup.py:_flush():68] Loading settings from environment variables: {'_require_service': 'True'}
+2022-11-01 21:25:04,914 INFO    MainThread:82405 [wandb_setup.py:_flush():68] Inferring run settings from compute environment: {'program_relpath': 'network/trainers.py', 'program': 'network/trainers.py'}
+2022-11-01 21:25:04,914 INFO    MainThread:82405 [wandb_init.py:_log_setup():476] Logging user logs to ./wandb/run-20221101_212504-ro39w7ug/logs/debug.log
+2022-11-01 21:25:04,915 INFO    MainThread:82405 [wandb_init.py:_log_setup():477] Logging internal logs to ./wandb/run-20221101_212504-ro39w7ug/logs/debug-internal.log
+2022-11-01 21:25:04,915 INFO    MainThread:82405 [wandb_init.py:init():516] calling init triggers
+2022-11-01 21:25:04,915 INFO    MainThread:82405 [wandb_init.py:init():520] wandb.init called with sweep_config: {}
+config: {}
+2022-11-01 21:25:04,915 INFO    MainThread:82405 [wandb_init.py:init():569] starting backend
+2022-11-01 21:25:04,915 INFO    MainThread:82405 [wandb_init.py:init():573] setting up manager
+2022-11-01 21:25:04,920 INFO    MainThread:82405 [backend.py:_multiprocessing_setup():104] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2022-11-01 21:25:04,923 INFO    MainThread:82405 [wandb_init.py:init():580] backend started and connected
+2022-11-01 21:25:04,927 INFO    MainThread:82405 [wandb_init.py:init():658] updated telemetry
+2022-11-01 21:25:04,954 INFO    MainThread:82405 [wandb_init.py:init():693] communicating run to backend with 30 second timeout
+2022-11-01 21:25:18,763 WARNING MainThread:82405 [wandb_init.py:init():1097] interrupted
+Traceback (most recent call last):
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/wandb/sdk/wandb_init.py", line 1076, in init
+    run = wi.init()
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/wandb/sdk/wandb_init.py", line 697, in init
+    timeout=self.settings.init_timeout, on_progress=self._on_init_progress
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/wandb/sdk/lib/mailbox.py", line 76, in wait
+    found = self._slot._get_and_clear(timeout=1)
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/wandb/sdk/lib/mailbox.py", line 35, in _get_and_clear
+    if self._event.wait(timeout=timeout):
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/threading.py", line 552, in wait
+    signaled = self._cond.wait(timeout)
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/threading.py", line 300, in wait
+    gotit = waiter.acquire(True, timeout)
+KeyboardInterrupt

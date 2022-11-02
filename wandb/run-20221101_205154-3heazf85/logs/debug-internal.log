@@ -1,0 +1,74 @@
+2022-11-01 20:51:54,497 INFO    StreamThr :82237 [internal.py:wandb_internal():91] W&B internal server running at pid: 82237, started at: 2022-11-01 20:51:54.497186
+2022-11-01 20:51:54,499 DEBUG   HandlerThread:82237 [handler.py:handle_request():138] handle_request: status
+2022-11-01 20:51:54,501 DEBUG   SenderThread:82237 [sender.py:send_request():315] send_request: status
+2022-11-01 20:51:54,502 DEBUG   SenderThread:82237 [sender.py:send():301] send: header
+2022-11-01 20:51:54,502 INFO    WriterThread:82237 [datastore.py:open_for_write():75] open: ./wandb/run-20221101_205154-3heazf85/run-3heazf85.wandb
+2022-11-01 20:51:54,523 DEBUG   SenderThread:82237 [sender.py:send():301] send: run
+2022-11-01 20:51:54,525 INFO    SenderThread:82237 [sender.py:_maybe_setup_resume():578] checking resume status for None/test-test/3heazf85
+2022-11-01 20:52:24,650 DEBUG   HandlerThread:82237 [handler.py:handle_request():138] handle_request: poll_exit
+2022-11-01 20:52:28,239 ERROR   SenderThread:82237 [retry.py:__call__():154] Retry attempt failed:
+Traceback (most recent call last):
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/http/client.py", line 1373, in getresponse
+    response.begin()
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/http/client.py", line 319, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/http/client.py", line 280, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/socket.py", line 589, in readinto
+    return self._sock.recv_into(b)
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/ssl.py", line 1071, in recv_into
+    return self.read(nbytes, buffer)
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/ssl.py", line 929, in read
+    return self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/requests/adapters.py", line 499, in send
+    timeout=timeout,
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/urllib3/connectionpool.py", line 788, in urlopen
+    method, url, error=e, _pool=self, _stacktrace=sys.exc_info()[2]
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/urllib3/util/retry.py", line 550, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/urllib3/packages/six.py", line 770, in reraise
+    raise value
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/urllib3/connectionpool.py", line 710, in urlopen
+    chunked=chunked,
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/urllib3/connectionpool.py", line 451, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/urllib3/connectionpool.py", line 341, in _raise_timeout
+    self, url, "Read timed out. (read timeout=%s)" % timeout_value
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Read timed out. (read timeout=10)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/wandb/sdk/lib/retry.py", line 113, in __call__
+    result = self._call_fn(*args, **kwargs)
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/wandb/sdk/internal/internal_api.py", line 199, in execute
+    return self.client.execute(*args, **kwargs)  # type: ignore
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 52, in execute
+    result = self._get_result(document, *args, **kwargs)
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 60, in _get_result
+    return self.transport.execute(document, *args, **kwargs)
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/transport/requests.py", line 38, in execute
+    request = requests.post(self.url, **post_args)
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/requests/api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/requests/sessions.py", line 587, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/requests/sessions.py", line 701, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/anaconda3/envs/Lightning-Table/lib/python3.7/site-packages/requests/adapters.py", line 578, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='api.wandb.ai', port=443): Read timed out. (read timeout=10)
+2022-11-01 20:52:30,528 INFO    MainThread:82237 [internal.py:handle_exit():78] Internal process exited
+2022-11-01 20:52:30,529 WARNING MsgRouterThr:82237 [router.py:message_loop():74] EOFError seen in message_loop

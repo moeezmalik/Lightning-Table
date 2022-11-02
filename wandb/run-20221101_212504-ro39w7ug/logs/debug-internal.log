@@ -1,0 +1,14 @@
+2022-11-01 21:25:04,928 INFO    StreamThr :82412 [internal.py:wandb_internal():91] W&B internal server running at pid: 82412, started at: 2022-11-01 21:25:04.928084
+2022-11-01 21:25:04,930 DEBUG   HandlerThread:82412 [handler.py:handle_request():138] handle_request: status
+2022-11-01 21:25:04,932 DEBUG   SenderThread:82412 [sender.py:send_request():315] send_request: status
+2022-11-01 21:25:04,934 DEBUG   SenderThread:82412 [sender.py:send():301] send: header
+2022-11-01 21:25:04,934 INFO    WriterThread:82412 [datastore.py:open_for_write():75] open: ./wandb/run-20221101_212504-ro39w7ug/run-ro39w7ug.wandb
+2022-11-01 21:25:04,956 DEBUG   SenderThread:82412 [sender.py:send():301] send: run
+2022-11-01 21:25:04,960 INFO    SenderThread:82412 [sender.py:_maybe_setup_resume():578] checking resume status for None/test-test/ro39w7ug
+2022-11-01 21:25:18,774 DEBUG   HandlerThread:82412 [handler.py:handle_request():138] handle_request: poll_exit
+2022-11-01 21:25:21,992 WARNING StreamThr :82412 [internal.py:is_dead():386] Internal process exiting, parent pid 82405 disappeared
+2022-11-01 21:25:21,993 ERROR   StreamThr :82412 [internal.py:wandb_internal():147] Internal process shutdown.
+2022-11-01 21:25:22,777 INFO    HandlerThread:82412 [handler.py:finish():807] shutting down handler
+2022-11-01 21:25:22,791 INFO    WriterThread:82412 [datastore.py:close():279] close: ./wandb/run-20221101_212504-ro39w7ug/run-ro39w7ug.wandb
+2022-11-01 21:25:23,949 INFO    MainThread:82412 [internal.py:handle_exit():78] Internal process exited
+2022-11-01 21:25:23,950 WARNING MsgRouterThr:82412 [router.py:message_loop():74] EOFError seen in message_loop
