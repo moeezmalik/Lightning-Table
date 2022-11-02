@@ -18,11 +18,14 @@ Author:
 
 # PyTorch and Lightning
 from pytorch_lightning import LightningModule
-
 import torch
-from torchvision.models.detection.faster_rcnn import fasterrcnn_resnet50_fpn, FastRCNNPredictor
-from torchvision.models.detection.retinanet import retinanet_resnet50_fpn, retinanet_resnet50_fpn_v2, RetinaNetHead
-from torchvision.ops import box_iou
+
+from torchvision.models.detection.faster_rcnn import fasterrcnn_resnet50_fpn, fasterrcnn_resnet50_fpn_v2, FastRCNNPredictor
+from torchvision.models.detection.retinanet import retinanet_resnet50_fpn, retinanet_resnet50_fpn_v2, RetinaNetHead, RetinaNet
+from torchvision.models.detection.backbone_utils import resnet_fpn_backbone
+
+from torchvision.models import ResNet18_Weights
+
 from torch.optim import Adam
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
@@ -36,27 +39,18 @@ from typing import Any
 ### - CLASSES - ###
 
 # RetinaNet
-class VanillaRetinaNet(LightningModule):
-    """
-    This class implements the RetinaNet using PyTorch and the higher
-    level wrapper PyTorch Lighting modules
 
-    The network implementation follows the paper:
-        https://arxiv.org/abs/1708.02002
+class SuperNet(LightningModule):
+    """
+    This class serves to gather together the most common pieces in all of the
+    detection networks that we are going to use. This is done so that we dont
+    have to write the same code again and again. All the actual networks will
+    then derive the methods from this class and modify them. This class actually
+    itself inherits from the PyTorch Lightning Module.
 
     The code is heavily borrowed from the PyTorch Lightning Bolt Implementations
     which can be found here:
         https://github.com/Lightning-AI/lightning-bolts/blob/master/pl_bolts/models/detection/retinanet/retinanet_module.py
-
-    During training, the model expects:
-        images (List of Tensors [N, C, H, W]):
-            List of tensors, each of shape [C, H, W], one for each image, and should be in 0-1 range.
-            Different images can have different sizes.
-        targets (List of Dictionaries):
-            boxes (FloatTensor[N, 4]):
-                The ground truth boxes in `[x1, y1, x2, y2]` format.
-            labels (Int64Tensor[N]):
-                The class label for each ground truh box.
 
     Args:
         lr (float):
@@ -67,34 +61,20 @@ class VanillaRetinaNet(LightningModule):
             If set to true, RetinaNet will be generated with pretrained weights
         batch_size (int):
             This is the batch size that is being used with the data
-        
-
     """
+
     def __init__(
         self,
         lr: float = 0.0001,
         num_classes: int = 91,
-        pretrained: bool = False,
+        pretrained: bool = True,
         batch_size: int = 2
     ) -> None:
 
         super().__init__()
 
         print()
-        print("Vanilla RetinaNet Object Created")
-        print()
-
-        # Either load weights or not depending upon the pretrained flag specified
-        # in the arguments and create the RetinaNet
-        weights = "DEFAULT" if pretrained else None
-        self.model = retinanet_resnet50_fpn(weights=weights, weights_backbone="DEFAULT")
-
-        # Replace the head based on the number of classes that we have.
-        self.model.head = RetinaNetHead(
-            in_channels=self.model.backbone.out_channels,
-            num_anchors=self.model.head.classification_head.num_anchors,
-            num_classes=num_classes,
-        )
+        print("SuperNet Object Created")
 
         self.lr = lr
         self.batch_size = batch_size
@@ -303,3 +283,338 @@ class VanillaRetinaNet(LightningModule):
 
         return to_return
 
+# RetinaNets
+
+class VanillaRetinaNet(SuperNet):
+    """
+    This class implements the RetinaNet using PyTorch and the higher
+    level wrapper PyTorch Lighting modules
+
+    The network implementation follows the paper:
+        https://arxiv.org/abs/1708.02002
+
+    The code is heavily borrowed from the PyTorch Lightning Bolt Implementations
+    which can be found here:
+        https://github.com/Lightning-AI/lightning-bolts/blob/master/pl_bolts/models/detection/retinanet/retinanet_module.py
+
+    During training, the model expects:
+        images (List of Tensors [N, C, H, W]):
+            List of tensors, each of shape [C, H, W], one for each image, and should be in 0-1 range.
+            Different images can have different sizes.
+        targets (List of Dictionaries):
+            boxes (FloatTensor[N, 4]):
+                The ground truth boxes in `[x1, y1, x2, y2]` format.
+            labels (Int64Tensor[N]):
+                The class label for each ground truh box.
+
+    Args:
+        lr (float):
+            This is the learning rate that will be used when training the model
+        num_classes (int):
+            These are the number of classes that the data has
+        pretrained (bool):
+            If set to true, RetinaNet will be generated with pretrained weights
+        batch_size (int):
+            This is the batch size that is being used with the data
+    """
+    def __init__(
+        self,
+        lr: float = 0.0001,
+        num_classes: int = 91,
+        pretrained: bool = True,
+        batch_size: int = 2
+    ) -> None:
+
+        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size)
+
+        print("Vanilla RetinaNet Object Created")
+        print()
+
+        # Either load weights or not depending upon the pretrained flag specified
+        # in the arguments and create the RetinaNet
+        weights = "DEFAULT" if pretrained else None
+        self.model = retinanet_resnet50_fpn(weights=weights, weights_backbone="DEFAULT")
+
+        # Replace the head based on the number of classes that we have.
+        self.model.head = RetinaNetHead(
+            in_channels=self.model.backbone.out_channels,
+            num_anchors=self.model.head.classification_head.num_anchors,
+            num_classes=num_classes,
+        )
+
+        return None
+
+class VanillaRetinaNetV2(SuperNet):
+    """
+    This class implements the RetinaNet V2 using PyTorch and the higher
+    level wrapper PyTorch Lighting modules. The implementation is one
+    that is directly available from PyTorch.
+
+    The network implementation follows the paper:
+        https://arxiv.org/abs/1708.02002
+
+    The code is heavily borrowed from the PyTorch Lightning Bolt Implementations
+    which can be found here:
+        https://github.com/Lightning-AI/lightning-bolts/blob/master/pl_bolts/models/detection/retinanet/retinanet_module.py
+
+    During training, the model expects:
+        images (List of Tensors [N, C, H, W]):
+            List of tensors, each of shape [C, H, W], one for each image, and should be in 0-1 range.
+            Different images can have different sizes.
+        targets (List of Dictionaries):
+            boxes (FloatTensor[N, 4]):
+                The ground truth boxes in `[x1, y1, x2, y2]` format.
+            labels (Int64Tensor[N]):
+                The class label for each ground truh box.
+
+    Args:
+        lr (float):
+            This is the learning rate that will be used when training the model
+        num_classes (int):
+            These are the number of classes that the data has
+        pretrained (bool):
+            If set to true, RetinaNet will be generated with pretrained weights
+        batch_size (int):
+            This is the batch size that is being used with the data
+    """
+    def __init__(
+        self,
+        lr: float = 0.0001,
+        num_classes: int = 91,
+        pretrained: bool = True,
+        batch_size: int = 2
+    ) -> None:
+
+        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size)
+
+        print("Vanilla RetinaNet V2 Object Created")
+        print()
+
+        # Either load weights or not depending upon the pretrained flag specified
+        # in the arguments and create the RetinaNet
+        weights = "DEFAULT" if pretrained else None
+        self.model = retinanet_resnet50_fpn_v2(weights=weights, weights_backbone="DEFAULT")
+
+        # Replace the head based on the number of classes that we have.
+        self.model.head = RetinaNetHead(
+            in_channels=self.model.backbone.out_channels,
+            num_anchors=self.model.head.classification_head.num_anchors,
+            num_classes=num_classes,
+        )
+
+        return None
+
+class RetinaNetResnet18FPN(SuperNet):
+    """
+    This class implements the RetinaNet with a much smaller ResNet18 FPN
+    Backbone with 3 trainable layers.
+
+    During training, the model expects:
+        images (List of Tensors [N, C, H, W]):
+            List of tensors, each of shape [C, H, W], one for each image, and should be in 0-1 range.
+            Different images can have different sizes.
+        targets (List of Dictionaries):
+            boxes (FloatTensor[N, 4]):
+                The ground truth boxes in `[x1, y1, x2, y2]` format.
+            labels (Int64Tensor[N]):
+                The class label for each ground truh box.
+
+    Args:
+        lr (float):
+            This is the learning rate that will be used when training the model
+        num_classes (int):
+            These are the number of classes that the data has
+        pretrained (bool):
+            If set to true, RetinaNet will be generated with pretrained weights
+        batch_size (int):
+            This is the batch size that is being used with the data
+    """
+    def __init__(
+        self,
+        lr: float = 0.0001,
+        num_classes: int = 91,
+        pretrained: bool = True,
+        batch_size: int = 2
+    ) -> None:
+
+        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size)
+
+        print("RetinaNet ResNet18 FPN Object Created")
+        print()
+
+        # Create the backbone that will extract the features
+        backbone = resnet_fpn_backbone(backbone_name="resnet18", weights=ResNet18_Weights.DEFAULT, trainable_layers=5)
+
+        # Either load weights or not depending upon the pretrained flag specified
+        # in the arguments and create the RetinaNet
+        self.model = RetinaNet(backbone=backbone, num_classes=num_classes)
+
+        return None
+
+# Faster RCNNs
+
+class VanillaFasterRCNN(SuperNet):
+    """
+    This class implements the FasterRCNN network that is available
+    directly from PyTorch. The link to the model builder is:
+    https://pytorch.org/vision/main/models/generated/torchvision.models.detection.fasterrcnn_resnet50_fpn.html#torchvision.models.detection.fasterrcnn_resnet50_fpn
+
+    During training, the model expects:
+        images (List of Tensors [N, C, H, W]):
+            List of tensors, each of shape [C, H, W], one for each image, and should be in 0-1 range.
+            Different images can have different sizes.
+        targets (List of Dictionaries):
+            boxes (FloatTensor[N, 4]):
+                The ground truth boxes in `[x1, y1, x2, y2]` format.
+            labels (Int64Tensor[N]):
+                The class label for each ground truh box.
+
+    Args:
+        lr (float):
+            This is the learning rate that will be used when training the model
+        num_classes (int):
+            These are the number of classes that the data has
+        pretrained (bool):
+            If set to true, RetinaNet will be generated with pretrained weights
+        batch_size (int):
+            This is the batch size that is being used with the data
+    """
+    def __init__(
+        self,
+        lr: float = 0.0001,
+        num_classes: int = 91,
+        pretrained: bool = True,
+        batch_size: int = 2
+    ) -> None:
+
+        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size)
+
+        print("Vanilla FasterRCNN Object Created")
+        print()
+
+        # Either load weights or not depending upon the pretrained flag specified
+        # in the arguments and create the RetinaNet
+        weights = "DEFAULT" if pretrained else None
+        self.model = fasterrcnn_resnet50_fpn(weights=weights, weights_backbone="DEFAULT", num_classes=91)
+
+        # Replace the head for custom classes
+        in_features = self.model.roi_heads.box_predictor.cls_score.in_features
+        self.model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes=num_classes)
+
+        return None
+
+    def training_step(self, batch, batch_idx):
+
+        """
+        This function is one of the hooks for the PyTorch Lightning Module.
+        This is the main training step. One batch of input tensors are
+        passed in by the training dataloaders and then we have to compute
+        the losses on it. The lightning framework would then take that
+        loss and compute the gradients and backpropagate using the 
+        optimiser automatically.
+        """
+
+        # Get the images and targets from the batch loader
+        images, targets = batch
+
+        # The model takes both images and targets as in inputs in the
+        # training mode and returns the a dictionary that contains
+        # both the classification loss and the regression loss. 
+        # We need to sum that up so that PyTorch lightning perfoms a 
+        # backward on both of them
+        loss_dict = self.model(images, targets)
+
+        classification_loss = float(loss_dict['loss_classifier'])
+        regression_loss = float(loss_dict['loss_box_reg'])
+
+        loss = sum(loss for loss in loss_dict.values())
+
+        # Log all the metrics for one training step
+        self.log("train/step/total_loss", loss, prog_bar=True)
+        self.log("train/step/classification_loss", classification_loss)
+        self.log("train/step/regression_loss", regression_loss)
+
+        return {"loss": loss}
+
+class VanillaFasterRCNNV2(SuperNet):
+    """
+    This class implements the FasterRCNN network that is available
+    directly from PyTorch. The link to the model builder is:
+    https://pytorch.org/vision/main/models/generated/torchvision.models.detection.fasterrcnn_resnet50_fpn_v2.html#torchvision.models.detection.fasterrcnn_resnet50_fpn_v2
+
+    During training, the model expects:
+        images (List of Tensors [N, C, H, W]):
+            List of tensors, each of shape [C, H, W], one for each image, and should be in 0-1 range.
+            Different images can have different sizes.
+        targets (List of Dictionaries):
+            boxes (FloatTensor[N, 4]):
+                The ground truth boxes in `[x1, y1, x2, y2]` format.
+            labels (Int64Tensor[N]):
+                The class label for each ground truh box.
+
+    Args:
+        lr (float):
+            This is the learning rate that will be used when training the model
+        num_classes (int):
+            These are the number of classes that the data has
+        pretrained (bool):
+            If set to true, RetinaNet will be generated with pretrained weights
+        batch_size (int):
+            This is the batch size that is being used with the data
+    """
+    def __init__(
+        self,
+        lr: float = 0.0001,
+        num_classes: int = 91,
+        pretrained: bool = True,
+        batch_size: int = 2
+    ) -> None:
+
+        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size)
+
+        print("Vanilla FasterRCNN V2 Object Created")
+        print()
+
+        # Either load weights or not depending upon the pretrained flag specified
+        # in the arguments and create the RetinaNet
+        weights = "DEFAULT" if pretrained else None
+        self.model = fasterrcnn_resnet50_fpn_v2(weights=weights, weights_backbone="DEFAULT", num_classes=91)
+
+        # Replace the head for custom classes
+        in_features = self.model.roi_heads.box_predictor.cls_score.in_features
+        self.model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes=num_classes)
+
+        return None
+
+    def training_step(self, batch, batch_idx):
+
+        """
+        This function is one of the hooks for the PyTorch Lightning Module.
+        This is the main training step. One batch of input tensors are
+        passed in by the training dataloaders and then we have to compute
+        the losses on it. The lightning framework would then take that
+        loss and compute the gradients and backpropagate using the 
+        optimiser automatically.
+        """
+
+        # Get the images and targets from the batch loader
+        images, targets = batch
+
+        # The model takes both images and targets as in inputs in the
+        # training mode and returns the a dictionary that contains
+        # both the classification loss and the regression loss. 
+        # We need to sum that up so that PyTorch lightning perfoms a 
+        # backward on both of them
+        loss_dict = self.model(images, targets)
+
+        classification_loss = float(loss_dict['loss_classifier'])
+        regression_loss = float(loss_dict['loss_box_reg'])
+
+        loss = sum(loss for loss in loss_dict.values())
+
+        # Log all the metrics for one training step
+        self.log("train/step/total_loss", loss, prog_bar=True)
+        self.log("train/step/classification_loss", classification_loss)
+        self.log("train/step/regression_loss", regression_loss)
+
+        return {"loss": loss}

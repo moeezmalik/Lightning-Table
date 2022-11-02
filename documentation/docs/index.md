@@ -1,14 +1,20 @@
 ---
+hide:
+    - navigation
 ---
 
 # Detecting Tables using Pytorch and Lightning
 This repository contains the code for detecting tables in PDF documents by using the PyTorch and the Lightning framework. 
 
-> **WARNING:** This repository is still a work in progress and things might change drastically.
+!!! warning
+    This repository is still a work in progress and things might change drastically.
 
-## More Information
+## Requirements
+The requirements for this repository can be found in the `requirements.txt` file in the root of respository. The requirements can be installed using the following command using pip:
 
-Please find more information about this repository in the [documentation](https://moeezmalik.github.io/Lightning-Table/).
+```
+pip install -r requirements.txt
+```
 
 ## Folder Structure of the Repository
 The repository folders are structured in the following way.
@@ -22,11 +28,7 @@ The repository folders are structured in the following way.
 	- utilities.py
 - utils
 	- visualisers.py
-    - data-house-keeper.py
-    - pascalvoc-to-csv.py
 - requirements.txt
-- experiment-configs.py
-
 ```
 
 - The `network` folder contains all the files that deal for the creation, configuration, training and inference of PyTorch based models.
@@ -37,7 +39,4 @@ The repository folders are structured in the following way.
 	- The `utilities.py` file contains helper utilities for the setup of the models.
 - The `utils` folder provides some utilities that might be needed to interface with the network. 
 	- `visualisers.py` provides some functions for the purposes of visualising the detections made by the network.
-    - `data-house-keeper.py` provides functionality to clean up the PascalVOC annotation directory and rename the files.
-    - `pascalvoc-to-csv.py` provides functionality to convert the PascalVOC annotations to CSV annotations.
-- `experiment-configs` provides model, datamodule and hyperparameter configurations for the networks in this repository.
 - `requirements.txt` file contains the required Python packages to run the code in this repository.

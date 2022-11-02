@@ -1,0 +1,29 @@
+site_name: Table Detection using Pytorch and Lightning
+
+theme:
+  name: material
+  palette:
+    primary: teal
+    accent: deep orange
+  features:
+    - navigation.tabs
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+
+nav:
+  - Home: index.md
+  - Guides:
+    - Network Training:
+      - Overview: guides/training/index.md
+      - About Datasets: guides/training/dataset.md
+      - Checkpoints: guides/training/checkpoints.md
+      - Metrics: guides/training/metrics.md
+      - Experiment Configurations: guides/training/configs.md
+      - Training Command: guides/training/command.md
+    - Utilities:
+      - Overview: guides/utils/index.md
+      - Data House Keeper: guides/utils/data-house-keeper.md
+      - PascalVOC to CSV: guides/utils/pascalvoc-to-csv.md
