@@ -34,7 +34,7 @@ vanilla:
 
 As it can be seen from the configuration file, the formatting is in YAML.
 The header of the configuration (in this case "vanilla") specifies the name
-of the configuration. This name will need to be specified in the [trainig command](command.md) when starting a trainig run. 
+of the configuration. This name will need to be specified in the [training command](command.md) when starting a trainig run. 
 
 Following are the parameters that need to supplied in an experiment configuration:
 
