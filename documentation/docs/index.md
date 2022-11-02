@@ -1,3 +1,8 @@
+---
+hide:
+    - navigation
+---
+
 # Detecting Tables using Pytorch and Lightning
 This repository contains the code for detecting tables in PDF documents by using the PyTorch and the Lightning framework. 
 

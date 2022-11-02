@@ -16,6 +16,14 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Guides:
-    - Training: guides/train.md
+    - Network Training:
+      - Overview: guides/training/index.md
+      - About Datasets: guides/training/dataset.md
+      - Checkpoints: guides/training/checkpoints.md
+      - Metrics: guides/training/metrics.md
+      - Experiment Configurations: guides/training/configs.md
+      - Training Command: guides/training/command.md
     - Utilities:
-      - Extract Labelled: guides/utils/extract-labelled.md
+      - Overview: guides/utils/index.md
+      - Data House Keeper: guides/utils/data-house-keeper.md
+      - PascalVOC to CSV: guides/utils/pascalvoc-to-csv.md
