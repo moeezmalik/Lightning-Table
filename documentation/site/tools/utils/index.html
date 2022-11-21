@@ -8,19 +8,19 @@
       
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
     
     
       
-        <title>Checkpoints - Table Detection using Pytorch and Lightning</title>
+        <title>Overview - Table Detection using Pytorch and Lightning</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.472b142f.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.472b142f.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.08040f6c.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.08040f6c.min.css">
         
           
           
@@ -41,7 +41,7 @@
       
     
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#about-the-checkpoints" class="md-skip">
+        <a href="#utilities" class="md-skip">
           Skip to content
         </a>
       
@@ -80,7 +80,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="Table Detection using Pytorch and Lightning" class="md-header__button md-logo" aria-label="Table Detection using Pytorch and Lightning" data-md-component="logo">
+    <a href="../.." title="Table Detection using Pytorch and Lightning" class="md-header__button md-logo" aria-label="Table Detection using Pytorch and Lightning" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -99,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Checkpoints
+              Overview
             
           </span>
         </div>
@@ -162,7 +162,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../.." class="md-tabs__link">
+    <a href="../.." class="md-tabs__link">
       Home
     </a>
   </li>
@@ -171,13 +171,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../../../tools/" class="md-tabs__link">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
         Tools
       </a>
     </li>
@@ -187,8 +189,6 @@
         
   
   
-    
-  
 
 
   
@@ -200,7 +200,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../" class="md-tabs__link md-tabs__link--active">
+      <a href="../../guides/training/" class="md-tabs__link">
         Guides
       </a>
     </li>
@@ -230,7 +230,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Table Detection using Pytorch and Lightning" class="md-nav__button md-logo" aria-label="Table Detection using Pytorch and Lightning" data-md-component="logo">
+    <a href="../.." title="Table Detection using Pytorch and Lightning" class="md-nav__button md-logo" aria-label="Table Detection using Pytorch and Lightning" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -249,7 +249,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         Home
       </a>
     </li>
@@ -262,12 +262,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
@@ -290,7 +292,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -302,12 +304,14 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
       
       
       
@@ -328,11 +332,21 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../../tools/utils/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Overview
       </a>
+      
     </li>
   
 
@@ -344,7 +358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/utils/data-house-keeper/" class="md-nav__link">
+      <a href="data-house-keeper/" class="md-nav__link">
         Data House Keeper
       </a>
     </li>
@@ -358,7 +372,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/utils/pascalvoc-to-csv/" class="md-nav__link">
+      <a href="pascalvoc-to-csv/" class="md-nav__link">
         PascalVOC to CSV
       </a>
     </li>
@@ -405,7 +419,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/network/" class="md-nav__link">
+      <a href="../network/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -419,7 +433,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/network/visualise/" class="md-nav__link">
+      <a href="../network/visualise/" class="md-nav__link">
         Visualise
       </a>
     </li>
@@ -433,7 +447,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/network/infer/" class="md-nav__link">
+      <a href="../network/infer/" class="md-nav__link">
         Infer
       </a>
     </li>
@@ -447,7 +461,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/network/train/" class="md-nav__link">
+      <a href="../network/train/" class="md-nav__link">
         Train
       </a>
     </li>
@@ -474,14 +488,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
       
       
       
@@ -502,14 +514,12 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" >
       
       
       
@@ -532,7 +542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../guides/training/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -546,7 +556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dataset/" class="md-nav__link">
+      <a href="../../guides/training/dataset/" class="md-nav__link">
         About Datasets
       </a>
     </li>
@@ -558,21 +568,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../guides/training/checkpoints/" class="md-nav__link">
         Checkpoints
       </a>
-      
     </li>
   
 
@@ -584,7 +584,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../metrics/" class="md-nav__link">
+      <a href="../../guides/training/metrics/" class="md-nav__link">
         Metrics
       </a>
     </li>
@@ -598,7 +598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../configs/" class="md-nav__link">
+      <a href="../../guides/training/configs/" class="md-nav__link">
         Experiment Configurations
       </a>
     </li>
@@ -612,7 +612,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../command/" class="md-nav__link">
+      <a href="../../guides/training/command/" class="md-nav__link">
         Training Command
       </a>
     </li>
@@ -666,14 +666,8 @@
                   
 
 
-<h1 id="about-the-checkpoints">About the Checkpoints</h1>
-<p>The checkpoint is a terminology taken from the PyTorch Lightning framework. It is a file that contains the state of the model. Checkpoints are saved successively throughout the training process. The benefit of keeping checkpoints is that we can keep track and save the model state that performed the best since training of the network is an iterative process. Following checkpoints are saved through the training process:</p>
-<ul>
-<li>Checkpoint for the last epoch</li>
-<li>Checkpoint for the best Evaluation Average IoU</li>
-<li>Checkpoint for the best Evalutaion Precision (at 75% Confidence Score and 90% IoU)</li>
-<li>Checkpoint for the best Evaluation Recall (at 75% Confidence Score and 90% IoU)</li>
-</ul>
+<h1 id="utilities">Utilities</h1>
+<p>This section will provide an overview about the smaller scripts that were developed to facilite the process of training, testing and deploying the machine learning models.</p>
 
 
 
@@ -694,7 +688,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../dataset/" class="md-footer__link md-footer__link--prev" aria-label="Previous: About Datasets" rel="prev">
+        <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -703,20 +697,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              About Datasets
+              Overview
             </div>
           </div>
         </a>
       
       
         
-        <a href="../metrics/" class="md-footer__link md-footer__link--next" aria-label="Next: Metrics" rel="next">
+        <a href="data-house-keeper/" class="md-footer__link md-footer__link--next" aria-label="Next: Data House Keeper" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Metrics
+              Data House Keeper
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -747,10 +741,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs"], "search": "../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
       
     
   </body>

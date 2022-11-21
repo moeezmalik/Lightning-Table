@@ -121,6 +121,8 @@ class PDFLoader():
             outputs on the command line.
     """
 
+    # Constructor Function
+    
     def __init__(
         self,
         path_to_pdf: str = None,
@@ -133,6 +135,7 @@ class PDFLoader():
         self.pdf_name = None
         self.fitz_doc = None
         self.page_count = None
+        self.is_text_based = None
 
         # If path to pdf is specified in the constructor
         if path_to_pdf is not None:
@@ -140,6 +143,9 @@ class PDFLoader():
                 path_to_pdf=path_to_pdf
             )
 
+
+    # Internal Functions
+    
     def _load_pdf_to_fitz(
         self,
         path_to_pdf: str
@@ -162,6 +168,39 @@ class PDFLoader():
 
         return fitz_doc, pdf_name
 
+    def _is_text_based(
+        self
+        ) -> None:
+        """
+        This internal function will classify the PDF either as
+        text-based PDF or an image-based PDF. Depending upon the
+        decision it will set a flag in the class variables that
+        can indicate to the user of the this class whether the
+        PDF image that has just been loaded is either text-based
+        or not.
+        """
+
+        # Start with the assumption that the PDF is not
+        # text-based
+        self.is_text_based = False
+
+        # Go through page by page and if text is found
+        # then change the initial assumption
+        for page in self.fitz_doc:
+            
+            if page.get_text("text"):
+
+                # If the text is found, change assumption    
+                self.is_text_based = True
+
+                # Break the loop because we dont need to continue
+                break
+
+        return None
+
+
+    # External Functions
+
     def load_pdf(
         self,
         path_to_pdf: str
@@ -169,7 +208,8 @@ class PDFLoader():
         """
         This function will load the PDF file into the object of this
         class. This function is made to be accessed publicly i.e.
-        external to this class.
+        external to this class. It is also used by the contructor of
+        the class to load the image.
 
         Parameters:
             path_to_pdf:
@@ -178,16 +218,30 @@ class PDFLoader():
 
         self.path_to_pdf = path_to_pdf
 
+        # Load the PDF and the name of the PDF
         self.fitz_doc, self.pdf_name = self._load_pdf_to_fitz(
             path_to_pdf=path_to_pdf
         )
 
+        # Get the page count of the PDF
         self.page_count = self.fitz_doc.page_count
+
+        # Determine if the PDF is image based or text-based
+        self._is_text_based()
 
         if self.verbose:
             print()
             print("Loaded File: " + self.pdf_name)
             print("Page Count of File: " + str(self.page_count))
+
+            # Print whether text-based or not
+            if self.is_text_based:
+                print("PDF is text-based")
+
+            else:
+                print("PDF does not contain text")
+
+            print()
 
         return None
 
