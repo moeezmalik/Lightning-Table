@@ -15,6 +15,17 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Tools:
+    - Overview: tools/index.md
+    - Utilities:
+      - Overview: tools/utils/index.md
+      - Data House Keeper: tools/utils/data-house-keeper.md
+      - PascalVOC to CSV: tools/utils/pascalvoc-to-csv.md
+    - Network:
+      - Overview: tools/network/index.md
+      - Visualise: tools/network/visualise.md
+      - Infer: tools/network/infer.md
+      - Train: tools/network/train.md
   - Guides:
     - Network Training:
       - Overview: guides/training/index.md
@@ -23,7 +34,3 @@ nav:
       - Metrics: guides/training/metrics.md
       - Experiment Configurations: guides/training/configs.md
       - Training Command: guides/training/command.md
-    - Utilities:
-      - Overview: guides/utils/index.md
-      - Data House Keeper: guides/utils/data-house-keeper.md
-      - PascalVOC to CSV: guides/utils/pascalvoc-to-csv.md

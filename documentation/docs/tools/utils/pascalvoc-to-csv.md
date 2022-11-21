@@ -24,7 +24,7 @@ This script converts the image annotations/labellings from the PascalVOC (XML) f
 
 - Finally, it will ask if you want to save the CSV file, if you say yes then it will ask for the name of the file. Please enter a valid name i.e. not empty to save the file. Do not enter the extension i.e. ".csv" in the filename, that is understood.
 
-## Required Parameters
+## Parameters
 
 Following parameters are required to run the script:
 

@@ -119,7 +119,7 @@ def xml_to_list(
     root = tree.getroot()
 
     # Here we extract the file name
-    filename = xml_filename_without_extension
+    filename = xml_filename_without_extension + ".jpg"
 
     # Get all objects in the current file
     objects_root = root.findall("object")
@@ -250,6 +250,11 @@ def main(args: Sequence = None) -> None:
     parser = parser.parse_args(args)
 
     pascalvoc_path = parser.pascalvoc_path
+
+    if(pascalvoc_path is None):
+        print("Error: No PascalVOC path specified, cannot continue")
+        return None
+
 
     print()
     print("PascalVOC to CSV Generator")

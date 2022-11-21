@@ -5,3 +5,4 @@ misc/
 network/__pycache__
 training-results/
 checkpoint/
+inference-checkpoints/

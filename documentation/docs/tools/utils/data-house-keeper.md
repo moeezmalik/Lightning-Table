@@ -24,7 +24,7 @@ Data House Keeper helps in deleting extra files from a PascalVOC folder i.e. Ext
 
 - If the extra files have been cleaned up (or there are no extra files) the script will ask if you want to rename the files, if you say yes then it will ask a number from which to start the numbering, this can be useful if you already have images in another folder and you just want to add more labelled data.
 
-## Required Parameters
+## Parameters
 
 Following parameters are required to run the script:
 
