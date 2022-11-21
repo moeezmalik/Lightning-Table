@@ -833,6 +833,11 @@ the bottom-right coordinates of the bounding box for the table that was
 detected.</p>
 <p>If a page in PDF contains no table, according to the model, then it is not
 mentioned at all in the CSV file.</p>
+<div class="admonition limitation">
+<p class="admonition-title">Limitation</p>
+<p>At the moment, due to limitations of the table text extraction utility, the PDF file that do not contain any text layer e.g. if they are scanned, will be skipped. Bounding boxes of tables
+on such files cannot be extracted at the moment.</p>
+</div>
 <h2 id="parameters">Parameters</h2>
 <p>The following parameters can be specified to run the command line utility.</p>
 <h3 id="required-parameters">Required Parameters</h3>
