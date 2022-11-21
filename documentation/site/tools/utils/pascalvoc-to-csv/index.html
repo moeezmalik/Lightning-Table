@@ -9,18 +9,18 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.1, mkdocs-material-8.5.7">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
     
     
       
-        <title>Data House Keeper - Table Detection using Pytorch and Lightning</title>
+        <title>PascalVOC to CSV - Table Detection using Pytorch and Lightning</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.20d9efc8.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.472b142f.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cbb835fc.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.08040f6c.min.css">
         
           
           
@@ -56,7 +56,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="deep-orange">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange">
   
     
     
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#data-house-keeper" class="md-skip">
+        <a href="#pascalvoc-to-csv" class="md-skip">
           Skip to content
         </a>
       
@@ -99,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Data House Keeper
+              PascalVOC to CSV
             
           </span>
         </div>
@@ -178,13 +178,29 @@
   
   
   
+    <li class="md-tabs__item">
+      <a href="../../" class="md-tabs__link md-tabs__link--active">
+        Tools
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
     
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../../training/" class="md-tabs__link md-tabs__link--active">
+      <a href="../../../guides/training/" class="md-tabs__link">
         Guides
       </a>
     </li>
@@ -259,40 +275,14 @@
       
       
         <label class="md-nav__link" for="__nav_2">
-          Guides
+          Tools
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Guides" data-md-level="1">
+      <nav class="md-nav" aria-label="Tools" data-md-level="1">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
-          Guides
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_2_1">
-          Network Training
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Network Training" data-md-level="2">
-        <label class="md-nav__title" for="__nav_2_1">
-          <span class="md-nav__icon md-icon"></span>
-          Network Training
+          Tools
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -302,86 +292,9 @@
   
   
     <li class="md-nav__item">
-      <a href="../../training/" class="md-nav__link">
+      <a href="../../" class="md-nav__link">
         Overview
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../training/dataset/" class="md-nav__link">
-        About Datasets
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../training/checkpoints/" class="md-nav__link">
-        Checkpoints
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../training/metrics/" class="md-nav__link">
-        Metrics
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../training/configs/" class="md-nav__link">
-        Experiment Configurations
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../training/command/" class="md-nav__link">
-        Training Command
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -433,6 +346,20 @@
               
   
   
+  
+    <li class="md-nav__item">
+      <a href="../data-house-keeper/" class="md-nav__link">
+        Data House Keeper
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
     
   
   
@@ -445,12 +372,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Data House Keeper
+          PascalVOC to CSV
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Data House Keeper
+        PascalVOC to CSV
       </a>
       
         
@@ -483,8 +410,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#required-parameters" class="md-nav__link">
-    Required Parameters
+  <a href="#parameters" class="md-nav__link">
+    Parameters
   </a>
   
 </li>
@@ -505,14 +432,240 @@
 
             
           
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_3">
+          Network
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Network" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Network
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
             
               
   
   
   
     <li class="md-nav__item">
-      <a href="../pascalvoc-to-csv/" class="md-nav__link">
-        PascalVOC to CSV
+      <a href="../../network/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network/visualise/" class="md-nav__link">
+        Visualise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network/infer/" class="md-nav__link">
+        Infer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network/train/" class="md-nav__link">
+        Train
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Guides
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Guides" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Guides
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_1">
+          Network Training
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Network Training" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          Network Training
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/training/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/training/dataset/" class="md-nav__link">
+        About Datasets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/training/checkpoints/" class="md-nav__link">
+        Checkpoints
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/training/metrics/" class="md-nav__link">
+        Metrics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/training/configs/" class="md-nav__link">
+        Experiment Configurations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guides/training/command/" class="md-nav__link">
+        Training Command
       </a>
     </li>
   
@@ -573,8 +726,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#required-parameters" class="md-nav__link">
-    Required Parameters
+  <a href="#parameters" class="md-nav__link">
+    Parameters
   </a>
   
 </li>
@@ -601,33 +754,33 @@
                   
 
 
-<h1 id="data-house-keeper">Data House Keeper</h1>
+<h1 id="pascalvoc-to-csv">PascalVOC to CSV</h1>
 <p>This script was written in order to aid the process of labelling data. At the time of writing this, the labelling tool of choice was LabelImg. It is a python utility that provides a nice GUI for labelling the images.</p>
 <p>One of the limitations of labelimg is that it does not support the labeling data in the CSV format which is required by the training scripts that were developed.</p>
 <p>In order to deal with the inconsistencies between the two formats, some scripts had to be written to keep everything clean and tidy. This is one of those scripts.</p>
 <h2 id="purpose">Purpose</h2>
-<p>Data House Keeper helps in deleting extra files from a PascalVOC folder i.e. Extra XML and JPG files. It also can rename the files from the number specified so that all the XML and JPG files can be organised.</p>
-<div class="admonition limitation">
-<p class="admonition-title">Limitation</p>
-<p>The image files can only be in the JPG format.</p>
-</div>
-<div class="admonition limitation">
-<p class="admonition-title">Limitation</p>
-<p>The name of the both counterparts (the image and its annotation XML) should have the same name for this script to work. This is the case for the files produced by labelimg, so if you're using that tool, it should be fine.</p>
+<p>This script converts the image annotations/labellings from the PascalVOC (XML) format to CSV and writes them as a CSV file.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The script only reads the XML annotation files and converts them to a single CSV file for saving. It is essential that before running this script, that the folder has been cleaned up using the <a href="../data-house-keeper/">Data House Keeper</a> script. </p>
 </div>
 <h2 id="how-it-works">How it works</h2>
 <ul>
+<li>It will go through each XML file in the folder and get the respective labelled objects. </li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Since this script was purpose built for the table detection algorithm, it will set the labels of all the annotations to the same thing i.e. "Table". This script is not made for the case of multiple objects.</p>
+</div>
+<ul>
 <li>
-<p>Once the script is started, it will go through the folder and find all the JPGs that have their XML files already present, it will match the names for doing so.</p>
+<p>It will assemble one big Pandas DataFrame that will contain the annotations from all of the XML files present.</p>
 </li>
 <li>
-<p>If there are extra files present i.e. JPG files that have no matching XML files and vice versa, it will then ask if you want to delete the extra files, if the extra files are deleted only then it will proceed to the next step otherwise quit.</p>
-</li>
-<li>
-<p>If the extra files have been cleaned up (or there are no extra files) the script will ask if you want to rename the files, if you say yes then it will ask a number from which to start the numbering, this can be useful if you already have images in another folder and you just want to add more labelled data.</p>
+<p>Finally, it will ask if you want to save the CSV file, if you say yes then it will ask for the name of the file. Please enter a valid name i.e. not empty to save the file. Do not enter the extension i.e. ".csv" in the filename, that is understood.</p>
 </li>
 </ul>
-<h2 id="required-parameters">Required Parameters</h2>
+<h2 id="parameters">Parameters</h2>
 <p>Following parameters are required to run the script:</p>
 <ul>
 <li><code>pascalvoc_path</code>: This is the path to folder that contains the PascalVOC format annotations.</li>
@@ -660,7 +813,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview" rel="prev">
+        <a href="../data-house-keeper/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Data House Keeper" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -669,20 +822,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Overview
+              Data House Keeper
             </div>
           </div>
         </a>
       
       
         
-        <a href="../pascalvoc-to-csv/" class="md-footer__link md-footer__link--next" aria-label="Next: PascalVOC to CSV" rel="next">
+        <a href="../../network/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              PascalVOC to CSV
+              Overview
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -716,7 +869,7 @@
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs"], "search": "../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.8492ddcf.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
       
     
   </body>
