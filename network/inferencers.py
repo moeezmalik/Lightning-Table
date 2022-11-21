@@ -215,6 +215,11 @@ def pdf_to_list_of_bb(
     # with respect to the page numbers
     curr_pdf_bb_with_pgno = []
 
+    if not pdf_file.is_text_based:
+
+        print("Skipping: PDF is not text-based")
+        return curr_pdf_bb_with_pgno
+
     page_count = pdf_file.page_count
 
     # Loop over all the pages and get the bounding boxes
@@ -390,15 +395,23 @@ def folder_of_pdf_to_csv(
             while the tool is performing operations.
     """
 
+    # Get a list of all the PDF files
     list_of_pdfs = get_list_of_files_with_ext(
         path_to_folder=path_to_folder,
         ext='.pdf',
         verbose=verbose
     )
 
+    # Create a template for the list of bouding boxes
     all_bbs = []
 
+    # Set the count for the PDF files
+    count = 1
+    total = len(list_of_pdfs)
+    
+    # Go over the PDFs one by one
     for pdf in list_of_pdfs:
+
         curr_pdf_bbs = pdf_to_list_of_bb(
             path_to_pdf=pdf,
             model_name=model_name,
@@ -408,7 +421,14 @@ def folder_of_pdf_to_csv(
             verbose=verbose
         )
 
+        # Update the bounding boxes list
         all_bbs.extend(curr_pdf_bbs)
+
+        # Print the progress update
+        print("---")
+        print("Progress: {}/{} PDFs Evaluated".format(count, total))
+        print("---")
+        count += 1
 
     
     # Convert the list to a data frame
@@ -433,7 +453,10 @@ def folder_of_pdf_to_csv(
 
     # Show the message the CSV has been saved
     print()
+
+    print("---")
     print("Saved CSV file to: " + output_path)
+    print("---")
 
     
 

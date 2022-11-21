@@ -272,6 +272,10 @@ def visualise_single_pdf(
     if verbose:
         print("Evaluating: " + pdf_name)
 
+    if not pdf_doc.is_text_based:
+        print("Skipping: PDF is not text-based")
+        return None
+
     # Get the number of pages
     page_count = pdf_doc.page_count
 
@@ -296,6 +300,7 @@ def visualise_single_pdf(
             title=pdf_name + " - Page " + str(i + 1)
         )
 
+    return None
 
 def visualise_folder_of_pdfs(
     path_to_folder: str,
@@ -342,6 +347,9 @@ def visualise_folder_of_pdfs(
         verbose=verbose
     )
 
+    count = 1
+    total = len(list_of_pdfs)
+
     for pdf in list_of_pdfs:
         visualise_single_pdf(
             path_to_pdf=pdf,
@@ -351,5 +359,13 @@ def visualise_folder_of_pdfs(
             dpi=dpi,
             verbose=verbose
         )
+
+        # Print the progress update
+        print("---")
+        print("Progress: {}/{} PDFs Evaluated".format(count, total))
+        print("---")
+
+        # Update the count of PDFs visualised
+        count += 1
 
     return None

@@ -50,6 +50,10 @@ detected.
 If a page in PDF contains no table, according to the model, then it is not
 mentioned at all in the CSV file.
 
+!!! limitation
+    At the moment, due to limitations of the table text extraction utility, the PDF file that do not contain any text layer e.g. if they are scanned, will be skipped. Bounding boxes of tables
+    on such files cannot be extracted at the moment.
+
 ## Parameters
 
 The following parameters can be specified to run the command line utility.

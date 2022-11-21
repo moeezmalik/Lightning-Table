@@ -31,6 +31,10 @@ the selected bounding boxes on the image and shows it on the screen.
 Each image will be shown one-by-one. Enter key needs to be pressed to go
 to the next image.
 
+!!! limitation
+    At the moment, due to limitations of the table text extraction utility, the PDF file that do not contain any text layer e.g. if they are scanned, will be skipped. Such files cannot be
+    visualised with this tool.
+
 ## Parameters
 
 The following parameters can be specified to run the command line utility.
