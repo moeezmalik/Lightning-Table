@@ -284,6 +284,7 @@ def main(args: Sequence = None) -> None:
     # Error check the non-optional parameters
     if(pascalvoc_path is None):
         print("Error: No PascalVOC path specified, cannot continue")
+        return None
 
     # Gather information from the folder provided
     xml_list, jpg_list, xml_jpg_intersect = gather_info(pascalvoc_path)

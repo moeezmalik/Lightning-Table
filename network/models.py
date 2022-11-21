@@ -36,9 +36,11 @@ from utilities import evaluate_iou, OneClassPrecisionRecall
 # Misc
 from typing import Any
 
-### - CLASSES - ###
+# ##########################################################
+# Classes that implement the models
+# ##########################################################
 
-# RetinaNet
+# The main SuperNet from which the other models with inherit
 
 class SuperNet(LightningModule):
     """
@@ -68,13 +70,17 @@ class SuperNet(LightningModule):
         lr: float = 0.0001,
         num_classes: int = 91,
         pretrained: bool = True,
-        batch_size: int = 2
+        batch_size: int = 2,
+        verbose: bool = False
     ) -> None:
 
         super().__init__()
 
-        print()
-        print("SuperNet Object Created")
+        self.verbose = verbose
+
+        if self.verbose:
+            print()
+            print("SuperNet Object Created")
 
         self.lr = lr
         self.batch_size = batch_size
@@ -322,13 +328,14 @@ class VanillaRetinaNet(SuperNet):
         lr: float = 0.0001,
         num_classes: int = 91,
         pretrained: bool = True,
-        batch_size: int = 2
+        batch_size: int = 2,
+        verbose: bool = False
     ) -> None:
 
-        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size)
+        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size, verbose=verbose)
 
-        print("Vanilla RetinaNet Object Created")
-        print()
+        if self.verbose:
+            print("Vanilla RetinaNet Object Created")
 
         # Either load weights or not depending upon the pretrained flag specified
         # in the arguments and create the RetinaNet
@@ -382,13 +389,14 @@ class VanillaRetinaNetV2(SuperNet):
         lr: float = 0.0001,
         num_classes: int = 91,
         pretrained: bool = True,
-        batch_size: int = 2
+        batch_size: int = 2,
+        verbose: bool = False
     ) -> None:
 
-        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size)
+        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size, verbose=verbose)
 
-        print("Vanilla RetinaNet V2 Object Created")
-        print()
+        if self.verbose:
+            print("Vanilla RetinaNet V2 Object Created")
 
         # Either load weights or not depending upon the pretrained flag specified
         # in the arguments and create the RetinaNet
@@ -434,13 +442,14 @@ class RetinaNetResnet18FPN(SuperNet):
         lr: float = 0.0001,
         num_classes: int = 91,
         pretrained: bool = True,
-        batch_size: int = 2
+        batch_size: int = 2,
+        verbose: bool = False
     ) -> None:
 
-        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size)
+        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size, verbose=verbose)
 
-        print("RetinaNet ResNet18 FPN Object Created")
-        print()
+        if self.verbose:
+            print("RetinaNet ResNet 18 FPN Object Created")
 
         # Create the backbone that will extract the features
         backbone = resnet_fpn_backbone(backbone_name="resnet18", weights=ResNet18_Weights.DEFAULT, trainable_layers=5)
@@ -484,13 +493,14 @@ class VanillaFasterRCNN(SuperNet):
         lr: float = 0.0001,
         num_classes: int = 91,
         pretrained: bool = True,
-        batch_size: int = 2
+        batch_size: int = 2,
+        verbose: bool = False
     ) -> None:
 
-        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size)
+        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size, verbose=verbose)
 
-        print("Vanilla FasterRCNN Object Created")
-        print()
+        if self.verbose:
+            print("Vanilla FasterRCNN Object Created")
 
         # Either load weights or not depending upon the pretrained flag specified
         # in the arguments and create the RetinaNet
@@ -567,13 +577,14 @@ class VanillaFasterRCNNV2(SuperNet):
         lr: float = 0.0001,
         num_classes: int = 91,
         pretrained: bool = True,
-        batch_size: int = 2
+        batch_size: int = 2,
+        verbose: bool = False
     ) -> None:
 
-        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size)
+        super().__init__(lr=lr, num_classes=num_classes, pretrained=True, batch_size=batch_size, verbose=verbose)
 
-        print("Vanilla FasterRCNN V2 Object Created")
-        print()
+        if self.verbose:
+            print("Vanilla FasterRCNN V2 Object Created")
 
         # Either load weights or not depending upon the pretrained flag specified
         # in the arguments and create the RetinaNet
@@ -618,3 +629,51 @@ class VanillaFasterRCNNV2(SuperNet):
         self.log("train/step/regression_loss", regression_loss)
 
         return {"loss": loss}
+
+
+# ##########################################################
+# Functions
+# ##########################################################
+
+def get_model(model_name: str) -> SuperNet:
+    """
+    In other scripts that are part of this repository and this
+    network as a whole, there are crucial functions that will
+    be using these models. For examples the trainers.py will
+    use these models to train them on the provided dataset.
+    For that purpose we need to return the appropriate class
+    based on the name that is provided, that is what this function
+    does on the most basic level.
+
+    Parameters:
+        model_name (str):
+            This is the model name according to which the appropriate
+            model will be returned, the names that are used are exactly
+            the same as the name of the classes that implement these
+            models.
+
+    Returns:
+        model (SuperNet):
+            The function will return the appropriate model class
+            according to the name provided. In case of a mismatch, the
+            function will just a return that can be used for error
+            checking purposes.
+    """
+        
+    if model_name == "VanillaRetinaNet":
+        return VanillaRetinaNet
+
+    elif model_name == "VanillaRetinaNetV2":
+        return VanillaRetinaNetV2
+
+    elif model_name == "RetinaNetResnet18FPN":
+        return RetinaNetResnet18FPN
+
+    elif model_name == "VanillaFasterRCNN":
+        return VanillaFasterRCNN
+
+    elif model_name == "VanillaFasterRCNNV2":
+        return VanillaFasterRCNNV2
+    
+    else:
+        return None
