@@ -13,7 +13,7 @@
     
     
       
-        <title>Checkpoints - Table Detection using Pytorch and Lightning</title>
+        <title>Visualise - Table Detection using Pytorch and Lightning</title>
       
     
     
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#about-the-checkpoints" class="md-skip">
+        <a href="#visualise-tool" class="md-skip">
           Skip to content
         </a>
       
@@ -99,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Checkpoints
+              Visualise
             
           </span>
         </div>
@@ -171,13 +171,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../../../tools/" class="md-tabs__link">
+      <a href="../../" class="md-tabs__link md-tabs__link--active">
         Tools
       </a>
     </li>
@@ -187,8 +189,6 @@
         
   
   
-    
-  
 
 
   
@@ -200,7 +200,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../" class="md-tabs__link md-tabs__link--active">
+      <a href="../../../guides/training/" class="md-tabs__link">
         Guides
       </a>
     </li>
@@ -262,12 +262,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
@@ -290,7 +292,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/" class="md-nav__link">
+      <a href="../../" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -330,7 +332,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/utils/" class="md-nav__link">
+      <a href="../../utils/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -344,7 +346,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/utils/data-house-keeper/" class="md-nav__link">
+      <a href="../../utils/data-house-keeper/" class="md-nav__link">
         Data House Keeper
       </a>
     </li>
@@ -358,7 +360,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/utils/pascalvoc-to-csv/" class="md-nav__link">
+      <a href="../../utils/pascalvoc-to-csv/" class="md-nav__link">
         PascalVOC to CSV
       </a>
     </li>
@@ -377,12 +379,14 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" checked>
       
       
       
@@ -405,7 +409,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/network/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -417,11 +421,93 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../../tools/network/visualise/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Visualise
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Visualise
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    Purpose
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    How it works
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+    <nav class="md-nav" aria-label="Parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-parameters" class="md-nav__link">
+    Required Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-parameters" class="md-nav__link">
+    Optional Parameters
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -433,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/network/infer/" class="md-nav__link">
+      <a href="../infer/" class="md-nav__link">
         Infer
       </a>
     </li>
@@ -447,7 +533,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/network/train/" class="md-nav__link">
+      <a href="../train/" class="md-nav__link">
         Train
       </a>
     </li>
@@ -474,14 +560,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
       
       
       
@@ -502,14 +586,12 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" >
       
       
       
@@ -532,7 +614,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../../guides/training/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -546,7 +628,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dataset/" class="md-nav__link">
+      <a href="../../../guides/training/dataset/" class="md-nav__link">
         About Datasets
       </a>
     </li>
@@ -558,21 +640,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../guides/training/checkpoints/" class="md-nav__link">
         Checkpoints
       </a>
-      
     </li>
   
 
@@ -584,7 +656,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../metrics/" class="md-nav__link">
+      <a href="../../../guides/training/metrics/" class="md-nav__link">
         Metrics
       </a>
     </li>
@@ -598,7 +670,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../configs/" class="md-nav__link">
+      <a href="../../../guides/training/configs/" class="md-nav__link">
         Experiment Configurations
       </a>
     </li>
@@ -612,7 +684,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../command/" class="md-nav__link">
+      <a href="../../../guides/training/command/" class="md-nav__link">
         Training Command
       </a>
     </li>
@@ -653,6 +725,62 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    Purpose
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    How it works
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+    <nav class="md-nav" aria-label="Parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-parameters" class="md-nav__link">
+    Required Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-parameters" class="md-nav__link">
+    Optional Parameters
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -666,14 +794,81 @@
                   
 
 
-<h1 id="about-the-checkpoints">About the Checkpoints</h1>
-<p>The checkpoint is a terminology taken from the PyTorch Lightning framework. It is a file that contains the state of the model. Checkpoints are saved successively throughout the training process. The benefit of keeping checkpoints is that we can keep track and save the model state that performed the best since training of the network is an iterative process. Following checkpoints are saved through the training process:</p>
+<h1 id="visualise-tool">Visualise Tool</h1>
+<p>A command-line tool for visualing the outputs of the model given
+the trained checkpoint and an input image or a pdf file.</p>
+<h2 id="purpose">Purpose</h2>
+<p>This tool was developed in order to get a lens into what the network
+is doing before running the model in production and saving all of the
+results in a file.</p>
+<p>The purpose of this utility is to generate bounding boxes on a variety
+of input file types. This can be very useful for debugging purposes to
+see how well the network is detecting the tables.</p>
+<p>The goal was to create tool that can take a diverse range of input files,
+to that effect, this utility can visualise images, all of the images in a
+folder, pdf files and all of the pdf files in any given folder.</p>
+<h2 id="how-it-works">How it works</h2>
+<p>The utility when provided with an appropriate model, the weights for the
+model and the an appropriate input file, can show the user what the
+model is detecting by drawing bounding boxes on the detected tables.</p>
+<p>It takes the input file, converts it into an image in case of a pdf file,
+then passes that image through the specified model, gets the bounding boxes
+with confidence score higher than the threshold provided. It then draws
+the selected bounding boxes on the image and shows it on the screen.</p>
+<p>Each image will be shown one-by-one. Enter key needs to be pressed to go
+to the next image.</p>
+<h2 id="parameters">Parameters</h2>
+<p>The following parameters can be specified to run the command line utility.</p>
+<h3 id="required-parameters">Required Parameters</h3>
 <ul>
-<li>Checkpoint for the last epoch</li>
-<li>Checkpoint for the best Evaluation Average IoU</li>
-<li>Checkpoint for the best Evalutaion Precision (at 75% Confidence Score and 90% IoU)</li>
-<li>Checkpoint for the best Evaluation Recall (at 75% Confidence Score and 90% IoU)</li>
+<li>
+<p><code>-t</code> or <code>--type</code>:
+The type of file on which to perform the inference. Valid options are 'pdf',
+'pdfs_folder', 'image' or 'images_folder'. To visualised a single pdf file
+'pdf' should be specified. To visualise a folder of pdf file, 'pdfs_folder'
+should be specified. To visualise a single image, 'image' should be specified
+and lastly in order to visualise a folder of images, 'images_folder' should
+be specified. Please make sure to include the full path to the files, in
+case of individual image or pdf, when specifying the path parameter below.</p>
+</li>
+<li>
+<p><code>-p</code> or <code>--path</code>:
+This is the path to the type of file that was specified above. </p>
+</li>
+<li>
+<p><code>-m</code> or <code>--model</code>:
+This is the name of the model that should be used to generate the bounding
+boxes on the images provided. The name of the model should exactly match
+the name of the class that implements the model in the models.py file.</p>
+</li>
+<li>
+<p><code>-w</code> or <code>--weights</code>:
+In this parameter, the path to the Pytorch Lightning checkpoint should be
+provided that contains the trained weights for the model that was specified
+above. Please make sure that the checkpoint provided belongs to the model
+that was specified above.</p>
+</li>
 </ul>
+<h3 id="optional-parameters">Optional Parameters</h3>
+<ul>
+<li>
+<p><code>-h</code> or <code>--help</code>:
+This will show instructions on how to use the utility.</p>
+</li>
+<li>
+<p><code>-c</code> or <code>--confidence</code>:
+This parameter specifies the confidence threshold. It is a floating point
+number between 0 and 1. When the model makes predictions, it specfies how
+confident it is on those predicitons as well. This parameter will specify
+the cutoff, the predictions below this cutoff will not be considered.
+This is an optional parameter, if no value is specified then 0.75 will be
+taken.</p>
+</li>
+</ul>
+<h2 id="example">Example</h2>
+<p>An example of how to run the utility is provided below:</p>
+<div class="highlight"><pre><span></span><code>python visualise.py -t pdf -m VanillaRetinaNet -w ../misc/best-chkpnt-epoch=35.ckpt -c 0.80 -p ../misc/601fa1f389733.pdf
+</code></pre></div>
 
 
 
@@ -694,7 +889,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../dataset/" class="md-footer__link md-footer__link--prev" aria-label="Previous: About Datasets" rel="prev">
+        <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Overview" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -703,20 +898,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              About Datasets
+              Overview
             </div>
           </div>
         </a>
       
       
         
-        <a href="../metrics/" class="md-footer__link md-footer__link--next" aria-label="Next: Metrics" rel="next">
+        <a href="../infer/" class="md-footer__link md-footer__link--next" aria-label="Next: Infer" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Metrics
+              Infer
             </div>
           </div>
           <div class="md-footer__button md-icon">
