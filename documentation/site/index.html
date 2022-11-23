@@ -194,18 +194,11 @@
   
   
   
-    
-
-  
-  
-  
     <li class="md-tabs__item">
-      <a href="guides/training/" class="md-tabs__link">
+      <a href="guides/" class="md-tabs__link">
         Guides
       </a>
     </li>
-  
-
   
 
       
@@ -551,22 +544,36 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="guides/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
     
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_3_1">
+        <label class="md-nav__link" for="__nav_3_2">
           Network Training
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Network Training" data-md-level="2">
-        <label class="md-nav__title" for="__nav_3_1">
+        <label class="md-nav__title" for="__nav_3_2">
           <span class="md-nav__icon md-icon"></span>
           Network Training
         </label>
@@ -727,11 +734,12 @@
 
 
 <h1 id="detecting-tables-using-pytorch-and-lightning">Detecting Tables using Pytorch and Lightning</h1>
-<p>This repository contains the code for detecting tables in PDF documents by using the PyTorch and the Lightning framework. </p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This repository is still a work in progress and things might change drastically.</p>
 </div>
+<p>This repository contains the code for detecting tables in PDF documents by using the PyTorch and the Lightning framework. The following image is just an example of passing a PDF through one of the networks in this repository that is trained on detecting the tables. The red bounding-boxes show the areas in the image that the model has predicted as a table.</p>
+<p><img alt="Image title" src="assets/main-table-photo.png" /></p>
 <h2 id="requirements">Requirements</h2>
 <p>The requirements for this repository can be found in the <code>requirements.txt</code> file in the root of respository. The requirements can be installed using the following command using pip:</p>
 <div class="highlight"><pre><span></span><code>pip install -r requirements.txt
@@ -740,29 +748,59 @@
 <p>The repository folders are structured in the following way.</p>
 <div class="highlight"><pre><span></span><code>- network
     - datamodules.py
+    - files.py
+    - infer.py
+    - inferencers.py
+    - misc.py
     - models.py
+    - test.py
+    - train.py
     - trainers.py
     - transforms.py
     - utilities.py
+    - visualise.py
+    - visualisers.py
+
 - utils
     - visualisers.py
+    - data-house-keeper.py
+    - pascalvoc-to-csv.py
 - requirements.txt
+- experiment-configs.py
 </code></pre></div>
+<p>More information about the files and folders in the repository:</p>
 <ul>
-<li>The <code>network</code> folder contains all the files that deal for the creation, configuration, training and inference of PyTorch based models.<ul>
+<li>
+<p>The <code>network</code> folder contains all the files that deal for the creation, configuration, training and inference of PyTorch based models.</p>
+<ul>
 <li>The <code>datamodules.py</code> file contains everything related to the management of dataset for the training of the models.</li>
+<li>The <code>files.py</code> file contains all the functions required by other scripts to interact with the filesystem.</li>
+<li>The <code>infer.py</code> implements the command-line utility to infer on a single or a folder of PDF files.</li>
+<li>The <code>inferencers.py</code> file contains all the functions required to perform inference using the models provided.</li>
+<li>The <code>misc.py</code> contains miscellaneous functions required by other scripts.</li>
 <li>The <code>models.py</code> file contains all the PyTorch based models e.g. the RetinaNet.</li>
+<li>The <code>test.py</code> is just there to test out the scripts, it does not implement any useful functionality.</li>
+<li>The <code>train.py</code> file implements the command-line utility to train the models.</li>
 <li>The <code>trainers.py</code> contains all the necessary assembly of functions to initialise the training of the models. More information about the training of the models is provided below.</li>
 <li>Since we are dealing with object detection models, the runtime transforms that might be required to apply to the images need to be applied to the annotations i.e. bounding boxes as well. These special transforms are present in the <code>transforms.py</code> file.</li>
 <li>The <code>utilities.py</code> file contains helper utilities for the setup of the models.</li>
+<li>The <code>visualise.py</code> file implements the command-line utility to visualise pdf and image files using the trained models.</li>
+<li>The <code>visualisers.py</code> file contains the functions that enables the visualiation of PDF and image files using the trained models.</li>
 </ul>
 </li>
-<li>The <code>utils</code> folder provides some utilities that might be needed to interface with the network. <ul>
-<li><code>visualisers.py</code> provides some functions for the purposes of visualising the detections made by the network.</li>
+<li>
+<p>The <code>utils</code> folder provides some utilities that might be needed to interface with the network. </p>
+<ul>
+<li>The <code>data-house-keeper.py</code> file provides functionality to clean up the PascalVOC annotation directory and rename the files.</li>
+<li>The <code>files.py</code> file contains all the functions required by other scripts to interact with the filesystem.</li>
+<li>The <code>misc.py</code> contains miscellaneous functions required by other scripts.</li>
+<li>The <code>pascalvoc-to-csv.py</code> file provides functionality to convert the PascalVOC annotations to CSV annotations.</li>
 </ul>
 </li>
+<li><code>experiment-configs</code> provides model, datamodule and hyperparameter configurations for the networks in this repository.</li>
 <li><code>requirements.txt</code> file contains the required Python packages to run the code in this repository.</li>
 </ul>
+<p>The above was just a summary of all the main files and folders that are in the repository. However, only some of them are designed to be used by the end-user. For more information about the utilities that are designed to be exposed to the end-user, please check the <a href="guides/">Guides</a> or the <a href="tools/">Tools</a> section.</p>
 
 
 
