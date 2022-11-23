@@ -13,8 +13,8 @@ Checkpoints are files that contains the trained weights of the networks (alongwi
 
 ### VanillaFasterRCNN
 
-The checkpoint containing the best weights for the model 'VanillaFasterRCNN' can be found here: [Link](https://www.dropbox.com/s/oag1osnax4wu9tw/best-fasterrcnn.ckpt?dl=0)
+The checkpoint containing the best weights for the model 'VanillaFasterRCNN' can be found here: [Link](https://www.dropbox.com/s/oag1osnax4wu9tw/best-fasterrcnn.ckpt?dl=1)
 
 ### VanillaRetinaNet
 
-The checkpoint containing the best weights for the model 'VanillaRetinaNet' can be found here: [Link](https://www.dropbox.com/s/lqdkk2holgu4urk/best-retinanet.ckpt?dl=0)
+The checkpoint containing the best weights for the model 'VanillaRetinaNet' can be found here: [Link](https://www.dropbox.com/s/lqdkk2holgu4urk/best-retinanet.ckpt?dl=1)
