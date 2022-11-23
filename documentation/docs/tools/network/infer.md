@@ -81,7 +81,8 @@ the name of the class that implements the model in the models.py file.
 In this parameter, the path to the Pytorch Lightning checkpoint should be
 provided that contains the trained weights for the model that was specified
 above. Please make sure that the checkpoint provided belongs to the model
-that was specified above.
+that was specified above. You can find the checkpoints in the
+[Downloads](../../downloads/index.md) section.
 
 - `-o` or `--output`:
 This parameter will specify the path, where to save the CSV file. Please

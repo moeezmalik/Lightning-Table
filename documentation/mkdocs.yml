@@ -35,3 +35,6 @@ nav:
       - Metrics: guides/training/metrics.md
       - Experiment Configurations: guides/training/configs.md
       - Training Command: guides/training/command.md
+
+  - Downloads:
+    - Overview: downloads/index.md
