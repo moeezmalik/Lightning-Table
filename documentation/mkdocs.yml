@@ -27,6 +27,7 @@ nav:
       - Infer: tools/network/infer.md
       - Train: tools/network/train.md
   - Guides:
+    - Overview: guides/index.md
     - Network Training:
       - Overview: guides/training/index.md
       - About Datasets: guides/training/dataset.md
