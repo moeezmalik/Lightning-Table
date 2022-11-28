@@ -21,6 +21,7 @@ nav:
       - Overview: tools/utils/index.md
       - Data House Keeper: tools/utils/data-house-keeper.md
       - PascalVOC to CSV: tools/utils/pascalvoc-to-csv.md
+      - PDF Deduplication: tools/utils/pdf-dedup.md
     - Network:
       - Overview: tools/network/index.md
       - Visualise: tools/network/visualise.md
@@ -38,3 +39,6 @@ nav:
 
   - Downloads:
     - Overview: downloads/index.md
+
+  - Changelog:
+    - Overview: changelog/index.md
