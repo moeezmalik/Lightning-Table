@@ -8,19 +8,19 @@
       
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
     
     
       
-        <title>Training Command - Table Detection using Pytorch and Lightning</title>
+        <title>Overview - Table Detection using Pytorch and Lightning</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.472b142f.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.472b142f.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.08040f6c.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.08040f6c.min.css">
         
           
           
@@ -41,7 +41,7 @@
       
     
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#training-command" class="md-skip">
+        <a href="#downloads" class="md-skip">
           Skip to content
         </a>
       
@@ -80,7 +80,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="Table Detection using Pytorch and Lightning" class="md-header__button md-logo" aria-label="Table Detection using Pytorch and Lightning" data-md-component="logo">
+    <a href=".." title="Table Detection using Pytorch and Lightning" class="md-header__button md-logo" aria-label="Table Detection using Pytorch and Lightning" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -99,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Training Command
+              Overview
             
           </span>
         </div>
@@ -162,7 +162,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../.." class="md-tabs__link">
+    <a href=".." class="md-tabs__link">
       Home
     </a>
   </li>
@@ -177,8 +177,24 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../tools/" class="md-tabs__link">
+      <a href="../tools/" class="md-tabs__link">
         Tools
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../guides/" class="md-tabs__link">
+        Guides
       </a>
     </li>
   
@@ -195,23 +211,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../" class="md-tabs__link md-tabs__link--active">
-        Guides
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../../downloads/" class="md-tabs__link">
+      <a href="./" class="md-tabs__link md-tabs__link--active">
         Downloads
       </a>
     </li>
@@ -227,7 +227,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../changelog/" class="md-tabs__link">
+      <a href="../changelog/" class="md-tabs__link">
         Changelog
       </a>
     </li>
@@ -245,7 +245,9 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -255,7 +257,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Table Detection using Pytorch and Lightning" class="md-nav__button md-logo" aria-label="Table Detection using Pytorch and Lightning" data-md-component="logo">
+    <a href=".." title="Table Detection using Pytorch and Lightning" class="md-nav__button md-logo" aria-label="Table Detection using Pytorch and Lightning" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -274,7 +276,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         Home
       </a>
     </li>
@@ -315,7 +317,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/" class="md-nav__link">
+      <a href="../tools/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -355,7 +357,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/utils/" class="md-nav__link">
+      <a href="../tools/utils/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -369,7 +371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/utils/data-house-keeper/" class="md-nav__link">
+      <a href="../tools/utils/data-house-keeper/" class="md-nav__link">
         Data House Keeper
       </a>
     </li>
@@ -383,7 +385,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/utils/pascalvoc-to-csv/" class="md-nav__link">
+      <a href="../tools/utils/pascalvoc-to-csv/" class="md-nav__link">
         PascalVOC to CSV
       </a>
     </li>
@@ -397,7 +399,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/utils/pdf-dedup/" class="md-nav__link">
+      <a href="../tools/utils/pdf-dedup/" class="md-nav__link">
         PDF Deduplication
       </a>
     </li>
@@ -444,7 +446,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/network/" class="md-nav__link">
+      <a href="../tools/network/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -458,7 +460,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/network/visualise/" class="md-nav__link">
+      <a href="../tools/network/visualise/" class="md-nav__link">
         Visualise
       </a>
     </li>
@@ -472,7 +474,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/network/infer/" class="md-nav__link">
+      <a href="../tools/network/infer/" class="md-nav__link">
         Infer
       </a>
     </li>
@@ -486,226 +488,9 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/network/train/" class="md-nav__link">
+      <a href="../tools/network/train/" class="md-nav__link">
         Train
       </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-    
-  
-  
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3">
-          Guides
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Guides" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          Guides
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../" class="md-nav__link">
-        Overview
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-    
-  
-  
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" checked>
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3_2">
-          Network Training
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Network Training" data-md-level="2">
-        <label class="md-nav__title" for="__nav_3_2">
-          <span class="md-nav__icon md-icon"></span>
-          Network Training
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
-        Overview
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../dataset/" class="md-nav__link">
-        About Datasets
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../checkpoints/" class="md-nav__link">
-        Checkpoints
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../metrics/" class="md-nav__link">
-        Metrics
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../configs/" class="md-nav__link">
-        Experiment Configurations
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Training Command
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        Training Command
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#breakdown-of-the-training-command" class="md-nav__link">
-    Breakdown of the Training Command
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example-of-the-training-command" class="md-nav__link">
-    Example of the Training Command
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -735,7 +520,174 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Guides
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Guides" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Guides
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2">
+          Network Training
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Network Training" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          Network Training
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/training/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/training/dataset/" class="md-nav__link">
+        About Datasets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/training/checkpoints/" class="md-nav__link">
+        Checkpoints
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/training/metrics/" class="md-nav__link">
+        Metrics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/training/configs/" class="md-nav__link">
+        Experiment Configurations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/training/command/" class="md-nav__link">
+        Training Command
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
       
       
       
@@ -756,11 +708,72 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../../downloads/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Overview
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoints" class="md-nav__link">
+    Checkpoints
+  </a>
+  
+    <nav class="md-nav" aria-label="Checkpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vanillafasterrcnn" class="md-nav__link">
+    VanillaFasterRCNN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vanillaretinanet" class="md-nav__link">
+    VanillaRetinaNet
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -806,7 +819,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../changelog/" class="md-nav__link">
+      <a href="../changelog/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -828,6 +841,8 @@
             
             
               
+                
+              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -847,16 +862,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#breakdown-of-the-training-command" class="md-nav__link">
-    Breakdown of the Training Command
+  <a href="#checkpoints" class="md-nav__link">
+    Checkpoints
+  </a>
+  
+    <nav class="md-nav" aria-label="Checkpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vanillafasterrcnn" class="md-nav__link">
+    VanillaFasterRCNN
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#example-of-the-training-command" class="md-nav__link">
-    Example of the Training Command
+        
+          <li class="md-nav__item">
+  <a href="#vanillaretinanet" class="md-nav__link">
+    VanillaRetinaNet
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -875,69 +903,18 @@
                   
 
 
-<h1 id="training-command">Training Command</h1>
-<p>This section will show how to initiate the training and what parameters are
-offered in the training command.</p>
-<h2 id="breakdown-of-the-training-command">Breakdown of the Training Command</h2>
-<p>The <code>trainer.py</code> file accepts the following arguments when initialising the training:</p>
-<ul>
-<li>
-<p><code>dataset_path</code>:
-  (<em>Type</em>: String,
-   <em>Default</em>: <code>./</code>)
-  This specifies the path to the dataset. More information about the format of the dataset folder is mentioned in the following sections.</p>
-</li>
-<li>
-<p><code>checkpoint_path</code>: 
-  (<em>Type</em>: String,
-   <em>Default</em>: <code>./</code>)
-  This is used to specify the path where the checkpoints should be saved. More information about this is mentioned in the following sections.</p>
-</li>
-<li>
-<p><code>epochs</code>:
-  (<em>Type</em>: Postive Integer,
-   <em>Default</em>: <code>50</code>)
-  This specifies the number of epochs to train for.</p>
-</li>
-<li>
-<p><code>config_path</code>:
-  (<em>Type</em>: String,
-   <em>Default</em>: <code>None</code>)
-  This is the path to file that contains all of the training configuration settings.
-  Please refer to the <a href="../configs/">Experiment Configurations</a> for more information.</p>
-</li>
-<li>
-<p><code>config_name</code>:
-  (<em>Type</em>: String,
-   <em>Default</em>: <code>None</code>)
-  This specifies the name of configuration setting to use from the file the file that
-  contains all of the training configuration settings specified above. Please refer to the <a href="../configs/">Experiment Configurations</a> for more information.</p>
-</li>
-<li>
-<p><code>subset</code>:
-  (<em>Type</em>: Positive Integer,
-   <em>Default</em>: <code>None</code>)
-  This specifies if there is a need to take a random subset of the dataset. This can be useful initially when building the model or debugging to remove the bugs. It will be much faster to train on a small subset of the data to detect bugs. Specify <code>None</code> to not create subset of the data.</p>
-</li>
-<li>
-<p><code>log_name</code>:
-  (<em>Type</em>: String,
-   <em>Default</em>: <code>None</code>)
-  This specifies the name of the project for logging metrics to the <a href="https://wandb.ai/site">Weights and Biases</a> account. More information about metrics and logging are mentioned in the following sections. Specify <code>None</code> to not log anything to Weights and Biases.</p>
-</li>
-<li>
-<p><code>num_classes</code>:
-  (<em>Type</em>: Positive Integer,
-   <em>Default</em>: <code>2</code>)
-  This specifies the number of classes in the dataset. For this particular example since there is only one object to be detected this parameter should be specified as 2. Note that 2 classes are specified instead of 1 because that is the PyTorch convention. One class represents the background and one class represents the object to detect i.e. Table.</p>
-</li>
-</ul>
-<h2 id="example-of-the-training-command">Example of the Training Command</h2>
-<p>An example of training command is as follows. It trains the RetinaNet model for 50 epochs, with only 10 images randomly selected from the dataset, 8 of which will be used as the training images and 2 as evaluation images. It also provides the path for the dataset and the path to save the checkpoint. </p>
-<div class="highlight"><pre><span></span><code>python network/trainers.py --dataset_path &quot;datasets/original/&quot; --epochs 50 --checkpoint_path &quot;checkpoint/&quot; --config_path &quot;experiment-configs.yml&quot; --config_name &quot;vanilla_fasterrcnn_v2_1&quot; --log_name &quot;test-test&quot;
-</code></pre></div>
+<h1 id="downloads">Downloads</h1>
+<p>This section will provide links to download files and folders necessary to run the scripts in this utility.</p>
+<h2 id="checkpoints">Checkpoints</h2>
+<p>Checkpoints are files that contains the trained weights of the networks (alongwith other information). Each model type has its own type checkpoints that will be generated during the training. Please find the relevant checkpoints below:</p>
+<h3 id="vanillafasterrcnn">VanillaFasterRCNN</h3>
+<p>The checkpoint containing the best weights for the model 'VanillaFasterRCNN' can be found here: <a href="https://www.dropbox.com/s/oag1osnax4wu9tw/best-fasterrcnn.ckpt?dl=1">Link</a></p>
+<h3 id="vanillaretinanet">VanillaRetinaNet</h3>
+<p>The checkpoint containing the best weights for the model 'VanillaRetinaNet' can be found here: <a href="https://www.dropbox.com/s/lqdkk2holgu4urk/best-retinanet.ckpt?dl=1">Link</a></p>
 
 
+
+  
 
 
 
@@ -953,10 +930,12 @@ offered in the training command.</p>
         <footer class="md-footer">
   
     
+      
+    
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../configs/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Experiment Configurations" rel="prev">
+        <a href="../guides/training/command/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Training Command" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -965,14 +944,14 @@ offered in the training command.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Experiment Configurations
+              Training Command
             </div>
           </div>
         </a>
       
       
         
-        <a href="../../../downloads/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview" rel="next">
+        <a href="../changelog/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
@@ -1009,10 +988,10 @@ offered in the training command.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs"], "search": "../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d6c3db9e.min.js"></script>
       
     
   </body>
