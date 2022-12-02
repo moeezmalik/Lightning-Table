@@ -226,14 +226,14 @@ def pdf_to_list_of_bb(
     for pg_no in range(page_count):
 
         # Render the current page to a PIL object
-        pil_image = pdf_file.get_page_in_pil(
+        scale_factor, pil_image = pdf_file.get_page_in_pil(
             pg_no=pg_no,
             dpi=dpi
             )
 
         # Infer on the rendered image to get
         # the list of bounding boxes
-        curr_pg_bb = pil_to_list_of_bb(
+        curr_pg_bbs = pil_to_list_of_bb(
             pil_image=pil_image,
             model_name=model_name,
             ckpt_path=ckpt_path,
@@ -241,12 +241,20 @@ def pdf_to_list_of_bb(
         )
 
         # Skip the page if no table was found
-        if len(curr_pg_bb) == 0:
+        if len(curr_pg_bbs) == 0:
             continue
         
+        # Transform the boxes to the PDF coordinate space
+        curr_pg_tranformed_bb = pdf_file.transform_bb_to_pdf_space(
+                bbs=curr_pg_bbs,
+                pg_no=pg_no,
+                scale_factor=scale_factor
+                )
+
         # Add the page number with each of the bounding box
         # Also add the name of the PDF file
-        for box in curr_pg_bb:
+        for box in curr_pg_tranformed_bb:
+
             curr_pdf_bb_with_pgno.append(
                     [
                         pdf_file.pdf_name,
@@ -261,11 +269,6 @@ def pdf_to_list_of_bb(
 
     return curr_pdf_bb_with_pgno
 
-def folder_of_pdf_to_list_of_bb(
-
-    ) -> list:
-
-    pass
 
 
 # #################################################################

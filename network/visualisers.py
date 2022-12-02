@@ -282,7 +282,7 @@ def visualise_single_pdf(
     # Loop over all available pages, show them with their bounding boxes
     for i in range(page_count):
         
-        pil_image = pdf_doc.get_page_in_pil(
+        _, pil_image = pdf_doc.get_page_in_pil(
             pg_no=i,
             dpi=dpi
         )

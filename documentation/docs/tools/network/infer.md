@@ -47,6 +47,13 @@ through 6 mention the coordinates of the table that was detected. 'x1' and
 the bottom-right coordinates of the bounding box for the table that was
 detected.
 
+!!! important
+    The x1, y1, x2, y2 coordinates generated will be in the PDF coordinate space.
+    This means that the (0, 0) position of the x and y-axis respectively is at
+    the bottom-left of the page. This is different than what normally is the case
+    where the (0, 0) position is the top-left of the page. This is done because the
+    table extraction utilities e.g. Camelot expect the table regions in PDF coordinate space.
+
 If a page in PDF contains no table, according to the model, then it is not
 mentioned at all in the CSV file.
 
