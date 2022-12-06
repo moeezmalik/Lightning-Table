@@ -25,7 +25,7 @@ import pandas as pd
 import camelot
 
 # From other files
-from files import basename
+from files import basename, isfile
 
 # #################################################################
 # Other Functions
@@ -112,16 +112,20 @@ def single_page_to_tables(
         cam_table_string = [str(table[0]) + "," + str(table[1]) + "," + str(table[2]) + "," + str(table[3])]
 
         # Use Camelot to read a single table
-        read_table = camelot.read_pdf(
-            filepath=pdf_path,
-            pages=str(pg_no),
-            table_areas=cam_table_string,
-            flavor='stream'
-        )
+        try:
+            read_table = camelot.read_pdf(
+                filepath=pdf_path,
+                pages=str(pg_no),
+                table_areas=cam_table_string,
+                flavor='stream'
+            )
 
-        extracted_tables.append(read_table[0])
+        except ValueError:
+            print("Page: {} | Table: {}/{} | Error: Coordinates Might be Wrong".format(pg_no, count, total_tables))
 
-        print("Page: {} | Table Read: {}/{}".format(pg_no, count, total_tables))
+        else:
+            extracted_tables.append(read_table[0])
+            print("Page: {} | Table: {}/{} | Successfully Read".format(pg_no, count, total_tables))
         
     return extracted_tables
 
@@ -231,18 +235,25 @@ def single_pdf_to_excel(
     print("---")
     print("Evaluating PDF: " + file)
 
-    # Extract all the tables fromt the PDFs
-    extracted_tables = single_pdf_to_tables(
-        pdf_path=pdf_path,
-        tables=tables
-    )
+    # Check if the file exists and if it does then
+    # extract tables from it to save to excel
+    if (isfile(path=pdf_path)):
 
-    # Save the tables to an excel file
-    save_tables_to_excel(
-        tables=extracted_tables,
-        name=name,
-        output_folder=output_folder
-    )
+        # Extract all the tables fromt the PDFs
+        extracted_tables = single_pdf_to_tables(
+            pdf_path=pdf_path,
+            tables=tables
+        )
+
+        # Save the tables to an excel file
+        save_tables_to_excel(
+            tables=extracted_tables,
+            name=name,
+            output_folder=output_folder
+        )
+
+    else:
+        print("Skipping: File does not exist")
 
     print("---")
 
@@ -271,7 +282,7 @@ def list_of_pdfs_to_excel(
     for pdf in pdf_and_tables:
         path = pdf[0]
         tables = pdf[1]
-        
+
         single_pdf_to_excel(
             pdf_path=path,
             tables=tables,
@@ -420,8 +431,6 @@ def main():
             pdf_folder=folder_path,
             output_folder=output_path
         )
-
-
 
 
 

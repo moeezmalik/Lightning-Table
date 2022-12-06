@@ -16,7 +16,7 @@ Author:
 
 import fitz
 from os import listdir, remove, makedirs, replace
-from os.path import join, split, getsize, getmtime, exists, basename
+from os.path import join, split, getsize, getmtime, exists, basename, isfile
 from PIL import Image
 
 # ##########################################################
