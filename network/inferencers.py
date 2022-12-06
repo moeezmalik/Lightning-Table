@@ -345,7 +345,7 @@ def pdf_to_csv(
     # Save the DataFrame to a CSV file
     df.to_csv(
         path_or_buf=output_path,
-        header=True,
+        header=False,
         index=False
     )
 
@@ -450,7 +450,7 @@ def folder_of_pdf_to_csv(
     # Save the DataFrame to a CSV file
     df.to_csv(
         path_or_buf=output_path,
-        header=True,
+        header=False,
         index=False
     )
 

@@ -15,18 +15,24 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  
   - Tools:
+  
     - Overview: tools/index.md
+  
     - Utilities:
       - Overview: tools/utils/index.md
       - Data House Keeper: tools/utils/data-house-keeper.md
       - PascalVOC to CSV: tools/utils/pascalvoc-to-csv.md
       - PDF Deduplication: tools/utils/pdf-dedup.md
+      - Extract Tables: tools/utils/extract-tables.md
+  
     - Network:
       - Overview: tools/network/index.md
       - Visualise: tools/network/visualise.md
       - Infer: tools/network/infer.md
       - Train: tools/network/train.md
+  
   - Guides:
     - Overview: guides/index.md
     - Network Training:

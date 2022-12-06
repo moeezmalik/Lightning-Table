@@ -16,7 +16,7 @@ Author:
 
 import fitz
 from os import listdir
-from os.path import join, split
+from os.path import join, split, basename
 from PIL import Image
 
 # ##########################################################
