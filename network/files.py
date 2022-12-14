@@ -18,6 +18,7 @@ import fitz
 from os import listdir
 from os.path import join, split, basename
 from PIL import Image
+import random
 
 # ##########################################################
 # Functions
@@ -26,6 +27,7 @@ from PIL import Image
 def get_list_of_files_with_ext(
     path_to_folder: str,
     ext: str,
+    randomise: bool = False,
     verbose: bool = True
     ) -> list:
     """
@@ -41,7 +43,11 @@ def get_list_of_files_with_ext(
 
         ext:
             This is the extension of the files that will be
-            selected from the folder
+            selected from the folder.
+
+        randomise:
+            If this flag is set to True, then the list of files
+            will be shuffled before being returned.
 
         verbose:
             If this flag is set to True, then this function will
@@ -57,16 +63,28 @@ def get_list_of_files_with_ext(
 
     list_of_files = []
 
+    # Evaluate all files in the directory
     for file in listdir(path_to_folder):
-        if file.endswith(ext):
-            full_path = join(path_to_folder, file)
-            list_of_files.append(full_path)
+
+        # Skip the hidden files
+        # In linux and macOS, the hidden files start
+        # with '.'
+        if not file.startswith('.'):
+
+            # Get the files with the specified extension
+            if file.endswith(ext):
+                full_path = join(path_to_folder, file)
+                list_of_files.append(full_path)
 
     if verbose:
         print()
         print("Looking for " + ext + " files in folder: " + path_to_folder)
         print()
         print("Total " + ext + " files found: " + str(len(list_of_files)))
+
+    # Shuffle the list of files captured
+    if randomise:
+        random.shuffle(list_of_files)
 
     return list_of_files
 
@@ -134,6 +152,7 @@ class PDFLoader():
         self.path_to_pdf = None
         self.pdf_name = None
         self.fitz_doc = None
+        self.read_error = False
         self.page_count = None
         self.is_text_based = None
 
@@ -161,12 +180,24 @@ class PDFLoader():
         """
 
         # Get the name of the PDF document
-        dir, pdf_name = split(path_to_pdf)
+        _, pdf_name = split(path_to_pdf)
 
         # Read the PDF file into a fitz document and return it
-        fitz_doc = fitz.open(path_to_pdf)
+        try:
+            doc = fitz.open(path_to_pdf)
 
+        except fitz.FileDataError:
+            fitz_doc = None
+
+        except:
+            fitz_doc = None
+
+        else:
+            fitz_doc = doc
+            
         return fitz_doc, pdf_name
+
+        
 
     def _is_text_based(
         self
@@ -223,12 +254,24 @@ class PDFLoader():
             path_to_pdf=path_to_pdf
         )
 
+        # Do not proceed if there was an error in reading the PDF file
+        if self.fitz_doc is None:
+
+            if self.verbose:
+                print("Error Reading PDF File: " + self.pdf_name)
+            
+            self.read_error = True
+            return None
+
+
         # Get the page count of the PDF
         self.page_count = self.fitz_doc.page_count
 
         # Determine if the PDF is image based or text-based
         self._is_text_based()
 
+        # Print information about the PDF if the read is successful and the
+        # verbose flag is set
         if self.verbose:
             print()
             print("Loaded File: " + self.pdf_name)
@@ -237,10 +280,8 @@ class PDFLoader():
             # Print whether text-based or not
             if self.is_text_based:
                 print("PDF is text-based")
-
             else:
                 print("PDF does not contain text")
-
             print()
 
         return None

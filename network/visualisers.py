@@ -272,6 +272,10 @@ def visualise_single_pdf(
     if verbose:
         print("Evaluating: " + pdf_name)
 
+    if pdf_doc.read_error:
+        print("Skipping: Unable to read PDF")
+        return None
+
     if not pdf_doc.is_text_based:
         print("Skipping: PDF is not text-based")
         return None
@@ -308,6 +312,7 @@ def visualise_folder_of_pdfs(
     ckpt_path: str,
     conf_thresh: float,
     dpi: int = 600,
+    randomise: bool = False,
     verbose: bool = False
     ) -> None:
     """
@@ -336,6 +341,10 @@ def visualise_folder_of_pdfs(
             This is the DPI number that will be used to convert
             the PDF to images before perfoming the inference.
 
+        randomise:
+            If this flag is set to True, then the PDF files will
+            be visualised in a random order.
+
         verbose:
             If this flag is set, the name of the image being used
             will also be displayed on the command line.
@@ -344,6 +353,7 @@ def visualise_folder_of_pdfs(
     list_of_pdfs = get_list_of_files_with_ext(
         path_to_folder=path_to_folder,
         ext=".pdf",
+        randomise=randomise,
         verbose=verbose
     )
 
@@ -364,6 +374,7 @@ def visualise_folder_of_pdfs(
         print("---")
         print("Progress: {}/{} PDFs Evaluated".format(count, total))
         print("---")
+        print()
 
         # Update the count of PDFs visualised
         count += 1

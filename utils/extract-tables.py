@@ -120,9 +120,12 @@ def single_page_to_tables(
                 flavor='stream'
             )
 
+        # Handle the ValueError exception, this might be generated if the coordinates to the table are incorrect
+        # and Camelot does not find any text in the specified areas
         except ValueError:
             print("Page: {} | Table: {}/{} | Error: Coordinates Might be Wrong".format(pg_no, count, total_tables))
 
+        # If everything went well then read the tables
         else:
             extracted_tables.append(read_table[0])
             print("Page: {} | Table: {}/{} | Successfully Read".format(pg_no, count, total_tables))
@@ -186,6 +189,10 @@ def save_tables_to_excel(
     output_folder:
         This is the path to the folder where the excel file should be saved.
     """
+
+    if not tables:
+        print("No tables to save")
+        return None
 
     # Assemble path to excel file
     name_of_excel_file = name + '.xlsx'
