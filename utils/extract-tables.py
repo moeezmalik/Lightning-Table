@@ -123,12 +123,26 @@ def single_page_to_tables(
         # Handle the ValueError exception, this might be generated if the coordinates to the table are incorrect
         # and Camelot does not find any text in the specified areas
         except ValueError:
-            print("Page: {} | Table: {}/{} | Error: Coordinates Might be Wrong".format(pg_no, count, total_tables))
+            print("Page: {} | Table: {}/{} | Error: No text found within specified coordinates".format(pg_no, count, total_tables))
+        
+        # Handle other errrors
+        except:
+            print("Page: {} | Table: {}/{} | Error: Camelot Exception".format(pg_no, count, total_tables))
 
-        # If everything went well then read the tables
+        # If there were no errors
         else:
-            extracted_tables.append(read_table[0])
-            print("Page: {} | Table: {}/{} | Successfully Read".format(pg_no, count, total_tables))
+
+            # Check if the table was read or not. In cases where an image-based PDF document is provided to Camelot,
+            # it will not throw any error but rather just a warning but the list of tables read will be empty. The
+            # following check attempts to handle this case.
+            if read_table:
+                extracted_tables.append(read_table[0])
+                print("Page: {} | Table: {}/{} | Successfully Processed".format(pg_no, count, total_tables))
+
+            else:
+                print("Page: {} | Table: {}/{} | No Table Read".format(pg_no, count, total_tables))
+
+            
         
     return extracted_tables
 
@@ -206,7 +220,12 @@ def save_tables_to_excel(
             
             # Convert the Camelot tables to a pandas DataFrame to write
             # to excel file
-            table.df.to_excel(writer, sheet_name="Table_{}".format(count))
+            table.df.to_excel(
+                writer,
+                sheet_name="Table_{}".format(count),
+                index=False,
+                header=False
+                )
 
     print("Saved tables to: " + name_of_excel_file)
 
