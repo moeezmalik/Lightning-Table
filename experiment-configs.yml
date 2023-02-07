@@ -1,5 +1,5 @@
 # The Default RetinaNet based experiments
-vanilla:
+vanilla_1:
   name: "vanilla_1"
   model: "VanillaRetinaNet"
   datamodule: "TableDatasetModule"
@@ -8,7 +8,7 @@ vanilla:
   train_eval_split: 0.8
 
 # The RetinaNet V2 based experiments
-vanilla_v2:
+vanilla_v2_1:
   name: "vanilla_v2_1"
   model: "VanillaRetinaNetV2"
   datamodule: "TableDatasetModule"
