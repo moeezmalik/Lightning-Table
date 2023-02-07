@@ -23,12 +23,13 @@ Author:
 import argparse
 import pandas as pd
 import camelot
+from readers import cam, baseline, tab
 
 # From other files
 from files import basename, isfile
 
 # #################################################################
-# Other Functions
+# Readers
 # #################################################################
 
 def resolve_pdf_info(
@@ -82,14 +83,14 @@ def resolve_pdf_info(
 
     return info_list
 
-def single_page_to_tables(
+def single_page_camelot(
     pdf_path: str,
-    pg_no: str,
-    table_areas: str
+    pg_no: int,
+    table_areas: str,
     ) -> list:
     """
     This function will extract all the tables from the page specified of the
-    PDF specified.
+    PDF specified using Camelot.
 
     Parameters:
         pdf_path:
@@ -113,11 +114,10 @@ def single_page_to_tables(
 
         # Use Camelot to read a single table
         try:
-            read_table = camelot.read_pdf(
+            read_table = cam(
                 filepath=pdf_path,
                 pages=str(pg_no),
-                table_areas=cam_table_string,
-                flavor='stream'
+                table_areas=cam_table_string
             )
 
         # Handle the ValueError exception, this might be generated if the coordinates to the table are incorrect
@@ -136,19 +136,184 @@ def single_page_to_tables(
             # it will not throw any error but rather just a warning but the list of tables read will be empty. The
             # following check attempts to handle this case.
             if read_table:
+                extracted_tables.append(read_table[0].df)
+                print("Page: {} | Table: {}/{} | Successfully Processed".format(pg_no, count, total_tables))
+
+            else:
+                print("Page: {} | Table: {}/{} | No Table Read".format(pg_no, count, total_tables))
+
+    return extracted_tables
+
+def single_page_tabula(
+    pdf_path: str,
+    pg_no: int,
+    table_areas: str,
+    ) -> list:
+    """
+    This function will extract all the tables from the page specified of the
+    PDF specified using Camelot.
+
+    Parameters:
+        pdf_path:
+            This is the path to the PDF file.
+
+        pg_no:
+            This is the page number of which the table exists.
+
+        table_areas:
+            This is the list of all the tables on the said page.
+    """
+
+    total_tables = len(table_areas)
+
+    extracted_tables = []
+
+    for count, table in enumerate(table_areas, start=1):
+
+        # Use Tabula to read a single table
+        try:
+            read_table = tab(
+                filepath=pdf_path,
+                pages=pg_no,
+                table_areas=table
+            )
+
+        # Handle value errors
+        # except ValueError:
+        #     print("Page: {} | Table: {}/{} | Error: No text found within specified coordinates".format(pg_no, count, total_tables))
+        
+        # Handle other errrors
+        except:
+            print("Page: {} | Table: {}/{} | Error: Baseline Exception".format(pg_no, count, total_tables))
+
+        # If there were no errors
+        else:
+
+            # Check if the table was read or not. In cases where an image-based PDF document is provided to Camelot,
+            # it will not throw any error but rather just a warning but the list of tables read will be empty. The
+            # following check attempts to handle this case.
+            if read_table:
                 extracted_tables.append(read_table[0])
                 print("Page: {} | Table: {}/{} | Successfully Processed".format(pg_no, count, total_tables))
 
             else:
                 print("Page: {} | Table: {}/{} | No Table Read".format(pg_no, count, total_tables))
 
-            
-        
     return extracted_tables
+
+def single_page_baseline(
+    pdf_path: str,
+    pg_no: int,
+    table_areas: str,
+    ) -> list:
+    """
+    This function will extract all the tables from the page specified of the
+    PDF specified using Camelot.
+
+    Parameters:
+        pdf_path:
+            This is the path to the PDF file.
+
+        pg_no:
+            This is the page number of which the table exists.
+
+        table_areas:
+            This is the list of all the tables on the said page.
+    """
+
+    total_tables = len(table_areas)
+
+    extracted_tables = []
+
+    for count, table in enumerate(table_areas, start=1):
+
+        # Use Baseline to read a single table
+        try:
+            read_table = baseline(
+                filepath=pdf_path,
+                pages=pg_no,
+                table_areas=table
+            )
+
+        # Handle value errors
+        # except ValueError:
+        #     print("Page: {} | Table: {}/{} | Error: No text found within specified coordinates".format(pg_no, count, total_tables))
+        
+        # Handle other errrors
+        except:
+            print("Page: {} | Table: {}/{} | Error: Baseline Exception".format(pg_no, count, total_tables))
+
+        # If there were no errors
+        else:
+
+            # Check if the table was read or not. In cases where an image-based PDF document is provided to Camelot,
+            # it will not throw any error but rather just a warning but the list of tables read will be empty. The
+            # following check attempts to handle this case.
+            if read_table:
+                extracted_tables.append(read_table[0])
+                print("Page: {} | Table: {}/{} | Successfully Processed".format(pg_no, count, total_tables))
+
+            else:
+                print("Page: {} | Table: {}/{} | No Table Read".format(pg_no, count, total_tables))
+
+    return extracted_tables
+
+# #################################################################
+# Other Functions
+# #################################################################
+
+def single_page_to_tables(
+    pdf_path: str,
+    pg_no: str,
+    table_areas: str,
+    reader: str
+    ) -> list:
+    """
+    This function will extract all the tables from the page specified of the
+    PDF specified.
+
+    Parameters:
+        pdf_path:
+            This is the path to the PDF file.
+
+        pg_no:
+            This is the page number of which the table exists.
+
+        table_areas:
+            This is the list of all the tables on the said page.
+
+        reader:
+            What reader to use to read tables from the PDF files.
+    """
+
+    if reader=="camelot":
+        return single_page_camelot(
+            pdf_path=pdf_path,
+            pg_no=pg_no,
+            table_areas=table_areas
+        )
+
+    elif reader=="baseline":
+        return single_page_baseline(
+            pdf_path=pdf_path,
+            pg_no=pg_no,
+            table_areas=table_areas
+        )
+
+    elif reader=="tabula":
+        return single_page_tabula(
+            pdf_path=pdf_path,
+            pg_no=pg_no,
+            table_areas=table_areas
+        )
+
+    else:
+        print("Wrong Reader Specified.")
 
 def single_pdf_to_tables(
     pdf_path: str,
-    tables: list
+    tables: list,
+    reader: str
     ) -> list:
     """
     This function will generate an excel file consisting of all tables found
@@ -162,6 +327,9 @@ def single_pdf_to_tables(
             This is a list that should contain information about the pages on which
             the tables are to be found and the coordinates of where the tables are
             to be found.
+
+        reader:
+            What reader to use to read tables from the PDF files.
     """
 
     all_page_extracted_tables = []
@@ -175,7 +343,8 @@ def single_pdf_to_tables(
         curr_page_extracted_tables = single_page_to_tables(
             pdf_path=pdf_path,
             pg_no=pg_no,
-            table_areas=table_areas
+            table_areas=table_areas,
+            reader=reader
         )
 
         all_page_extracted_tables.extend(curr_page_extracted_tables)
@@ -220,7 +389,7 @@ def save_tables_to_excel(
             
             # Convert the Camelot tables to a pandas DataFrame to write
             # to excel file
-            table.df.to_excel(
+            table.to_excel(
                 writer,
                 sheet_name="Table_{}".format(count),
                 index=False,
@@ -234,7 +403,8 @@ def save_tables_to_excel(
 def single_pdf_to_excel(
     pdf_path: str,
     tables: list,
-    output_folder: str
+    output_folder: str,
+    reader: str
     ) -> None:
     """
     This function will get tables from an individual PDF file and then save
@@ -251,6 +421,9 @@ def single_pdf_to_excel(
 
         output_folder:
             This is the path to the output folder where the excel file will be saved.
+
+        reader:
+            What reader to use to read tables from the PDF files.
     """
 
     # Get the name of the PDF file without extension
@@ -268,7 +441,8 @@ def single_pdf_to_excel(
         # Extract all the tables fromt the PDFs
         extracted_tables = single_pdf_to_tables(
             pdf_path=pdf_path,
-            tables=tables
+            tables=tables,
+            reader=reader
         )
 
         # Save the tables to an excel file
@@ -288,7 +462,8 @@ def single_pdf_to_excel(
 
 def list_of_pdfs_to_excel(
     pdf_and_tables: list,
-    output_folder: str
+    output_folder: str,
+    reader: str
     ) -> None:
     """
     This function will take in the resolved information about the PDFs and
@@ -302,6 +477,9 @@ def list_of_pdfs_to_excel(
 
         output_folder:
             This is the path to the folder where the excel files will be saved.
+
+        reader:
+            What reader to use to read tables from the PDF files.
     """
 
     # Go through PDFs one by one and save to excel files.
@@ -312,22 +490,28 @@ def list_of_pdfs_to_excel(
         single_pdf_to_excel(
             pdf_path=path,
             tables=tables,
-            output_folder=output_folder
+            output_folder=output_folder,
+            reader=reader
         )
 
 
 
     return None
 
-def excel_action(
+# #################################################################
+# Assembly
+# #################################################################
+
+def save_to_excel(
     path_to_csv: str,
     pdf_folder: str,
-    output_folder: str
+    output_folder: str,
+    reader: str
     ) -> None:
     """
     This is the front-facing function for extracting the table from the
     the PDF files that are provided as part of the CSV file and saving them
-    to the excel files.
+    to the excel files using the baseline algorithm.
 
     Parameters:
         path_to_csv:
@@ -345,6 +529,9 @@ def excel_action(
         output_folder:
             This is the path to the folder where the generated files should
             be placed.
+
+        reader:
+            What reader to use to read tables from the PDF files.       
     """
 
     # Resolve the table information from the CSV file and get the paths
@@ -355,10 +542,11 @@ def excel_action(
 
     list_of_pdfs_to_excel(
         pdf_and_tables=info_list,
-        output_folder=output_folder
+        output_folder=output_folder,
+        reader=reader
     )
 
-    pass
+    return None
 
 # #################################################################
 # Command-line Functions
@@ -403,15 +591,13 @@ def parse_args():
     )
 
     required_named.add_argument(
-        "-t", "--type",
-        choices=['excel'],
+        "-r", "--reader",
+        choices=['camelot', 'baseline', 'tabula'],
         required=True,
         metavar="PATH",
-        dest="type",
-        help=u"""This is the path to the folder where the generate output files
-                 will be placed. One file will be generated for each PDF file.
-                 Currently only excel file generation is implemented so the only
-                 choice for this parameter is 'excel'."""
+        dest="reader",
+        help=u"""This is the reader type that will be used to read the tables
+                 from the PDF files given the table areas."""
     )
 
     required_named.add_argument(
@@ -438,7 +624,7 @@ def main():
     # Extract all parameters from the command line
     folder_path = args.folder_path
     csv_path = args.csv_path
-    type = args.type
+    reader = args.reader
     output_path = args.output_path
 
 
@@ -449,13 +635,11 @@ def main():
     print("CSV Path: " + csv_path)
     print("Output Folder: " + output_path)
 
-    if type == 'excel':
-        print("Output Type: Excel")
-        
-        excel_action(
+    save_to_excel(
             path_to_csv=csv_path,
             pdf_folder=folder_path,
-            output_folder=output_path
+            output_folder=output_path,
+            reader=reader
         )
 
 

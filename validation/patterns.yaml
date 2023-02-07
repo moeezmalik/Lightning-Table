@@ -1,0 +1,32 @@
+electrical:
+  eff:
+    series: eff((?!code).)*$|ncell|model\(%\)
+    vals: \d[.0-9\-% ]+
+  ff:
+    series: ^ff|fillfactor
+    vals: ([.\d]+)\S
+  impp:
+    series: ^imp+|^ip+m|(max\.?(imum)?)?powercurrent|currentat\s(max\.?(imum)?)?power|im(?!um)$
+    vals: ([.\d]+)\S
+  isc:
+    series: isc|shortcircuit(current)?
+    vals: ([.\d]+)\S
+  pmpp:
+    series: pmax|pmpp|ppm|^pm|^power$|[\(\[]wp*[\)\]]|(average|rated|charged)power
+    vals: ([.\d]+)\S
+  vmpp:
+    series: ^[uv]mp+|^[uv]p+m|(max\.?(imum)?)?powervoltage|voltageat\s(max\.?(imum)?)?power
+    vals: ([.\d]+)\S
+  voc:
+    series: '[uv]oc|opencircuit(voltage)?|vm\W|circuitvoltage'
+    vals: ([.\d]+)\S
+temperature:
+  isc:
+    series: tk\s?(current|isc)|(short\-?circuit)?\-?currenttemperaturecoefficient-?(isc)?|isc\.?temp\.?coef\.?|current[\[\(]?(%\/K|alpha)[\]\)]?|⍺|current|isc
+    vals: (\+|-)?\d+.\d+\s?(%/.)?
+  pmpp:
+    series: tk\s?(power|pmax)|(max\.?-?power|power)temperaturecoefficient(of)?(pmpp|pmax)?|^temperaturecoefficientof(pmpp|pmax)|(pm|pmax)\.?temp\.?coef\.?|power[\[\(]?(%\/K|gamma)[\]\)]?|power|pmax|γ|δ|pm
+    vals: (\+|-)?\d+.\d+\s?(%/.)?
+  voc:
+    series: tk\s?(voltage|[uv]oc)|(open\-?circuit)?\-?voltagetemperaturecoefficient-?([vu]oc)?|[vu]oc\.?temp\.?coef\.?|voltage[\[\(]?(%\/K|beta)[\]\)]?|voc|ß|voltage
+    vals: (\+|-)?\d+.\d+\s?(%/.)?

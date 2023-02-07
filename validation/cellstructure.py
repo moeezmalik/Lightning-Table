@@ -239,9 +239,11 @@ class Datasheet():
         # This list will hold all the tables found in the raw format
         self.tables = []
 
-        # This dictionary type object will contain the extracted electrical
-        # Characteristics from the datasheet
-        self.extracted_elec = {}
+        # Dictionary type for extracted electrical properties
+        self.extracted_elec = None
+
+        # Dictionary type for extracted temperature coefficients
+        self.extracted_temp = None
 
         # Calling the constructor functions
 
@@ -321,7 +323,7 @@ class Datasheet():
         ) -> None:
         """
         This function will attempt to extract the electrical properties
-        from the raw tables are the present in this datasheet. This is
+        from the raw tables that are the present in this datasheet. This is
         the master function that will make use of other internal class
         functions in order to keep things organised.
 
@@ -359,27 +361,117 @@ class Datasheet():
         if axis is None:
             print("Error: Cannot Determine Table Axis, Cannot Continue")
             return None
-        
+
         print("Table Axis: " + axis)
 
-        # Try to find the columns in the table that contain the properties
-        # specified in the patterns dictionary
-        self._find_columns(
-            table=elec_table,
-            patterns=patterns.get("columns")
+        if axis == "vertical":
+
+            # Try to find the columns in the table that contain the properties
+            # specified in the patterns dictionary
+            found_columns = self._find_columns(
+                table=elec_table,
+                patterns=patterns
+            )
+
+            # Get the actual values from the classified columns
+            found_vals = self._extract_values_from_columns(
+                table=elec_table,
+                columns=found_columns,
+                pattern=patterns
+            )
+
+            self.extracted_elec = found_vals
+
+        elif axis == "horizontal":
+
+            found_rows = self._find_rows(
+                table=elec_table,
+                patterns=patterns
+            )
+
+            found_vals = self._extract_values_from_rows(
+                table=elec_table,
+                rows=found_rows,
+                pattern=patterns
+            )
+
+            self.extracted_elec = found_vals
+        
+    def extract_temp_props(
+        self,
+        patterns: dict
+        ) -> None:
+        """
+        This function will attempt to extract the temperature coefficients
+        from the raw tables that are the present in this datasheet. This is
+        the master function that will make use of other internal class
+        functions in order to keep things organised.
+
+        Parameters:
+            patterns:
+                Theses are regex patterns that will be used to detect the
+                right columns or rows that contain the required electrical
+                properties.
+        """
+
+        # Get the table that contains the electrical properties in the
+        # datasheet
+        temp_table = None
+
+        for table in self.tables:
+            if table.pred_class == 't':
+                temp_table = table
+
+        # If no electrical table is found, go no further
+        if temp_table is None:
+            print("Error: No Temperature Coefficient Table Found")
+            return None
+
+        # print(temp_table.raw_df)
+
+        # Try determining the table axis and do not continue if it couldnt
+        # be determined for any reason
+        axis = None
+
+        try:
+            axis = self._determine_table_axis(
+                table=temp_table
+            )
+        except:
+            print("Error: Exception occured during table axis detection")
+
+        if axis is None:
+            print("Error: Cannot Determine Table Axis, Cannot Continue")
+            return None
+
+        if axis == 'vertical':
+            print("Cannot process vertical tables yet")
+            return None
+
+        # Find the rows that represent required values according to the
+        # patterns dictionary
+        found_rows = self._find_rows(
+            table=temp_table,
+            patterns=patterns
         )
 
-        self._extract_values_from_columns(
-            table=elec_table,
-            pattern=patterns.get("vals")
+        # Get the actual values from the classified rows
+        found_vals = self._extract_values_from_rows(
+            table=temp_table,
+            rows=found_rows,
+            pattern=patterns
         )
-        
+
+        self.extracted_temp =  found_vals
+
+        return None
 
         
     
     ##################################
     # Internal functions for the class
     ##################################
+
     def _determine_table_axis(
         self,
         table: Table
@@ -441,8 +533,6 @@ class Datasheet():
             if len(extracted_row) != 0:
                 table_of_extracted_values.append(extracted_row)
 
-
-        print(table_of_extracted_values)
         # If no values were extracted then return nothing
         if not table_of_extracted_values:
             return None
@@ -471,8 +561,6 @@ class Datasheet():
         # of the rows are equal then we have valid matrix otherwise not.
         is_valid_matrix = all([len(x)==len(table_of_extracted_values[0]) for x in table_of_extracted_values])
 
-        print(is_valid_matrix)
-
         # Exit with None if the matrix is not valid.
         if not is_valid_matrix:
             return None
@@ -492,9 +580,12 @@ class Datasheet():
         else:
             return 'vertical'
 
+    # Functions for columns
+
     def _extract_values_from_columns(
         self,
         table: Table,
+        columns: dict,
         pattern: dict
         ) -> None:
         """
@@ -511,42 +602,36 @@ class Datasheet():
                 order to extract them.
         """
 
-        
+        found_vals = {}
 
-        for name, info in self.extracted_elec.items():
+        for name, info in columns.items():
             
             vals = []
 
             cols = info.get("cols")
             
             if cols is None:
-                self.extracted_elec.update({name:{'cols': cols, 'vals' : None}})
+                found_vals.update({name:{'cols': cols, 'vals' : None}})
 
             else:
 
-                for col in info.get("cols"):
+                for col in cols:
                     
                     raw = table.raw_df.iloc[:, col].values.tolist()
 
                     for element in raw:
                         result = re.search(
-                            pattern=pattern.get(name),
+                            pattern=pattern.get(name).get("vals"),
                             string=str(element)
                         )
 
                         if result is not None:
                             vals.append(element)
 
-                self.extracted_elec.update({name:{'cols': cols, 'vals' : vals}})
+                found_vals.update({name:{'cols': cols, 'vals' : vals}})
 
-
-        for key, value in self.extracted_elec.items():
-            print()
-            print(key)
-
-            print(value.get("cols"))
-            print(value.get("vals"))
-        
+        return found_vals
+ 
     def _check_col_for_pattern(
         self,
         table: Table,
@@ -590,7 +675,7 @@ class Datasheet():
         self,
         table: Table,
         patterns: dict
-        ) -> None:
+        ) -> dict:
         """
         This function will attempt to find the required columns in the table.
 
@@ -602,7 +687,14 @@ class Datasheet():
                 These are regex patterns that will be used to find the columns in
                 the table. These patterns will also govern the number of columns
                 of information that is extracted.
+
+        Returns:
+            cols:
+                This is a dictionary type variable that contains the list of columns
+                that have been found for each item in the provided pattern list.
         """
+
+        found_cols = {}
 
         # Get the number of columns of the table
         n_cols = table.raw_df.shape[1]
@@ -615,14 +707,166 @@ class Datasheet():
                 if self._check_col_for_pattern(
                     table=table,
                     col=i,
-                    pattern=pattern
+                    pattern=pattern.get("series")
                 ):
                     col_list.append(i)
 
             if col_list:
-                self.extracted_elec.update({name : {'cols' : col_list}})
+                found_cols.update({name : {'cols' : col_list}})
             else:
-                self.extracted_elec.update({name : {'cols' : None}})
+                found_cols.update({name : {'cols' : None}})
+
+        return found_cols
+
+    # Functions for rows
+
+    def _extract_values_from_rows(
+        self,
+        table: Table,
+        rows: dict,
+        pattern: dict
+        ) -> dict:
+        """
+        This function will iterate over the provided column in the provided table
+        and extract the values using the provided pattern and put them in a list.
+
+        Parameters:
+            table:
+                This is the table which contains the column from which to extract
+                the values from.
+
+            rows:
+                This is a dictionary that contains the names of the rows and where
+                the rows are located from which the information is to be extracted.
+
+            pattern:
+                This is the regex pattern that will be used to match the values in
+                order to extract them.
+
+        Returns:
+            values:
+                This is a dictionary that will contain the values that are extracted
+                from each row.
+        """
+
+        values = {}
+
+        for name, info in rows.items():
+            
+            vals = []
+
+            rows = info.get("rows")
+            
+            if rows is None:
+                values.update({name:{'rows': rows, 'vals' : None}})
+
+            else:
+
+                for row in rows:
+                    
+                    raw = table.raw_df.iloc[row, :].values.tolist()
+
+                    for element in raw:
+                        result = re.search(
+                            pattern=pattern.get(name).get("vals"),
+                            string=str(element)
+                        )
+
+                        if result is not None:
+                            
+                            # Only keep the matched entity
+                            vals.append(result.group(0))
+
+                values.update({name:{'rows': rows, 'vals' : vals}})
+
+
+        return values
+
+    def _check_row_for_pattern(
+        self,
+        table: Table,
+        row: int,
+        pattern: str
+        ) -> bool:
+        """
+        This function checks the provided row in the provided table
+        for the presence of the regex pattern.
+
+        Parameters:
+            pattern:
+                This is the regex pattern to check
+
+            row:
+                This is the row in the table to check
+
+            table:
+                This is the table in which the row to check exists
+
+        Returns:
+            result:
+                A boolean type result that is True if the row contains the required
+                pattern otherwise False.
+        """
+
+        # Check each row of the row if the pattern exists
+        row_check = table.raw_df.iloc[row, :].str.contains(
+            pattern,
+            flags=re.IGNORECASE,
+            regex=True,
+            na=False
+            )
+
+        # Return True if the pattern exists in any of the rows or False
+        # if it doesnt.
+        return any(row_check)
+
+    def _find_rows(
+        self,
+        table: Table,
+        patterns: dict
+        ) -> dict:
+        """
+        This function will attempt to find the required rows in the table.
+
+        Parameters:
+            table:
+                This is the table that contains the required rows.
+
+            patterns:
+                These are regex patterns that will be used to find the rows in
+                the table. These patterns will also govern the number of rows
+                of information that is extracted.
+
+        Returns:
+            rows:
+                This would be a dictionary that will indicate the found rows according
+                to the input patterns
+        """
+        
+        found_rows = {}
+
+        # Get the number of rows of the table
+        n_rows = table.raw_df.shape[0]
+
+        for name, pattern in patterns.items():
+            
+            row_list = []
+
+            for i in range(0, n_rows):
+                if self._check_row_for_pattern(
+                    table=table,
+                    row=i,
+                    pattern=pattern.get("series")
+                ):
+                    row_list.append(i)
+
+            if row_list:
+                found_rows.update({name : {'rows' : row_list}})
+            else:
+                found_rows.update({name : {'rows' : None}})
+
+        return found_rows
+
 
 
 def main():
