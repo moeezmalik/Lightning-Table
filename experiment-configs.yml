@@ -1,6 +1,6 @@
 # The Default RetinaNet based experiments
 vanilla:
-  name: "vanilla"
+  name: "vanilla_1"
   model: "VanillaRetinaNet"
   datamodule: "TableDatasetModule"
   learning_rate: 1e-5
@@ -9,7 +9,7 @@ vanilla:
 
 # The RetinaNet V2 based experiments
 vanilla_v2:
-  name: "vanilla_v2"
+  name: "vanilla_v2_1"
   model: "VanillaRetinaNetV2"
   datamodule: "TableDatasetModule"
   learning_rate: 1e-5
