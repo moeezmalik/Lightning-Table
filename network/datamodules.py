@@ -423,7 +423,8 @@ class TableDatasetModule(LightningDataModule):
         if stage == 'fit' or stage is None:
             self.train_set, self.eval_set = random_split(
                 dataset=self.full_dataset,
-                lengths=[train_set_length, eval_set_length]
+                lengths=[train_set_length, eval_set_length],
+                generator=torch.Generator().manual_seed(42)
                 )
 
         if stage == 'test' or stage is None:
