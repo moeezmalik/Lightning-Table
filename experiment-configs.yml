@@ -7,6 +7,13 @@ vanilla_1:
   batch_size: 2
   train_eval_split: 0.8
 
+
+
+
+
+
+
+
 # The RetinaNet V2 based experiments
 vanilla_v2_1:
   name: "vanilla_v2_1"
@@ -48,6 +55,30 @@ vanilla_v2_5:
   batch_size: 4
   train_eval_split: 0.8
 
+  vanilla_v2_6:
+  name: "vanilla_v2_6"
+  model: "VanillaRetinaNetV2"
+  datamodule: "TableDatasetModule"
+  learning_rate: 1e-4
+  batch_size: 4
+  train_eval_split: 0.8
+
+  vanilla_v2_7:
+  name: "vanilla_v2_7"
+  model: "VanillaRetinaNetV2"
+  datamodule: "TableDatasetModule"
+  learning_rate: 1e-6
+  batch_size: 4
+  train_eval_split: 0.8
+
+
+
+
+
+
+
+
+
 # RetinaNet based on ResNet18 based experiments
 retinanet_resnet18_fpn_1:
   name: "retinanet_resnet18_fpn_1"
@@ -56,6 +87,14 @@ retinanet_resnet18_fpn_1:
   learning_rate: 1e-5
   batch_size: 2
   train_eval_split: 0.8
+
+
+
+
+
+
+
+
 
 # Faster RCNN based methods
 vanilla_fasterrcnn_1:
@@ -81,6 +120,12 @@ vanilla_fasterrcnn_3:
   learning_rate: 1e-4
   batch_size: 2
   train_eval_split: 0.8
+
+
+
+
+
+
 
 vanilla_fasterrcnn_v2_1:
   name: "vanilla_fasterrcnn_v2_1"
