@@ -121,7 +121,7 @@ vanilla_fasterrcnn_3:
   batch_size: 2
   train_eval_split: 0.8
 
-  vanilla_fasterrcnn_4:
+vanilla_fasterrcnn_4:
   name: "vanilla_fasterrcnn_4"
   model: "VanillaFasterRCNN"
   datamodule: "TableDatasetModule"
