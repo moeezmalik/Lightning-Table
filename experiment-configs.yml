@@ -174,3 +174,27 @@ vanilla_fasterrcnn_v2_3:
   learning_rate: 1e-6
   batch_size: 2
   train_eval_split: 0.8
+
+vanilla_fasterrcnn_v2_4:
+  name: "vanilla_fasterrcnn_v2_4"
+  model: "VanillaFasterRCNNV2"
+  datamodule: "TableDatasetModule"
+  learning_rate: 1e-4
+  batch_size: 4
+  train_eval_split: 0.8
+
+vanilla_fasterrcnn_v2_5:
+  name: "vanilla_fasterrcnn_v2_5"
+  model: "VanillaFasterRCNNV2"
+  datamodule: "TableDatasetModule"
+  learning_rate: 1e-5
+  batch_size: 4
+  train_eval_split: 0.8
+
+vanilla_fasterrcnn_v2_6:
+  name: "vanilla_fasterrcnn_v2_6"
+  model: "VanillaFasterRCNNV2"
+  datamodule: "TableDatasetModule"
+  learning_rate: 1e-6
+  batch_size: 4
+  train_eval_split: 0.8
