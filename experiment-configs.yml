@@ -7,6 +7,46 @@ vanilla_1:
   batch_size: 2
   train_eval_split: 0.8
 
+vanilla_2:
+  name: "vanilla_2"
+  model: "VanillaRetinaNet"
+  datamodule: "TableDatasetModule"
+  learning_rate: 1e-4
+  batch_size: 2
+  train_eval_split: 0.8
+
+vanilla_3:
+  name: "vanilla_3"
+  model: "VanillaRetinaNet"
+  datamodule: "TableDatasetModule"
+  learning_rate: 1e-6
+  batch_size: 2
+  train_eval_split: 0.8
+
+vanilla_4:
+  name: "vanilla_4"
+  model: "VanillaRetinaNet"
+  datamodule: "TableDatasetModule"
+  learning_rate: 1e-5
+  batch_size: 4
+  train_eval_split: 0.8
+
+vanilla_5:
+  name: "vanilla_5"
+  model: "VanillaRetinaNet"
+  datamodule: "TableDatasetModule"
+  learning_rate: 1e-4
+  batch_size: 4
+  train_eval_split: 0.8
+
+vanilla_6:
+  name: "vanilla_6"
+  model: "VanillaRetinaNet"
+  datamodule: "TableDatasetModule"
+  learning_rate: 1e-6
+  batch_size: 4
+  train_eval_split: 0.8
+
 
 
 
