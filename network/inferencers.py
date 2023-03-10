@@ -44,15 +44,15 @@ def get_model_with_ckpt(
 
     # Get the model without any weights loaded from the models file
     vanilla_model = get_model(model_name=model_name)
-
+    
     # Check if the correct model name was specified
     if vanilla_model is None:
-        print("Model with the name: " + model_name + "not found.")
+        print("Model with the name: " + model_name + " not found.")
         return None
     
     # Load the model with the checkpoint weights
     model = vanilla_model.load_from_checkpoint(ckpt_path)
-
+    
     # Move the model to appropriate storage i.e. RAM if only CPU is
     # available and VRAM if only GPU is available
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -91,30 +91,30 @@ def infer_on_pil_image(
         selected_boxes (torch.Tensor):
             These are the bounding boxes that were detected on this image.
     """
-
+    
     # Convert the PIL image to a tensor and put it in appropriate memory
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
+    
     # Get the model and load the weights from the checkpoint provided
     model = get_model_with_ckpt(model_name=model_name, ckpt_path=ckpt_path)
     
     # Convert the PIL image to an image tensor
     image_tensor = pil_to_tensor(pil_image)
-
+    
     # Apply transformations on the image tensor so that it can be used to
     # infer with the help of the model
     image_tensor_float = convert_image_dtype(image=image_tensor, dtype=torch.float)
     image_tensor_float.to(device=device)
     image_tensor_float = image_tensor_float.unsqueeze_(0)
-
+    
     # Perform the inferences and get all the bounding boxes
     with torch.no_grad():
         out = model(image_tensor_float)[0]
-
+    
     # Get the boxes and their respective scores
     boxes_tensor = out["boxes"]
     scores_tensor = out["scores"]
-
+    
     # Get the boxes that have the confidence above the provided threshold
     idxs = torch.where(scores_tensor > conf_thresh)
     selected_boxes = boxes_tensor[idxs]
@@ -433,7 +433,6 @@ def folder_of_pdf_to_csv(
         print("---")
         count += 1
 
-    
     # Convert the list to a data frame
     df = pd.DataFrame(
         all_bbs,
