@@ -1,4 +1,0 @@
-{eff: {rows: null, vals: null}, ff: {rows: null, vals: null}, impp: {rows: [3], vals: [
-      '8.50', '8.72', '8.93']}, isc: {rows: [5], vals: ['9.07', '9.18', '9.29']},
-  pmpp: {rows: [1], vals: ['280', '290', '300']}, vmpp: {rows: [2], vals: ['32.94',
-      '33.32', '33.72']}, voc: {rows: [4], vals: ['39.06', '39.46', '39.87']}}

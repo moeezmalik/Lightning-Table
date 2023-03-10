@@ -12,7 +12,7 @@ Author:
 
 from infer import folder_of_pdf_to_csv
 from tableextractor import save_to_excel as raw_tables_to_excel
-from files import get_list_of_files_with_ext
+from files import get_list_of_files_with_ext, basename
 from finalstep import Datasheet
 
 import argparse
@@ -40,6 +40,9 @@ class FullPipelineEvaluation():
             values. The files are expected to be in the JSON format.
     """
 
+    # EXTERNAL FUNCTIONS
+    # Functions that are can called using the class object
+
     def __init__(
             self,
             path_to_folder: str,
@@ -50,6 +53,8 @@ class FullPipelineEvaluation():
         self.path_to_excel_folder = path_to_folder + "excels/"
         self.path_to_gt_folder = path_to_folder + "gt/"
         self.path_to_models_folder = path_to_folder + "models/"
+
+        self.extracted_values = None
     
     def evaluate(self):
         """
@@ -65,6 +70,9 @@ class FullPipelineEvaluation():
 
         # Structure the values and extract the relevant ones
         self.perform_final_step()
+
+        # Compare the extracted values to the ground truth values
+        self.compare_and_generate_results()
 
     def detect_tables(self):
         """
@@ -127,7 +135,98 @@ class FullPipelineEvaluation():
         path_to_camelot = self.path_to_excel_folder + "camelot/"
         path_to_tabula = self.path_to_excel_folder + "tabula/"
 
-        self._fs_folder(path_to_folder=path_to_camelot)
+        baseline_all_files = self._fs_folder(path_to_folder=path_to_baseline)
+        camelot_all_files = self._fs_folder(path_to_folder=path_to_camelot)
+        tabula_all_files = self._fs_folder(path_to_folder=path_to_tabula)
+
+        self.extracted_values = {
+            "baseline" : baseline_all_files,
+            "camelot" : camelot_all_files,
+            "tabula" : tabula_all_files
+        }
+    
+    def compare_and_generate_results(self):
+        """
+        This function will compare the extracted values with the ground
+        truth ones and generate the final results.
+        """
+
+        for key, item in self.extracted_values.items():
+
+            self._compare_folder(
+                foldername=key,
+                files=item
+            )
+
+    # INTERNAL FUNCTIONS
+    # Functions that are meant to be used inside the class
+
+    def _compare_folder(
+            self,
+            foldername: str,
+            files: dict
+        ):
+        """
+        This function will compare the values extracted from files
+        of a particular folder i.e. baseline, camelot and tabula
+        with the ground truth values.
+        """
+        
+        print(foldername)
+
+        for key, item in files.items():
+            
+            self._compare_file(
+                filename=key,
+                vals=item
+            )
+
+    def _compare_file(
+            self,
+            filename: str,
+            vals: dict
+        ):
+        """
+        This function will compare the values extracted from a single
+        file with its counterpart in ground truth.
+        """
+
+        # Load the ground truth values for the current file
+        with open(self.path_to_gt_folder + filename + ".yml", "r") as stream:
+            try:
+                gt_vals = yaml.safe_load(stream)
+            except yaml.YAMLError as e:
+                print(e)
+
+        for prop_type, prop in vals.items():
+
+            for prop, vals in prop.items():
+
+                print(prop + " " + str(self._two_list_confusion_matrix(
+                    true=gt_vals.get(prop_type).get(prop),
+                    preds=vals
+                )))
+
+    def _two_list_confusion_matrix(
+            self,
+            true: list,
+            preds: list
+        ) -> tuple:
+
+        if true is None:
+            true = []
+
+        if preds is None:
+            preds = []
+
+        intersection_count = len(set(preds) & set(true))
+
+        tp = intersection_count
+        fp = len(preds) - intersection_count
+        fn = len(true) - intersection_count
+
+        return tp, fp, fn
+
 
     def _fs_folder(
             self,
@@ -144,14 +243,22 @@ class FullPipelineEvaluation():
             verbose=True
         )
 
+        all_files_extracted = {}
+
         # Go through all the files one by one and get the
         # values that were extracted
         for file in list_of_files:
 
             # Just run the function for now
-            self._fs_file(
+            extracted_vals = self._fs_file(
                 path_to_file=file
             )
+
+            filename = str(basename(file)).rsplit(sep=".")[0]
+
+            all_files_extracted[filename] = extracted_vals
+
+        return all_files_extracted
 
     def _fs_file(
             self,
