@@ -17,6 +17,7 @@ from finalstep import Datasheet
 
 import argparse
 import yaml
+import pandas as pd
 
 class FullPipelineEvaluation():
 
@@ -55,6 +56,8 @@ class FullPipelineEvaluation():
         self.path_to_models_folder = path_to_folder + "models/"
 
         self.extracted_values = None
+        self.confusion_matrix = None
+        self.metrics = None
     
     def evaluate(self):
         """
@@ -63,16 +66,22 @@ class FullPipelineEvaluation():
         """
         
         # First detect all the tables and save to a CSV file
-        #self.detect_tables()
+        self.detect_tables()
 
         # Then extract the raw tables and save to an excel file
-        #self.recognise_tables()
+        self.recognise_tables()
 
         # Structure the values and extract the relevant ones
         self.perform_final_step()
 
         # Compare the extracted values to the ground truth values
-        self.compare_and_generate_results()
+        self.compare_values()
+
+        # Generate results from the comparisons performed
+        self.generate_results()
+
+        # Show the generated results
+        self.show_results()
 
     def detect_tables(self):
         """
@@ -145,21 +154,124 @@ class FullPipelineEvaluation():
             "tabula" : tabula_all_files
         }
     
-    def compare_and_generate_results(self):
+    def compare_values(self):
         """
         This function will compare the extracted values with the ground
         truth ones and generate the final results.
         """
 
-        for key, item in self.extracted_values.items():
+        self.confusion_matrix = {}
 
-            self._compare_folder(
-                foldername=key,
-                files=item
+        for folder, files in self.extracted_values.items():
+
+            # Calculate the confusion matrix values for the
+            # whole folder
+            folder_tp, folder_fp, folder_fn = self._compare_folder(
+                foldername=folder,
+                files=files
             )
+
+            # Put the confusion matrix values in the class
+            # dictionary.
+            folder_cm = {
+                "tp" : folder_tp,
+                "fp" : folder_fp,
+                "fn" : folder_fn
+            }
+
+            self.confusion_matrix[folder] = folder_cm
+
+    def generate_results(self):
+        """
+        This function will generate the results from the confusion
+        matrix that was calcaulted by comparing the extracted values
+        with the ground truth values.
+        """
+
+        self.metrics = {}
+        
+        for folder, cm in self.confusion_matrix.items():
+
+            folder_metrics = self._compute_metrics(
+                cm_dict=cm
+            )
+
+            self.metrics[folder] = folder_metrics
+
+    def show_results(self):
+        
+        print()
+        print("Results")
+        print("----------------")
+        
+        results = []
+
+        for folder, metrics in self.metrics.items():
+
+            folder_result = [
+                folder,
+                metrics.get("precision"),
+                metrics.get("recall"),
+                metrics.get("f1")
+            ]
+
+            results.append(folder_result)
+
+        results_df = pd.DataFrame(
+            data=results,
+            columns=["", "Precision", "Recall", "F1-Score"]
+        )
+
+        results_df = results_df.set_index([""])
+
+        print(results_df)
+            
+
 
     # INTERNAL FUNCTIONS
     # Functions that are meant to be used inside the class
+
+    def _compute_metrics(
+            self,
+            cm_dict: dict
+        ) -> dict:
+        """
+        This function will compute the metrics i.e. precision, recall
+        and the f1-score from the confusion matrix provided as a
+        dictionary.
+
+        Returns:
+            metric:
+                Dictionary type object that contains the three metrics
+        """
+
+        tp = cm_dict.get("tp")
+        fp = cm_dict.get("fp")
+        fn = cm_dict.get("fn")
+
+        try:
+            precision = (tp / (tp + fp))
+        except ZeroDivisionError:
+            precision = None
+
+        try:
+            recall = (tp / (tp + fn))
+        except ZeroDivisionError:
+            recall = None
+
+        try:
+            f1 = (2 * precision * recall) / (precision + recall)
+        except ZeroDivisionError:
+            f1 = None
+        except TypeError:
+            f1 = None
+
+        return {
+            "precision" : precision,
+            "recall" : recall,
+            "f1" : f1
+        }
+
 
     def _compare_folder(
             self,
@@ -171,15 +283,23 @@ class FullPipelineEvaluation():
         of a particular folder i.e. baseline, camelot and tabula
         with the ground truth values.
         """
-        
-        print(foldername)
 
-        for key, item in files.items():
+        folder_tp = 0
+        folder_fp = 0
+        folder_fn = 0
+
+        for file, properties in files.items():
             
-            self._compare_file(
-                filename=key,
-                vals=item
+            file_tp, file_fp, file_fn = self._compare_file(
+                filename=file,
+                vals=properties
             )
+
+            folder_tp += file_tp
+            folder_fp += file_fp
+            folder_fn += file_fn
+
+        return folder_tp, folder_fp, folder_fn
 
     def _compare_file(
             self,
@@ -191,21 +311,33 @@ class FullPipelineEvaluation():
         file with its counterpart in ground truth.
         """
 
-        # Load the ground truth values for the current file
+        # Load the ground    truth values for the current file
         with open(self.path_to_gt_folder + filename + ".yml", "r") as stream:
             try:
                 gt_vals = yaml.safe_load(stream)
             except yaml.YAMLError as e:
                 print(e)
 
+        # Calcaulate the confusion matrix for the whole file
+
+        file_tp = 0
+        file_fp = 0
+        file_fn = 0
+
         for prop_type, prop in vals.items():
 
             for prop, vals in prop.items():
 
-                print(prop + " " + str(self._two_list_confusion_matrix(
+                prop_tp, prop_fp, prop_fn = self._two_list_confusion_matrix(
                     true=gt_vals.get(prop_type).get(prop),
                     preds=vals
-                )))
+                )
+
+                file_tp += prop_tp
+                file_fp += prop_fp
+                file_fn += prop_fn
+
+        return file_tp, file_fp, file_fn
 
     def _two_list_confusion_matrix(
             self,
