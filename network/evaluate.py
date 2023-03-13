@@ -66,10 +66,10 @@ class FullPipelineEvaluation():
         """
         
         # First detect all the tables and save to a CSV file
-        self.detect_tables()
+        #self.detect_tables()
 
         # Then extract the raw tables and save to an excel file
-        self.recognise_tables()
+        #self.recognise_tables()
 
         # Structure the values and extract the relevant ones
         self.perform_final_step()
@@ -119,11 +119,26 @@ class FullPipelineEvaluation():
 
         # Use camelot to extract the raw tables and save them as files in
         # the camelot folder
+
+        raw_tables_to_excel(
+            path_to_csv=self.path_to_excel_folder + "detectedtables.csv",
+            pdf_folder=self.path_to_pdf_folder,
+            output_folder=self.path_to_excel_folder + "baseline/",
+            reader="baseline"
+        )
+
         raw_tables_to_excel(
             path_to_csv=self.path_to_excel_folder + "detectedtables.csv",
             pdf_folder=self.path_to_pdf_folder,
             output_folder=self.path_to_excel_folder + "camelot/",
             reader="camelot"
+        )
+
+        raw_tables_to_excel(
+            path_to_csv=self.path_to_excel_folder + "detectedtables.csv",
+            pdf_folder=self.path_to_pdf_folder,
+            output_folder=self.path_to_excel_folder + "tabula/",
+            reader="tabula"
         )
 
     def perform_final_step(self) -> dict:
@@ -290,6 +305,8 @@ class FullPipelineEvaluation():
 
         for file, properties in files.items():
             
+            print(foldername)
+
             file_tp, file_fp, file_fn = self._compare_file(
                 filename=file,
                 vals=properties
@@ -324,13 +341,24 @@ class FullPipelineEvaluation():
         file_fp = 0
         file_fn = 0
 
-        for prop_type, prop in vals.items():
+        for prop_type, prop in gt_vals.items():
 
-            for prop, vals in prop.items():
+            print(prop_type)
+
+            for prop, gt_vals in prop.items():
+                
+                # If the current property was not detected by
+                # the pipeline then replace with an empty list
+                try:
+                    predicted_vals = vals.get(prop_type)
+                    predicted_vals = predicted_vals.get(prop)
+
+                except AttributeError:
+                    predicted_vals = []
 
                 prop_tp, prop_fp, prop_fn = self._two_list_confusion_matrix(
-                    true=gt_vals.get(prop_type).get(prop),
-                    preds=vals
+                    true=gt_vals,
+                    preds=predicted_vals
                 )
 
                 file_tp += prop_tp
@@ -429,11 +457,13 @@ class FullPipelineEvaluation():
         curr_ds.extract_temp_props(patterns=therm_patterns)
         therm_extracted = curr_ds.extracted_temp
 
-        for key, item in elec_extracted.items():
-            elec_extracted[key] = item.get("vals")
-
-        for key, item in therm_extracted.items():
-            therm_extracted[key] = item.get("vals")
+        if elec_extracted is not None:
+            for key, item in elec_extracted.items():
+                elec_extracted[key] = item.get("vals")
+        
+        if therm_extracted is not None:
+            for key, item in therm_extracted.items():
+                therm_extracted[key] = item.get("vals")
 
         return {
             "electrical" : elec_extracted,
