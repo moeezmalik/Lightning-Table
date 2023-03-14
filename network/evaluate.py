@@ -66,10 +66,10 @@ class FullPipelineEvaluation():
         """
         
         # First detect all the tables and save to a CSV file
-        #self.detect_tables()
+        self.detect_tables()
 
         # Then extract the raw tables and save to an excel file
-        #self.recognise_tables()
+        self.recognise_tables()
 
         # Structure the values and extract the relevant ones
         self.perform_final_step()
@@ -141,7 +141,7 @@ class FullPipelineEvaluation():
             reader="tabula"
         )
 
-    def perform_final_step(self) -> dict:
+    def perform_final_step(self):
         """
         This function will perform the final step as mentioned in the
         documentation. It will extract and structure the values from
@@ -162,6 +162,10 @@ class FullPipelineEvaluation():
         baseline_all_files = self._fs_folder(path_to_folder=path_to_baseline)
         camelot_all_files = self._fs_folder(path_to_folder=path_to_camelot)
         tabula_all_files = self._fs_folder(path_to_folder=path_to_tabula)
+
+        #print(baseline_all_files)
+        #print(camelot_all_files)
+        #print(camelot_all_files)
 
         self.extracted_values = {
             "baseline" : baseline_all_files,
@@ -304,8 +308,6 @@ class FullPipelineEvaluation():
         folder_fn = 0
 
         for file, properties in files.items():
-            
-            print(foldername)
 
             file_tp, file_fp, file_fn = self._compare_file(
                 filename=file,
@@ -343,8 +345,6 @@ class FullPipelineEvaluation():
 
         for prop_type, prop in gt_vals.items():
 
-            print(prop_type)
-
             for prop, gt_vals in prop.items():
                 
                 # If the current property was not detected by
@@ -373,17 +373,47 @@ class FullPipelineEvaluation():
             preds: list
         ) -> tuple:
 
+        #print(true)
+        #print(preds)
+
         if true is None:
             true = []
 
         if preds is None:
             preds = []
 
-        intersection_count = len(set(preds) & set(true))
+        # OLD METHODS
+        #intersection_count = len(set(preds) & set(true))
 
-        tp = intersection_count
-        fp = len(preds) - intersection_count
-        fn = len(true) - intersection_count
+        #tp = intersection_count
+        #fp = len(preds) - intersection_count
+        #fn = len(true) - intersection_count
+
+        # NEW METHOD
+        tp = 0
+        fp = 0
+        fn = 0
+
+        for true_item in true:
+
+            fn += 1
+
+            for i, pred_item in enumerate(preds):
+
+                if true_item == pred_item:
+
+                    tp += 1
+                    fn -= 1
+                    del preds[i]
+
+                    break
+
+        fp = len(preds)
+
+
+        #print(str((tp, fp, fn)))
+        #print()
+        #input("Press enter to continue")
 
         return tp, fp, fn
 
@@ -459,11 +489,21 @@ class FullPipelineEvaluation():
 
         if elec_extracted is not None:
             for key, item in elec_extracted.items():
-                elec_extracted[key] = item.get("vals")
+                vals = item.get("vals")
+
+                if vals is not None:
+                    vals = [ str(x) for x in vals ]
+
+                elec_extracted[key] = vals
         
         if therm_extracted is not None:
             for key, item in therm_extracted.items():
-                therm_extracted[key] = item.get("vals")
+                vals = item.get("vals")
+
+                if vals is not None:
+                    vals = [ str(x) for x in vals ]
+
+                therm_extracted[key] = vals
 
         return {
             "electrical" : elec_extracted,

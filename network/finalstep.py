@@ -340,7 +340,10 @@ class Datasheet():
 
         for table in self.tables:
             if table.pred_class == 'e':
+
+                # If there are multiple tables, select the first one
                 elec_table = table
+                break
 
         # If no electrical table is found, go no further
         if elec_table is None:
