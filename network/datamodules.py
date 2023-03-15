@@ -192,6 +192,7 @@ class CSVDataset(Dataset):
 
         # Get the path to the image
         path_to_image = join(self.path_to_images_folder, image_name)
+        print(path_to_image)
 
         # Read the image as a PIL Image object and convert to RGB format
         Image.MAX_IMAGE_PIXELS = None
