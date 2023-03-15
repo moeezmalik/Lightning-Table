@@ -10,6 +10,7 @@ Author:
         muhammad.moeez.malik@ise.fraunhofer.de
 """
 
+# Complete Pipeline Imports
 from infer import folder_of_pdf_to_csv
 from tableextractor import save_to_excel as raw_tables_to_excel
 from files import get_list_of_files_with_ext, basename
@@ -19,8 +20,273 @@ import argparse
 import yaml
 import pandas as pd
 
-class FullPipelineEvaluation():
+# Table Classification Imports
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import KFold
+from sklearn.metrics import classification_report
 
+from sklearn.naive_bayes import MultinomialNB
+
+class TableClassificationEvaluation():
+    """
+    This class will perform the evaluation for the task
+    Table Classification. The goal of this evaluation is
+    not to train all the models from scratch but to recreate
+    the results from the best performing model that was
+    incorporated into the pipeline.
+
+    Args:
+        path_to_folder:
+            This is the path to the folder that contains the
+            data required for the evaluation of the task of
+            table classification. The folder structure must be:
+                root:
+                    data:
+                        This folder should contain the csv files
+                        that contains labelled keywords that are
+                        extracted from the tables. The name of the
+                        CSV file should be 'table-data.csv'.
+    """
+
+    def __init__(
+            self,
+            path_to_folder: str
+            ) -> None:
+        
+        self.path_to_data_file = path_to_folder + "data/table-data.csv"
+
+        # This will store the raw data frame that contains the keywords
+        # from all the tables and their labels
+        self.data_df = None
+
+        # These are the vectorised keywords taken from the raw df above
+        # along with their labels
+        self.X_tfidf = None
+        self.y = None
+
+        self.avg_reports = None
+
+    # EXTERNAL FUNCTIONS
+    # Functions that are can called using the class object
+
+    def evaluate(self) -> None:
+        """
+        This is the main function that will perform all of the evaluations
+        for this task. It will call other internal functions for the purpose.
+        """
+        
+        self.load_data()
+        self._vectoriser_keywords()
+        self._perform_kfold()
+        self.show_results()
+
+    # INTERNAL FUNCTIONS
+    # Functions that are meant to be used inside the class
+    
+    def load_data(self) -> None:
+        """
+        This function will load the data file into class variable.
+        """
+
+        data_df = pd.read_csv(self.path_to_data_file, names=['keywords', 'class'])
+        data_df.fillna(value="", inplace=True)
+
+        self.data_df = data_df
+
+    def _vectoriser_keywords(self) -> None:
+        """
+        This function will vectorise the keywords from the table
+        using the TF-IDF vectoriser.
+        """
+
+        tf = TfidfVectorizer(max_features=5000)
+
+        X = self.data_df['keywords']
+
+        self.X_tfidf = tf.fit_transform(X)
+        self.y = self.data_df['class']
+
+    def _average_clf_reports(
+            self,
+            clf_reports: list
+        ) -> dict:
+        """
+        This function will average out the list of classification
+        reports that are provided to it.
+        """
+
+        d_precision = 0.0
+        e_precision = 0.0
+        t_precision = 0.0
+        o_precision = 0.0
+
+        d_recall = 0.0
+        e_recall = 0.0
+        t_recall = 0.0
+        o_recall = 0.0
+
+        d_f1 = 0.0
+        e_f1 = 0.0
+        t_f1 = 0.0
+        o_f1 = 0.0
+
+        accuracy = 0.0
+
+
+        for report in clf_reports:
+
+            d_precision = d_precision + report.get("d").get("precision")
+            e_precision = e_precision + report.get("e").get("precision")
+            t_precision = t_precision + report.get("t").get("precision")
+            o_precision = o_precision + report.get("o").get("precision")
+
+            d_recall = d_recall + report.get("d").get("recall")
+            e_recall = e_recall + report.get("e").get("recall")
+            t_recall = t_recall + report.get("t").get("recall")
+            o_recall = o_recall + report.get("o").get("recall")
+
+            d_f1 = d_f1 + report.get("d").get("f1-score")
+            e_f1 = e_f1 + report.get("e").get("f1-score")
+            t_f1 = t_f1 + report.get("t").get("f1-score")
+            o_f1 = o_f1 + report.get("o").get("f1-score")
+
+            accuracy = accuracy + report.get("accuracy")
+
+        total_reports = len(clf_reports)
+
+        d_precision = d_precision / total_reports
+        e_precision = e_precision / total_reports
+        t_precision = t_precision / total_reports
+        o_precision = o_precision / total_reports
+        d_recall = d_recall / total_reports
+        e_recall = e_recall / total_reports
+        t_recall = t_recall / total_reports
+        o_recall = o_recall / total_reports
+        d_f1 = d_f1 / total_reports
+        e_f1 = e_f1 / total_reports
+        t_f1 = t_f1 / total_reports
+        o_f1 = o_f1 / total_reports
+        accuracy = accuracy / total_reports
+
+        avgd_output = {
+            "d" : {
+                "precision" : d_precision,
+                "recall" : d_recall,
+                "f1" : d_f1
+            },
+            "e" : {
+                "precision" : e_precision,
+                "recall" : e_recall,
+                "f1" : e_f1
+            },
+            "t" : {
+                "precision" : t_precision,
+                "recall" : t_recall,
+                "f1" : t_f1
+            },
+            "o" : {
+                "precision" : o_precision,
+                "recall" : o_recall,
+                "f1" : o_f1
+            },
+            "accuracy" : accuracy
+        }
+
+        return avgd_output
+    
+    def _perform_kfold(self):
+        """
+        This function will perform the 5-Fold Cross Validation with the
+        words vectorised using TF-IDF and Naive Bayes as the classifier.
+        The results from the 5 folds will be averaged out and saved
+        into the class variable.
+        """
+
+        kf = KFold(n_splits=5, random_state=None, shuffle=False)
+        nb = MultinomialNB()
+
+        nb_tfidf_folds = []
+
+        for i, (train_index, test_index) in enumerate(kf.split(self.X_tfidf)):
+            
+            X_train = self.X_tfidf[train_index]
+            X_test = self.X_tfidf[test_index]
+            y_train = self.y[train_index]
+            y_test = self.y[test_index]
+
+            # Naive Bayes with TF-IDF
+            nb.fit(X_train, y_train)
+            nb_pred = nb.predict(X_test)
+            nb_tfidf_currfold = classification_report(y_test, nb_pred, output_dict=True)
+            nb_tfidf_folds.append(nb_tfidf_currfold)
+
+        self.avg_reports = self._average_clf_reports(nb_tfidf_folds)
+
+    def show_results(self):
+        """
+        This function will prettify the results and show them on the
+        command line in a nice way.
+        """
+
+        results_list = []
+
+        # For Electrical Class
+        label = "Electrical Characteristics"
+        precision = self.avg_reports.get("e").get("precision")
+        recall = self.avg_reports.get("e").get("recall")
+        f1 = self.avg_reports.get("e").get("f1")
+
+        results_list.append([label, precision, recall, f1])
+
+        # For Thermal Class
+        label = "Thermal Characteristics"
+        precision = self.avg_reports.get("t").get("precision")
+        recall = self.avg_reports.get("t").get("recall")
+        f1 = self.avg_reports.get("t").get("f1")
+
+        results_list.append([label, precision, recall, f1])
+
+        # For Mechanical Class
+        label = "Mechanical Characteristics"
+        precision = self.avg_reports.get("d").get("precision")
+        recall = self.avg_reports.get("d").get("recall")
+        f1 = self.avg_reports.get("d").get("f1")
+
+        results_list.append([label, precision, recall, f1])
+
+        # For Other Class
+        label = "Other"
+        precision = self.avg_reports.get("o").get("precision")
+        recall = self.avg_reports.get("o").get("recall")
+        f1 = self.avg_reports.get("o").get("f1")
+
+        results_list.append([label, precision, recall, f1])
+
+        # Add the gap for clarity
+        results_list.append(["--------", "--------", "--------", "--------"])
+
+        # For overall accuracy
+        label = "Accuracy"
+        accuracy = self.avg_reports.get("accuracy")
+        results_list.append([label, "", "", accuracy])
+
+        results_df = pd.DataFrame(
+            results_list,
+            columns=["Class", "Precision", "Recall", "F1"]
+            )
+        
+        results_df = results_df.set_index(["Class"])
+        
+        print()
+        print("Results")
+        print("----------------")
+        print(results_df)
+
+
+
+
+
+class CompletePipelineEvaluation():
     """
     This class will perform the evaluation for the full pipeline.
     It expects to be provided the path to the PDF folder from which
@@ -31,14 +297,28 @@ class FullPipelineEvaluation():
     that also need to be specified.
 
     Args:
-        path_to_pdf_folder:
-            This is the path to the folder that contains the raw PDF files
-        path_to_excel_folder:
-            In this folder, the excel files will be generated and stored
-            during the evaluation.
-        path_to_gt_folder:
-            This folder contains the files that contain the ground truth
-            values. The files are expected to be in the JSON format.
+        path_to_folder:
+            This is the path to the folder that contains the models and the
+            data for performing the evaluations. The folder structure
+            should as following:
+                root:
+                    models:
+                        This folder must contain the deep learning model
+                        weights for FasterRCNN, the Naive Bayes classifier
+                        and the TF-IDF word vectoriser pickle file and the
+                        yaml file that contains the patterns for the final
+                        step.
+                    pdfs:
+                        This folder must contain the PDF files that will be
+                        fed for evaluation to the pipeline.
+                    gt:
+                        This folder must contain the yaml files that contain
+                        the ground-truth values the PDF files in the pdfs
+                        folder. The names of the yaml files must match those
+                        of the PDFs.
+                    excels:
+                        Ideally, this folder should be empty. This is where
+                        the intermediate files will be stored by the pipeline.
     """
 
     # EXTERNAL FUNCTIONS
@@ -534,13 +814,13 @@ def parse_args():
 
     required_named.add_argument(
         "-t", "--type",
-        choices=['full', 'table_detection', 'table_classification'],
+        choices=['complete', 'detection', 'classification'],
         required=True,
         metavar="TYPE",
         dest="type",
         help=u"""
         This specifies the type of evaluation that needs to be done. The
-        choices are 'full', 'table_detection' and 'table_classification' 
+        choices are 'complete', 'table_detection' and 'table_classification' 
         relating to different experiments performed in the thesis.
         """
     )
@@ -577,15 +857,25 @@ def main():
     print("Evaluation Utility")
     print("------------------")
 
-    if type == "full":
+    if type == "complete":
         print()
-        print("Evaluating Full Pipeline")
+        print("Evaluating Complete Pipeline")
 
-        fpe = FullPipelineEvaluation(
+        cpe = CompletePipelineEvaluation(
             path_to_folder=path
         )
 
-        fpe.evaluate()
+        cpe.evaluate()
+
+    if type == "classification":
+        print()
+        print("Evaluating Table Classification")
+
+        tpe = TableClassificationEvaluation(
+            path_to_folder=path
+        )
+
+        tpe.evaluate()
 
 if __name__=="__main__":
 

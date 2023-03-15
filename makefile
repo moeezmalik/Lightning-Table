@@ -1,7 +1,7 @@
-evaluate-full:
+evaluation-complete:
 	clear
-	python network/evaluate.py -t full -p ../Evaluation-Data/fullpipeline/
+	python network/evaluate.py -t complete -p ../Evaluation-Data/complete/
 
-evaluate-full-test:
+evaluation-classification:
 	clear
-	python network/evaluate.py -t full -p ../Evaluation-Data/fullpipelinetest/
+	python network/evaluate.py -t classification -p ../Evaluation-Data/classification/
