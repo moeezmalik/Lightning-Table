@@ -27,6 +27,7 @@ from sklearn.metrics import classification_report
 
 from sklearn.naive_bayes import MultinomialNB
 
+
 class TableClassificationEvaluation():
     """
     This class will perform the evaluation for the task
@@ -76,13 +77,9 @@ class TableClassificationEvaluation():
         """
         
         self.load_data()
-        self._vectoriser_keywords()
-        self._perform_kfold()
+        self.train_and_evaluate()
         self.show_results()
 
-    # INTERNAL FUNCTIONS
-    # Functions that are meant to be used inside the class
-    
     def load_data(self) -> None:
         """
         This function will load the data file into class variable.
@@ -92,6 +89,79 @@ class TableClassificationEvaluation():
         data_df.fillna(value="", inplace=True)
 
         self.data_df = data_df
+    
+    def train_and_evaluate(self):
+        """
+        This function will vectorise keywords using TF-IDF from
+        the data and then train and test the Naive Bayes classifier
+        on the vectorised keywords.
+        """
+
+        self._vectoriser_keywords()
+        self._perform_kfold()
+
+    def show_results(self):
+        """
+        This function will prettify the results and show them on the
+        command line in a nice way.
+        """
+
+        results_list = []
+
+        # For Electrical Class
+        label = "Electrical Characteristics"
+        precision = self.avg_reports.get("e").get("precision")
+        recall = self.avg_reports.get("e").get("recall")
+        f1 = self.avg_reports.get("e").get("f1")
+
+        results_list.append([label, precision, recall, f1])
+
+        # For Thermal Class
+        label = "Thermal Characteristics"
+        precision = self.avg_reports.get("t").get("precision")
+        recall = self.avg_reports.get("t").get("recall")
+        f1 = self.avg_reports.get("t").get("f1")
+
+        results_list.append([label, precision, recall, f1])
+
+        # For Mechanical Class
+        label = "Mechanical Characteristics"
+        precision = self.avg_reports.get("d").get("precision")
+        recall = self.avg_reports.get("d").get("recall")
+        f1 = self.avg_reports.get("d").get("f1")
+
+        results_list.append([label, precision, recall, f1])
+
+        # For Other Class
+        label = "Other"
+        precision = self.avg_reports.get("o").get("precision")
+        recall = self.avg_reports.get("o").get("recall")
+        f1 = self.avg_reports.get("o").get("f1")
+
+        results_list.append([label, precision, recall, f1])
+
+        # Add the gap for clarity
+        results_list.append(["--------", "--------", "--------", "--------"])
+
+        # For overall accuracy
+        label = "Accuracy"
+        accuracy = self.avg_reports.get("accuracy")
+        results_list.append([label, "", "", accuracy])
+
+        results_df = pd.DataFrame(
+            results_list,
+            columns=["Class", "Precision", "Recall", "F1"]
+            )
+        
+        results_df = results_df.set_index(["Class"])
+        
+        print()
+        print("Results")
+        print("----------------")
+        print(results_df)
+
+    # INTERNAL FUNCTIONS
+    # Functions that are meant to be used inside the class
 
     def _vectoriser_keywords(self) -> None:
         """
@@ -221,70 +291,6 @@ class TableClassificationEvaluation():
             nb_tfidf_folds.append(nb_tfidf_currfold)
 
         self.avg_reports = self._average_clf_reports(nb_tfidf_folds)
-
-    def show_results(self):
-        """
-        This function will prettify the results and show them on the
-        command line in a nice way.
-        """
-
-        results_list = []
-
-        # For Electrical Class
-        label = "Electrical Characteristics"
-        precision = self.avg_reports.get("e").get("precision")
-        recall = self.avg_reports.get("e").get("recall")
-        f1 = self.avg_reports.get("e").get("f1")
-
-        results_list.append([label, precision, recall, f1])
-
-        # For Thermal Class
-        label = "Thermal Characteristics"
-        precision = self.avg_reports.get("t").get("precision")
-        recall = self.avg_reports.get("t").get("recall")
-        f1 = self.avg_reports.get("t").get("f1")
-
-        results_list.append([label, precision, recall, f1])
-
-        # For Mechanical Class
-        label = "Mechanical Characteristics"
-        precision = self.avg_reports.get("d").get("precision")
-        recall = self.avg_reports.get("d").get("recall")
-        f1 = self.avg_reports.get("d").get("f1")
-
-        results_list.append([label, precision, recall, f1])
-
-        # For Other Class
-        label = "Other"
-        precision = self.avg_reports.get("o").get("precision")
-        recall = self.avg_reports.get("o").get("recall")
-        f1 = self.avg_reports.get("o").get("f1")
-
-        results_list.append([label, precision, recall, f1])
-
-        # Add the gap for clarity
-        results_list.append(["--------", "--------", "--------", "--------"])
-
-        # For overall accuracy
-        label = "Accuracy"
-        accuracy = self.avg_reports.get("accuracy")
-        results_list.append([label, "", "", accuracy])
-
-        results_df = pd.DataFrame(
-            results_list,
-            columns=["Class", "Precision", "Recall", "F1"]
-            )
-        
-        results_df = results_df.set_index(["Class"])
-        
-        print()
-        print("Results")
-        print("----------------")
-        print(results_df)
-
-
-
-
 
 class CompletePipelineEvaluation():
     """
@@ -789,9 +795,6 @@ class CompletePipelineEvaluation():
             "electrical" : elec_extracted,
             "thermal" : therm_extracted
         }
-
-
-        
 
 
 def parse_args():
