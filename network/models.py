@@ -184,6 +184,8 @@ class SuperNet(LightningModule):
         Module.
         """
         
+        print("VALIDATION STEP")
+
         # Get the images and targets from the batch
         images, targets = batch
 
