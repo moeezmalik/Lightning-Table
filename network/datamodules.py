@@ -428,6 +428,12 @@ class TableDatasetModule(LightningDataModule):
                 )
 
         if stage == 'test' or stage is None:
+
+            print()
+            print("TESTING")
+            print("TESTING")
+            print("TESTING")
+            print()
             self.test_set = full_set
 
     def train_dataloader(self) -> DataLoader:
