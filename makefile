@@ -1,11 +1,11 @@
 evaluation-complete:
 	clear
-	python network/evaluate.py -t complete -p ../Evaluation-Data/complete/
+	python network/evaluate.py -t complete -p evaluation-data/complete/
 
 evaluation-classification:
 	clear
-	python network/evaluate.py -t classification -p ../Evaluation-Data/classification/
+	python network/evaluate.py -t classification -p evaluation-data/classification/
 
 evaluation-detection:
 	clear
-	python network/evaluate.py -t detection -p ../Evaluation-Data/detection/
+	python network/evaluate.py -t detection -p evaluation-data/detection/
