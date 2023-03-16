@@ -486,8 +486,8 @@ class CompletePipelineEvaluation():
 
         folder_of_pdf_to_csv(
             path_to_folder=self.path_to_pdf_folder,
-            model_name="VanillaFasterRCNN",
-            ckpt_path=self.path_to_models_folder + "best-fasterrcnn.ckpt",
+            model_name="VanillaFasterRCNNV2",
+            ckpt_path=self.path_to_models_folder + "best-fasterrcnn-v2.ckpt",
             output_path=self.path_to_excel_folder + "detectedtables.csv",
             conf_thresh=0.75,
             verbose=True
@@ -717,6 +717,8 @@ class CompletePipelineEvaluation():
         This function will compare the values extracted from a single
         file with its counterpart in ground truth.
         """
+
+        #print(filename)
 
         # Load the ground    truth values for the current file
         with open(self.path_to_gt_folder + filename + ".yml", "r") as stream:

@@ -200,9 +200,6 @@ class Table():
         tow = vec.transform(sow)
         self.pred_class = clf.predict(tow)[0]
 
-        pass
-
-
 class Datasheet():
     """
     This class structure will hold the raw data and the extracted
@@ -336,14 +333,30 @@ class Datasheet():
 
         # Get the table that contains the electrical properties in the
         # datasheet
-        elec_table = None
+
+        elec_table = []
 
         for table in self.tables:
             if table.pred_class == 'e':
+                elec_table.append(table)
 
-                # If there are multiple tables, select the first one
-                elec_table = table
-                break
+        if len(elec_table) == 0:
+            elec_table = None
+        elif len(elec_table) == 1:
+            elec_table = elec_table[0]
+        else:
+            max_len = 0
+            selected_table = None
+
+            for table in elec_table:
+
+                curr_len = len(table.raw_df.stack().tolist())
+                
+                if(curr_len) > max_len:
+                    max_len = curr_len
+                    selected_table = table
+
+            elec_table = selected_table
 
         # If no electrical table is found, go no further
         if elec_table is None:
