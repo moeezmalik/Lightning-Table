@@ -192,7 +192,6 @@ class CSVDataset(Dataset):
 
         # Get the path to the image
         path_to_image = join(self.path_to_images_folder, image_name)
-        print(path_to_image)
 
         # Read the image as a PIL Image object and convert to RGB format
         Image.MAX_IMAGE_PIXELS = None
@@ -455,8 +454,22 @@ class TableDatasetModule(LightningDataModule):
         This function is one of the hooks for the PyTorch Lightning Data Modules.
         It returns the Dataloader object for the validation steps.
         """
+
         return DataLoader(
             dataset=self.eval_set,
+            batch_size=self.batch_size,
+            collate_fn=collate_fn,
+            num_workers=self.num_workers
+        )
+    
+    def test_dataloader(self) -> DataLoader:
+        """
+        This function is one of the hooks for the PyTorch Lightning Data Modules.
+        It returns the Dataloader object for the test steps.
+        """
+
+        return DataLoader(
+            dataset=self.test_set,
             batch_size=self.batch_size,
             collate_fn=collate_fn,
             num_workers=self.num_workers
