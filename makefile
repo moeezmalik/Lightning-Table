@@ -5,3 +5,7 @@ evaluation-complete:
 evaluation-classification:
 	clear
 	python network/evaluate.py -t classification -p ../Evaluation-Data/classification/
+
+evaluation-detection:
+	clear
+	python network/evaluate.py -t detection -p ../Evaluation-Data/detection/

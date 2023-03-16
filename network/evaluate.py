@@ -27,6 +27,108 @@ from sklearn.metrics import classification_report
 
 from sklearn.naive_bayes import MultinomialNB
 
+# Table Detection Imports
+from models import get_model
+from datamodules import TableDatasetModule
+from pytorch_lightning import Trainer
+import torch
+
+class TableDetectionEvaluation():
+
+    def __init__(
+        self,
+        path_to_folder: str
+        ) -> None:
+        
+        self.path_to_data = path_to_folder + "data/"
+        self.path_to_models_folder = path_to_folder + "models/"
+
+        self.model_name = "VanillaFasterRCNNV2"
+        self.ckpt_file = "best-fasterrcnn-v2.ckpt"
+
+        self.model = None
+        self.dm = None
+
+        self.results = None
+
+    # EXTERNAL FUNCTIONS
+    # These functions are meant to be used from outside the class
+
+    def evaluate(self):
+
+        # Get the required model and load its weights
+        self.prepare_model()
+
+        # Prepare the dataset for evaluation
+        self.prepare_datamodule()
+
+        # Perform inference using models and records results
+        self.generate_results()
+
+        # Show the results in a nice way
+        self.show_results()
+
+    def prepare_model(self):
+
+        vanilla_model = get_model(model_name=self.model_name)
+            
+        # Check if the correct model name was specified
+        if vanilla_model is None:
+            print("Model with the name: " + self.model_name + " not found.")
+            
+
+        # Load the model with the checkpoint weights
+        self.model = vanilla_model.load_from_checkpoint(self.path_to_models_folder + self.ckpt_file)
+
+        # Move the model to appropriate storage i.e. RAM if only CPU is
+        # available and VRAM if only GPU is available
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.model.to(device)
+
+        print("Model and Weights Loaded Successfully")
+    
+    def prepare_datamodule(self):
+
+        self.dm = TableDatasetModule(
+            path=self.path_to_data,
+            num_workers=0,
+            batch_size=2
+        )
+
+        print("Data Module Prepared Successfully")
+
+    def generate_results(self):
+
+        trainer = Trainer(
+            max_epochs=50,
+            accelerator='auto',
+            devices='auto',
+            log_every_n_steps=1
+        )
+
+        self.results = trainer.test(
+            model=self.model,
+            datamodule=self.dm
+        )
+
+    def show_results(self):
+
+        results = self.results[0]
+
+        precision90 = results.get("val/epoch/precision_75_90")
+        precision75 = results.get("val/epoch/precision_75_75")
+
+        recall90 = results.get("val/epoch/recall_75_90")
+        recall75 = results.get("val/epoch/recall_75_75")
+
+        print()
+        print("Results")
+        print("----------------")
+        print("Precision-90:\t\t{}".format(precision90))
+        print("Precision-75:\t\t{}".format(precision75))
+        print()
+        print("Recall-90:\t\t{}".format(recall90))
+        print("Recall-75:\t\t{}".format(recall75))
 
 class TableClassificationEvaluation():
     """
@@ -879,6 +981,16 @@ def main():
         )
 
         tpe.evaluate()
+
+    if type == "detection":
+        print()
+        print("Evaluating Table Detection")
+
+        tde = TableDetectionEvaluation(
+            path_to_folder=path
+        )
+
+        tde.evaluate()
 
 if __name__=="__main__":
 
