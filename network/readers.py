@@ -246,8 +246,27 @@ def baseline(
 
         prev_pos = curr_pos
 
-    # Clean up the raw lines that were determined and combine the words
-    # that were in the same block
+    # NEW METHOD: DO NOT COMBINE GROUPS
+
+    lines = []
+    line = []
+
+    for raw_line in raw_lines:
+
+        for raw_word in raw_line:
+            
+            raw_word_string = raw_word[1]
+
+            line.append(raw_word_string)
+
+        lines.append(line)
+        line = []
+
+    table_df = pd.DataFrame(lines)
+
+    return [table_df]
+
+    # OLD METHOD OF COMBINING WITH GROUPS
 
     lines = []
     line = []

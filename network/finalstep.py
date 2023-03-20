@@ -378,7 +378,7 @@ class Datasheet():
             print("Error: Cannot Determine Table Axis, Cannot Continue")
             return None
 
-        print("Table Axis: " + axis)
+        # print("Table Axis: " + axis)
 
         if axis == "vertical":
 
