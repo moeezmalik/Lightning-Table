@@ -66,7 +66,7 @@ class TableDetectionEvaluation():
         self.generate_results()
 
         # Show the results in a nice way
-        self.show_results()
+        #self.show_results()
 
     def prepare_model(self):
 
@@ -122,7 +122,7 @@ class TableDetectionEvaluation():
         recall75 = results.get("val/epoch/recall_75_75")
 
         print()
-        print("Results")
+        print("Results - Table Detection Evaluation")
         print("----------------")
         print("Precision-90:\t\t{}".format(precision90))
         print("Precision-75:\t\t{}".format(precision75))
@@ -180,7 +180,7 @@ class TableClassificationEvaluation():
         
         self.load_data()
         self.train_and_evaluate()
-        self.show_results()
+        #self.show_results()
 
     def load_data(self) -> None:
         """
@@ -258,7 +258,7 @@ class TableClassificationEvaluation():
         results_df = results_df.set_index(["Class"])
         
         print()
-        print("Results")
+        print("Results - Table Classification Evaluation")
         print("----------------")
         print(results_df)
 
@@ -469,7 +469,7 @@ class CompletePipelineEvaluation():
         self.generate_results()
 
         # Show the generated results
-        self.show_results()
+        #self.show_results()
 
     def detect_tables(self):
         """
@@ -608,7 +608,7 @@ class CompletePipelineEvaluation():
     def show_results(self):
         
         print()
-        print("Results")
+        print("Results - Complete Pipeline Evaluation")
         print("----------------")
         
         results = []
@@ -921,14 +921,14 @@ def parse_args():
 
     required_named.add_argument(
         "-t", "--type",
-        choices=['complete', 'detection', 'classification'],
+        choices=['complete', 'detection', 'classification', 'all'],
         required=True,
         metavar="TYPE",
         dest="type",
         help=u"""
         This specifies the type of evaluation that needs to be done. The
-        choices are 'complete', 'table_detection' and 'table_classification' 
-        relating to different experiments performed in the thesis.
+        choices are 'complete', 'table_detection', 'table_classification' 
+        and 'all' relating to different experiments performed in the thesis.
         """
     )
 
@@ -973,6 +973,7 @@ def main():
         )
 
         cpe.evaluate()
+        cpe.show_results()
 
     if type == "classification":
         print()
@@ -983,6 +984,7 @@ def main():
         )
 
         tpe.evaluate()
+        tpe.show_results()
 
     if type == "detection":
         print()
@@ -993,6 +995,42 @@ def main():
         )
 
         tde.evaluate()
+        tde.show_results()
+
+    if type == "all":
+        print()
+        print("Evaluating Table Detection")
+
+        cpe = CompletePipelineEvaluation(
+            path_to_folder=path + "complete/"
+        )
+        cpe.evaluate()
+
+        tce = TableClassificationEvaluation(
+            path_to_folder=path + "classification/"
+        )
+        tce.evaluate()
+
+        tde = TableDetectionEvaluation(
+            path_to_folder=path + "detection/"
+        )
+        tde.evaluate()
+
+        print()
+        print("------")
+        print("SHOWING ALL RESULTS")
+        print("------")
+        print()
+
+        tde.show_results()
+
+        tce.show_results()
+
+        cpe.show_results()
+
+        
+
+    
 
 if __name__=="__main__":
 

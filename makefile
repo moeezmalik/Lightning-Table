@@ -1,3 +1,7 @@
+evaluation-all:
+	clear
+	python network/evaluate.py -t all -p evaluation-data/
+
 evaluation-complete:
 	clear
 	python network/evaluate.py -t complete -p evaluation-data/complete/
