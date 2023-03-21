@@ -9,5 +9,5 @@ torch==1.12.1
 torchmetrics==0.9.3
 torchvision==0.13.1
 camelot-py==0.11.0
-tabula-py==2.7.0
+tabula-py==2.6.0
 scikit-learn==1.0.2
