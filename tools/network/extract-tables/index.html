@@ -9,22 +9,24 @@
       
       
       
-        <link rel="prev" href="../guides/training/command/">
+        <link rel="prev" href="../train/">
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+        <link rel="next" href="../evaluate/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
     
     
       
-        <title>Overview - Table Detection using Pytorch and Lightning</title>
+        <title>Extract Tables - Table Detection using Pytorch and Lightning</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.c4a75a56.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.c4a75a56.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -40,7 +42,7 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -65,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#downloads" class="md-skip">
+        <a href="#extract-tables" class="md-skip">
           Skip to content
         </a>
       
@@ -79,7 +81,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Table Detection using Pytorch and Lightning" class="md-header__button md-logo" aria-label="Table Detection using Pytorch and Lightning" data-md-component="logo">
+    <a href="../../.." title="Table Detection using Pytorch and Lightning" class="md-header__button md-logo" aria-label="Table Detection using Pytorch and Lightning" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -98,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              Extract Tables
             
           </span>
         </div>
@@ -161,7 +163,7 @@
 
 
   <li class="md-tabs__item">
-    <a href=".." class="md-tabs__link">
+    <a href="../../.." class="md-tabs__link">
       Home
     </a>
   </li>
@@ -170,13 +172,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../tools/" class="md-tabs__link">
+      <a href="../../" class="md-tabs__link md-tabs__link--active">
         Tools
       </a>
     </li>
@@ -192,7 +196,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../guides/" class="md-tabs__link">
+      <a href="../../../guides/" class="md-tabs__link">
         Guides
       </a>
     </li>
@@ -202,15 +206,13 @@
         
   
   
-    
-  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="./" class="md-tabs__link md-tabs__link--active">
+      <a href="../../../downloads/" class="md-tabs__link">
         Downloads
       </a>
     </li>
@@ -228,9 +230,7 @@
           
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -240,7 +240,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Table Detection using Pytorch and Lightning" class="md-nav__button md-logo" aria-label="Table Detection using Pytorch and Lightning" data-md-component="logo">
+    <a href="../../.." title="Table Detection using Pytorch and Lightning" class="md-nav__button md-logo" aria-label="Table Detection using Pytorch and Lightning" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -259,7 +259,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         Home
       </a>
     </li>
@@ -272,14 +272,16 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
       
       
       
@@ -288,7 +290,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
           Tools
@@ -301,7 +303,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools/" class="md-nav__link">
+      <a href="../../" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -342,7 +344,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools/utils/" class="md-nav__link">
+      <a href="../../utils/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -356,7 +358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools/utils/data-house-keeper/" class="md-nav__link">
+      <a href="../../utils/data-house-keeper/" class="md-nav__link">
         Data House Keeper
       </a>
     </li>
@@ -370,7 +372,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools/utils/pascalvoc-to-csv/" class="md-nav__link">
+      <a href="../../utils/pascalvoc-to-csv/" class="md-nav__link">
         PascalVOC to CSV
       </a>
     </li>
@@ -384,7 +386,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools/utils/pdf-dedup/" class="md-nav__link">
+      <a href="../../utils/pdf-dedup/" class="md-nav__link">
         PDF Deduplication
       </a>
     </li>
@@ -403,14 +405,16 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
       
       
       
@@ -419,7 +423,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_2_3">
           <span class="md-nav__icon md-icon"></span>
           Network
@@ -432,7 +436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools/network/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -446,7 +450,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools/network/visualise/" class="md-nav__link">
+      <a href="../visualise/" class="md-nav__link">
         Visualise
       </a>
     </li>
@@ -460,7 +464,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools/network/infer/" class="md-nav__link">
+      <a href="../infer/" class="md-nav__link">
         Infer
       </a>
     </li>
@@ -474,7 +478,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools/network/train/" class="md-nav__link">
+      <a href="../train/" class="md-nav__link">
         Train
       </a>
     </li>
@@ -486,11 +490,73 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../tools/network/extract-tables/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Extract Tables
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Extract Tables
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    Purpose
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    How it works
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -502,7 +568,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools/network/evaluate/" class="md-nav__link">
+      <a href="../evaluate/" class="md-nav__link">
         Evaluate
       </a>
     </li>
@@ -558,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/" class="md-nav__link">
+      <a href="../../../guides/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -599,7 +665,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/evaluation/" class="md-nav__link">
+      <a href="../../../guides/evaluation/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -613,7 +679,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/evaluation/setup/" class="md-nav__link">
+      <a href="../../../guides/evaluation/setup/" class="md-nav__link">
         Setup
       </a>
     </li>
@@ -627,7 +693,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/evaluation/reproduce/" class="md-nav__link">
+      <a href="../../../guides/evaluation/reproduce/" class="md-nav__link">
         Reproduce
       </a>
     </li>
@@ -675,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/training/" class="md-nav__link">
+      <a href="../../../guides/training/" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -689,7 +755,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/training/dataset/" class="md-nav__link">
+      <a href="../../../guides/training/dataset/" class="md-nav__link">
         About Datasets
       </a>
     </li>
@@ -703,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/training/checkpoints/" class="md-nav__link">
+      <a href="../../../guides/training/checkpoints/" class="md-nav__link">
         Checkpoints
       </a>
     </li>
@@ -717,7 +783,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/training/metrics/" class="md-nav__link">
+      <a href="../../../guides/training/metrics/" class="md-nav__link">
         Metrics
       </a>
     </li>
@@ -731,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/training/configs/" class="md-nav__link">
+      <a href="../../../guides/training/configs/" class="md-nav__link">
         Experiment Configurations
       </a>
     </li>
@@ -745,7 +811,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/training/command/" class="md-nav__link">
+      <a href="../../../guides/training/command/" class="md-nav__link">
         Training Command
       </a>
     </li>
@@ -772,16 +838,14 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
       
       
       
@@ -790,7 +854,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           Downloads
@@ -801,86 +865,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Overview
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../downloads/" class="md-nav__link">
         Overview
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#evaluation-data" class="md-nav__link">
-    Evaluation Data
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#checkpoints" class="md-nav__link">
-    Checkpoints
-  </a>
-  
-    <nav class="md-nav" aria-label="Checkpoints">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#vanillafasterrcnnv2" class="md-nav__link">
-    VanillaFasterRCNNV2
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#vanillafasterrcnn" class="md-nav__link">
-    VanillaFasterRCNN
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#vanillaretinanet" class="md-nav__link">
-    VanillaRetinaNet
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -899,8 +888,6 @@
               </div>
             
             
-              
-                
               
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
@@ -921,43 +908,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#evaluation-data" class="md-nav__link">
-    Evaluation Data
+  <a href="#purpose" class="md-nav__link">
+    Purpose
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#checkpoints" class="md-nav__link">
-    Checkpoints
-  </a>
-  
-    <nav class="md-nav" aria-label="Checkpoints">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#vanillafasterrcnnv2" class="md-nav__link">
-    VanillaFasterRCNNV2
+  <a href="#how-it-works" class="md-nav__link">
+    How it works
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#vanillafasterrcnn" class="md-nav__link">
-    VanillaFasterRCNN
+      
+        <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#vanillaretinanet" class="md-nav__link">
-    VanillaRetinaNet
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -976,26 +950,60 @@
                   
 
 
-<h1 id="downloads">Downloads</h1>
-<p>This section will provide links to download files and folders necessary to run the scripts in this utility.</p>
-<h2 id="evaluation-data">Evaluation Data</h2>
-<p><a href="https://www.dropbox.com/s/lal6pdm77zlnuok/evaluation-data.zip?dl=1">Download Link</a></p>
-<p>The evaluation data contains all the models and the data required for reproducing the evaluation results for the experiments performed as part of the thesis. The checkpoints for deep learning models are also included, there is no need to download the checkpoits below separately. The <a href="../guides/evaluation/">Reproduce Evaluation</a> guide can be studied to use this evaluation data correctly.</p>
-<h2 id="checkpoints">Checkpoints</h2>
-<p>Checkpoints are files that contains the trained weights of the networks (alongwith other information). Each model type has its own type checkpoints that will be generated during the training. Please find the relevant checkpoints below:</p>
-<h4 id="vanillafasterrcnnv2">VanillaFasterRCNNV2</h4>
-<p><a href="https://www.dropbox.com/s/a08mfi9xjh88bwd/best-fasterrcnn-v2.ckpt?dl=1">Download Link</a></p>
-<p>This PyTorch Lightning Checkpoint contains the weights for the best trained FasterRCNN v2 model. This models was selected as being the best at detecting tables during the evaluations performed.</p>
-<h4 id="vanillafasterrcnn">VanillaFasterRCNN</h4>
-<p><a href="https://www.dropbox.com/s/oag1osnax4wu9tw/best-fasterrcnn.ckpt?dl=1">Download Link</a></p>
-<p>This PyTorch Lightning Checkpoint contains the weights for the best trained FasterRCNN model. </p>
-<h4 id="vanillaretinanet">VanillaRetinaNet</h4>
-<p><a href="https://www.dropbox.com/s/lqdkk2holgu4urk/best-retinanet.ckpt?dl=1">Download Link</a></p>
-<p>This PyTorch Lightning Checkpoint contains the weights for the best trained RetinaNet model. </p>
+<h1 id="extract-tables">Extract Tables</h1>
+<p>A utility to get the textual data of tables from the PDF files.</p>
+<h2 id="purpose">Purpose</h2>
+<p>After the tables have been detected by a machine learning model or the regions are indicated by a human. This utility can be used to extract the table content from the PDF files and put them into an excel file.</p>
+<h2 id="how-it-works">How it works</h2>
+<p>For this utility to work, two major things are required. One is a folder that contains all of the PDF files that need to be evaluated, the other one is the CSV file that contains the regions in the PDF file where the tables are located. </p>
+<p>The CSV file such ideally be generated by the trained Deep Learning model which can be accessed from the <a href="../infer/">Infer Tool</a>. It should generate the CSV in the following format.</p>
+<div class="highlight"><pre><span></span><code>filename,pageno,x1,y1,x2,y2
+601fa1f389734.pdf,1,258,2891,2155,5165
+601fa1f389734.pdf,1,244,5426,2107,6218
+601fa1f389733.pdf,2,210,3268,3162,4738
+601fa1f389733.pdf,2,2079,5861,3125,6346
+601fa1f389733.pdf,2,177,5774,2042,6376
+601fa1f389733.pdf,2,1899,4921,3177,5538
+601fa1f389733.pdf,2,216,4897,1865,5516
+601fa1f389733.pdf,2,220,1165,3135,2009
+601fa1f389733.pdf,2,246,2317,3114,2998
+</code></pre></div>
+<p>Here, the <code>filename</code> is the name of the PDF file that needs to evaluated. The filename should contain the extension i.e. '.pdf'. The <code>pageno</code> field specifies the page on which the table exists. The coordinates <code>x1</code>, <code>y1</code>, <code>x2</code> and <code>y2</code> are that of the table found. <code>x1</code> and <code>y1</code> specify the top left corner of the table and <code>x2</code> and <code>y2</code> specify the bottom corner of the table.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The x1, y1, x2, y2 coordinates mentioned in the file should be in the PDF coordinate space. This means that the (0, 0) position of the x and y-axis respectively is at the bottom-left of the page. This is different than what normally is the case where the (0, 0) position is the top-left of the page. This is done because the table extraction utilities e.g. Camelot expect the table regions in PDF coordinate space.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The header filename,pageno,x1,y1,x2,y2 are just added in the CSV representation here for information. The infer tool will not generate this header. This utility also expects the CSV file without this header, however the order of information should be respected.</p>
+</div>
+<p>The utility will go through the PDF files one by one. Take in all the tables found in that file, extract the textual data in a tabular format and save them as a file. In case an excel file is required, it will generate an excel file for that PDF that will contain all of the tables. Each table will constitute one sheet in the excel document.</p>
+<h2 id="parameters">Parameters</h2>
+<p>Following parameters are required to run the script:</p>
+<ul>
+<li>
+<p><code>-f</code> or <code>--folder</code>:
+This is the path to the folder that contains all of the PDF files.</p>
+</li>
+<li>
+<p><code>-c</code> or <code>--csv</code>:
+This is the path to the CSV file that contains information about the table areas in the PDF files. See the section above for more information about this file.</p>
+</li>
+<li>
+<p><code>-r</code> or <code>--reader</code>:
+This parameter specifies the type of reader that will be used to read the tables from the PDF files provided their coordinate locations. Three options are available: 'baseline', 'camelot' and 'tabula'. Baseline is very simple custom rule-based table extractor that is implemented just to provide a comparison with the other utilities. Camelot and Tabula, on the other hand, are more sophisticated Python utilities for extracting the tables.</p>
+</li>
+<li>
+<p><code>-o</code> or <code>--output</code>:
+This is the path to the folder where the generated files will be stored.</p>
+</li>
+</ul>
+<h2 id="example">Example</h2>
+<p>An example on how to run the script is following:</p>
+<div class="highlight"><pre><span></span><code>python extract-tables.py -f ../misc/pdf-test/ -c ../misc/pdf-test/output6.csv -o ../misc/pdf-test/ -t excel
+</code></pre></div>
 
 
-
-  
 
 
 
@@ -1031,10 +1039,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.efa0ade1.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.efa0ade1.min.js"></script>
       
     
   </body>
