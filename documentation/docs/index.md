@@ -28,7 +28,7 @@ docker build -t image_name .
 
 ## Evaluation
 
-This repository and all the code produced in it were designed to create an end-to-end pipeline for extracting tabular information from PDF documents. As evaluation is a critical part of any experimentation, specific code has been created that can perform evaluations of different aspects of the pipeline and reproduce the reesults. If you are interested in running the evaluations for yourself please follow the guide on [Reproducing Evaluation](guides/evaluation/index.md).
+This repository and all the code produced in it were designed to create an end-to-end pipeline for extracting tabular information from PDF documents. As evaluation is a critical part of any experimentation, specific code has been created that can perform evaluations of different aspects of the pipeline and reproduce the results. If you are interested in running the evaluations for yourself please follow the guide on [Reproducing Evaluation](guides/evaluation/index.md).
 
 ## Information about Files
 
