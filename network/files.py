@@ -16,8 +16,9 @@ Author:
 
 import fitz
 from os import listdir
-from os.path import join, split
+from os.path import join, split, basename, isfile
 from PIL import Image
+import random
 
 # ##########################################################
 # Functions
@@ -26,6 +27,7 @@ from PIL import Image
 def get_list_of_files_with_ext(
     path_to_folder: str,
     ext: str,
+    randomise: bool = False,
     verbose: bool = True
     ) -> list:
     """
@@ -41,7 +43,11 @@ def get_list_of_files_with_ext(
 
         ext:
             This is the extension of the files that will be
-            selected from the folder
+            selected from the folder.
+
+        randomise:
+            If this flag is set to True, then the list of files
+            will be shuffled before being returned.
 
         verbose:
             If this flag is set to True, then this function will
@@ -57,16 +63,28 @@ def get_list_of_files_with_ext(
 
     list_of_files = []
 
+    # Evaluate all files in the directory
     for file in listdir(path_to_folder):
-        if file.endswith(ext):
-            full_path = join(path_to_folder, file)
-            list_of_files.append(full_path)
+
+        # Skip the hidden files
+        # In linux and macOS, the hidden files start
+        # with '.'
+        if not file.startswith('.'):
+
+            # Get the files with the specified extension
+            if file.endswith(ext):
+                full_path = join(path_to_folder, file)
+                list_of_files.append(full_path)
 
     if verbose:
         print()
         print("Looking for " + ext + " files in folder: " + path_to_folder)
         print()
         print("Total " + ext + " files found: " + str(len(list_of_files)))
+
+    # Shuffle the list of files captured
+    if randomise:
+        random.shuffle(list_of_files)
 
     return list_of_files
 
@@ -134,6 +152,7 @@ class PDFLoader():
         self.path_to_pdf = None
         self.pdf_name = None
         self.fitz_doc = None
+        self.read_error = False
         self.page_count = None
         self.is_text_based = None
 
@@ -161,12 +180,24 @@ class PDFLoader():
         """
 
         # Get the name of the PDF document
-        dir, pdf_name = split(path_to_pdf)
+        _, pdf_name = split(path_to_pdf)
 
         # Read the PDF file into a fitz document and return it
-        fitz_doc = fitz.open(path_to_pdf)
+        try:
+            doc = fitz.open(path_to_pdf)
 
+        except fitz.FileDataError:
+            fitz_doc = None
+
+        except:
+            fitz_doc = None
+
+        else:
+            fitz_doc = doc
+            
         return fitz_doc, pdf_name
+
+        
 
     def _is_text_based(
         self
@@ -223,12 +254,24 @@ class PDFLoader():
             path_to_pdf=path_to_pdf
         )
 
+        # Do not proceed if there was an error in reading the PDF file
+        if self.fitz_doc is None:
+
+            if self.verbose:
+                print("Error Reading PDF File: " + self.pdf_name)
+            
+            self.read_error = True
+            return None
+
+
         # Get the page count of the PDF
         self.page_count = self.fitz_doc.page_count
 
         # Determine if the PDF is image based or text-based
         self._is_text_based()
 
+        # Print information about the PDF if the read is successful and the
+        # verbose flag is set
         if self.verbose:
             print()
             print("Loaded File: " + self.pdf_name)
@@ -237,10 +280,8 @@ class PDFLoader():
             # Print whether text-based or not
             if self.is_text_based:
                 print("PDF is text-based")
-
             else:
                 print("PDF does not contain text")
-
             print()
 
         return None
@@ -249,7 +290,7 @@ class PDFLoader():
         self,
         pg_no: int,
         dpi: int = 600
-        ) -> Image:
+        ) -> tuple:
         """
         This function will get the page from the document that is specified
         and convert it into a PIL Image and return that.
@@ -259,6 +300,19 @@ class PDFLoader():
                 This the page number that needs to be acquired.
             dpi:
                 This the DPI at which to render the image.
+
+        Returns:
+            Tuple:
+                scale_factor:
+                    This is the ratio of the DPI at which the PDF was rendered
+                    and the original DPI setting of the PDF. This can be used
+                    for example, to scale down the bounding boxes that are
+                    generated on the image to the bounding boxes in the PDF
+                    coordinates.
+
+                Image:
+                    This is the rendered image of the current page as a PIL
+                    object.
         """
 
         if pg_no > self.page_count or pg_no < 0:
@@ -268,8 +322,81 @@ class PDFLoader():
         # Load the page
         page = self.fitz_doc.load_page(pg_no)
 
+        _ = page.mediabox.x1
+        page_height = page.mediabox.y1
+
         # Convert to an image
         pix = page.get_pixmap(dpi=dpi)
 
         # Convert the image to PIL object and return
-        return Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+        pil_image = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+
+        _ = pix.width
+        image_height = pix.height
+
+        scale_factor = image_height/page_height
+
+        return scale_factor, pil_image
+
+    def transform_bb_to_pdf_space(
+        self,
+        bbs: list,
+        pg_no: int,
+        scale_factor: int = 1
+        ) -> list:
+        """
+        In the regular coordinate space the (0, 0) position for x and y-axis
+        respecively is at the top left of the page. However in the PDF coordinate
+        space the (0, 0) position for the x and y-axis respectively is at the
+        bottom-left of the page and not the top-left.
+
+        This function will convert the bounding box coordinates from the regular
+        coordinate space to the PDF coordinate space. It will also scale down
+        the boxes according to the scale factor of the page of PDF provided.
+
+        Parameters:
+            bb:
+                This is a list of bounding boxes that needs to be transformed.
+                It is a list of list with coordinates as [x1, y1, x2, y2] where
+                x1, y1 is the top-left of the box and x2, y2 is the bottom-right
+                of the box in the regular coordinate system.
+            
+            pg_no:
+                This is the page number on which the bounding box exists. The page
+                number is required because different pages in the PDF might have
+                different sizes and thus different transformation of the page might
+                be required.
+            
+            scale_factor:
+                This is the scale factor between the image DPI and the PDF's
+                original DPI. This is calculated for each page separately,
+                in the "get_page_in_pil" function of this class.
+
+        Returns:
+            transformed_bbs:
+                This is the list of transformed coordinates of the bounding boxes.
+                It is a list of list with coordinates as [x1, y1, x2, y2] where
+                x1, y1 is the top-left of the box and x2, y2 is the bottom-right
+                of the box in the regular coordinate system.
+        """
+
+        transformed_bbs = []
+
+        # For all bounding boxes in the list of bounding boxes provided
+        for bb in bbs:
+
+            # Scale down the bounding box to fit the original PDF size
+            scaled_bb = [x/scale_factor for x in bb]
+
+            # Load the page and get the page height
+            page = self.fitz_doc.load_page(pg_no)
+            page_height = page.mediabox.y1
+
+            # Transform along the y-axis
+            transformed_box = scaled_bb
+            transformed_box[1] = page_height - transformed_box[1]
+            transformed_box[3] = page_height - transformed_box[3]
+
+            transformed_bbs.append(transformed_box)
+
+        return transformed_bbs

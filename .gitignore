@@ -1,5 +1,7 @@
 dataset/
 datasets/
+train-data/
+evaluation-data/
 lightning_logs/
 misc/
 network/__pycache__

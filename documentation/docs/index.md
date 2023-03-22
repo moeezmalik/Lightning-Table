@@ -10,66 +10,26 @@ hide:
 
 This repository contains the code for detecting tables in PDF documents by using the PyTorch and the Lightning framework. The following image is just an example of passing a PDF through one of the networks in this repository that is trained on detecting the tables. The red bounding-boxes show the areas in the image that the model has predicted as a table.
 
-![Image title](assets/main-table-photo.png)
+![Main Table Photo](assets/main-table-photo.png)
 
 
-## Requirements
+## Setting up Dependencies
+
 The requirements for this repository can be found in the `requirements.txt` file in the root of respository. The requirements can be installed using the following command using pip:
 
 ```
 pip install -r requirements.txt
 ```
 
-## Folder Structure of the Repository
-The repository folders are structured in the following way.
-
+In addition, a dockerfile is provided that can setup the repository in the correct fashion and take care of all the dependecies of the code. The image can be generated using the following command.
 ```
-- network
-	- datamodules.py
-    - files.py
-    - infer.py
-    - inferencers.py
-    - misc.py
-	- models.py
-    - test.py
-    - train.py
-	- trainers.py
-	- transforms.py
-	- utilities.py
-    - visualise.py
-    - visualisers.py
-
-- utils
-	- visualisers.py
-    - data-house-keeper.py
-    - pascalvoc-to-csv.py
-- requirements.txt
-- experiment-configs.py
+docker build -t image_name .
 ```
 
-More information about the files and folders in the repository:
+## Evaluation
 
-- The `network` folder contains all the files that deal for the creation, configuration, training and inference of PyTorch based models.
-	- The `datamodules.py` file contains everything related to the management of dataset for the training of the models.
-    - The `files.py` file contains all the functions required by other scripts to interact with the filesystem.
-    - The `infer.py` implements the command-line utility to infer on a single or a folder of PDF files.
-    - The `inferencers.py` file contains all the functions required to perform inference using the models provided.
-    - The `misc.py` contains miscellaneous functions required by other scripts.
-	- The `models.py` file contains all the PyTorch based models e.g. the RetinaNet.
-    - The `test.py` is just there to test out the scripts, it does not implement any useful functionality.
-    - The `train.py` file implements the command-line utility to train the models.
-	- The `trainers.py` contains all the necessary assembly of functions to initialise the training of the models. More information about the training of the models is provided below.
-	- Since we are dealing with object detection models, the runtime transforms that might be required to apply to the images need to be applied to the annotations i.e. bounding boxes as well. These special transforms are present in the `transforms.py` file.
-	- The `utilities.py` file contains helper utilities for the setup of the models.
-    - The `visualise.py` file implements the command-line utility to visualise pdf and image files using the trained models.
-    - The `visualisers.py` file contains the functions that enables the visualiation of PDF and image files using the trained models.
+This repository and all the code produced in it were designed to create an end-to-end pipeline for extracting tabular information from PDF documents. As evaluation is a critical part of any experimentation, specific code has been created that can perform evaluations of different aspects of the pipeline and reproduce the results. If you are interested in running the evaluations for yourself please follow the guide on [Reproducing Evaluation](guides/evaluation/index.md).
 
-- The `utils` folder provides some utilities that might be needed to interface with the network. 
-    - The `data-house-keeper.py` file provides functionality to clean up the PascalVOC annotation directory and rename the files.
-    - The `files.py` file contains all the functions required by other scripts to interact with the filesystem.
-    - The `misc.py` contains miscellaneous functions required by other scripts.
-    - The `pascalvoc-to-csv.py` file provides functionality to convert the PascalVOC annotations to CSV annotations.
-- `experiment-configs` provides model, datamodule and hyperparameter configurations for the networks in this repository.
-- `requirements.txt` file contains the required Python packages to run the code in this repository.
+## Information about Files
 
-The above was just a summary of all the main files and folders that are in the repository. However, only some of them are designed to be used by the end-user. For more information about the utilities that are designed to be exposed to the end-user, please check the [Guides](guides/index.md) or the [Tools](tools/index.md) section.
+The repository contains many Python files in multiple folders that help make the complete pipeline for extracting tables from PDF documents. This is done in order to make the code more organised and modular and only some of these files are designed to be used by the end-user. For more information about the utilities that are designed to be exposed to the end-user, please check the [Guides](guides/index.md) or the [Tools](tools/index.md) section.

@@ -78,6 +78,13 @@ the cutoff, the predictions below this cutoff will not be considered.
 This is an optional parameter, if no value is specified then 0.75 will be
 taken.
 
+- `-r` or `--randomise`:
+In case a folder of PDF needs to be visualised, if
+this parameter is specified as 'True' then the files to be
+visualised will be picked up randomly. The default value is
+False. This parameter will not affect other visualisation
+cases.
+
 
 ## Example
 

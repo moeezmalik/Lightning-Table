@@ -423,10 +423,17 @@ class TableDatasetModule(LightningDataModule):
         if stage == 'fit' or stage is None:
             self.train_set, self.eval_set = random_split(
                 dataset=self.full_dataset,
-                lengths=[train_set_length, eval_set_length]
+                lengths=[train_set_length, eval_set_length],
+                generator=torch.Generator().manual_seed(42)
                 )
 
         if stage == 'test' or stage is None:
+
+            print()
+            print("TESTING")
+            print("TESTING")
+            print("TESTING")
+            print()
             self.test_set = full_set
 
     def train_dataloader(self) -> DataLoader:
@@ -447,8 +454,22 @@ class TableDatasetModule(LightningDataModule):
         This function is one of the hooks for the PyTorch Lightning Data Modules.
         It returns the Dataloader object for the validation steps.
         """
+
         return DataLoader(
             dataset=self.eval_set,
+            batch_size=self.batch_size,
+            collate_fn=collate_fn,
+            num_workers=self.num_workers
+        )
+    
+    def test_dataloader(self) -> DataLoader:
+        """
+        This function is one of the hooks for the PyTorch Lightning Data Modules.
+        It returns the Dataloader object for the test steps.
+        """
+
+        return DataLoader(
+            dataset=self.test_set,
             batch_size=self.batch_size,
             collate_fn=collate_fn,
             num_workers=self.num_workers

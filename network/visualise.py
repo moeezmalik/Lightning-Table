@@ -98,6 +98,20 @@ def parse_args():
         if no value is specified then 0.75 will be taken."""
     )
 
+    parser.add_argument(
+        "-r", "--randomise",
+        required=False,
+        type=bool,
+        default=False,
+        metavar="RANDOMISE",
+        dest="randomise",
+        help=u"""In case a folder of PDF needs to be visualised, if
+        this parameter is specified as 'True' then the files to be
+        visualised will be picked up randomly. The default value is
+        False. This parameter will not affect other visualisation
+        cases."""
+    )
+
     # Parse the arguments and result the namespace object
     return parser.parse_args()
 
@@ -116,6 +130,7 @@ def main():
     model_name = args.model_name
     cpkt_path = args.ckpt_path
     conf_thresh = args.conf_thresh
+    randomise = args.randomise
 
     print()
     print("Visualisation Utility")
@@ -166,6 +181,7 @@ def main():
             model_name=model_name,
             ckpt_path=cpkt_path,
             conf_thresh=conf_thresh,
+            randomise=randomise,
             verbose=True
         )
 

@@ -183,7 +183,7 @@ class SuperNet(LightningModule):
         performed on the validation set passed on by the Lightning Data
         Module.
         """
-        
+
         # Get the images and targets from the batch
         images, targets = batch
 
@@ -236,6 +236,12 @@ class SuperNet(LightningModule):
         self.pr_metric_75_90.reset()
         
         return None
+
+    def test_step(self, batch, batch_idx):
+        return self.validation_step(batch, batch_idx)
+    
+    def test_epoch_end(self, outs):
+        return self.validation_epoch_end(outs)
 
     def configure_optimizers(self):
         """
