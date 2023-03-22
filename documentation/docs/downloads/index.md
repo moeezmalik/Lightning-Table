@@ -11,7 +11,7 @@ This section will provide links to download files and folders necessary to run t
 
 [Download Link](https://www.dropbox.com/s/lal6pdm77zlnuok/evaluation-data.zip?dl=1)
 
-The evaluation data contains all the models and the data required for reproducing the evaluation results for the experiments performed as part of the thesis.
+The evaluation data contains all the models and the data required for reproducing the evaluation results for the experiments performed as part of the thesis. The checkpoints for deep learning models are also included, there is no need to download the checkpoits below separately. The [Reproduce Evaluation](../guides/evaluation/index.md) guide can be studied to use this evaluation data correctly.
 
 ## Checkpoints
 

@@ -38,6 +38,7 @@ nav:
     - Reproduce Evaluation:
       - Overview: guides/evaluation/index.md
       - Setup: guides/evaluation/setup.md
+      - Reproduce: guides/evaluation/reproduce.md
     - Train Models:
       - Overview: guides/training/index.md
       - About Datasets: guides/training/dataset.md
