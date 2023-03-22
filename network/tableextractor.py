@@ -581,7 +581,7 @@ def parse_args():
     required_named.add_argument(
         "-c", "--csv",
         required=True,
-        metavar="PATH",
+        metavar="CSV",
         dest="csv_path",
         help=u"""This is the path to the CSV file that contains the PDF names
                  and the table coordinates. The CSV file should contain the
@@ -593,7 +593,7 @@ def parse_args():
         "-r", "--reader",
         choices=['camelot', 'baseline', 'tabula'],
         required=True,
-        metavar="PATH",
+        metavar="RDR",
         dest="reader",
         help=u"""
         This is the reader type that will be used to read the tables
@@ -605,7 +605,7 @@ def parse_args():
     required_named.add_argument(
         "-o", "--output",
         required=True,
-        metavar="PATH",
+        metavar="OUT",
         dest="output_path",
         help=u"""This is the path to the folder where the generate output files
                  will be placed. One file will be generated for each PDF file."""

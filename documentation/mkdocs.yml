@@ -25,13 +25,14 @@ nav:
       - Data House Keeper: tools/utils/data-house-keeper.md
       - PascalVOC to CSV: tools/utils/pascalvoc-to-csv.md
       - PDF Deduplication: tools/utils/pdf-dedup.md
-      - Extract Tables: tools/utils/extract-tables.md
   
     - Network:
       - Overview: tools/network/index.md
       - Visualise: tools/network/visualise.md
       - Infer: tools/network/infer.md
       - Train: tools/network/train.md
+      - Extract Tables: tools/network/extract-tables.md
+      - Evaluate: tools/network/evaluate.md
   
   - Guides:
     - Overview: guides/index.md

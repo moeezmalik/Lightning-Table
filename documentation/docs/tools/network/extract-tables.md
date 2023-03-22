@@ -45,8 +45,8 @@ This is the path to the folder that contains all of the PDF files.
 - `-c` or `--csv`:
 This is the path to the CSV file that contains information about the table areas in the PDF files. See the section above for more information about this file.
 
-- `-t` or `--type`:
-This parameter specifies the type of file that will generated after the utility is run. Currently only 'excel' can be specified because only generation of Excel files has been implemented so far.
+- `-r` or `--reader`:
+This parameter specifies the type of reader that will be used to read the tables from the PDF files provided their coordinate locations. Three options are available: 'baseline', 'camelot' and 'tabula'. Baseline is very simple custom rule-based table extractor that is implemented just to provide a comparison with the other utilities. Camelot and Tabula, on the other hand, are more sophisticated Python utilities for extracting the tables.
 
 - `-o` or `--output`:
 This is the path to the folder where the generated files will be stored.

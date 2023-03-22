@@ -884,7 +884,6 @@ class Datasheet():
         return found_rows
 
 
-
 def main():
     """
     This is the main function. This will call all other functions in
