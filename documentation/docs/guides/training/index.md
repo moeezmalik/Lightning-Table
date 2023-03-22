@@ -1,5 +1,5 @@
 # How to Train the Networks
-The repository will contain the code to train multiple networks on the dataset. The `trainers.py` file can be used for the purposes of training the available models. Currently only the default [PyTorch RetinaNet](https://pytorch.org/vision/main/models/generated/torchvision.models.detection.retinanet_resnet50_fpn.html#torchvision.models.detection.retinanet_resnet50_fpn) is available for the training purposes. 
+The repository will contain the code to train multiple networks on the dataset. The `trainers.py` file can be used for the purposes of training the available models. The default PyTorch object detector models are available for training. 
 
 
 ## Known Issues
@@ -12,5 +12,4 @@ The code has been tested to run on:
 
 - macOS 12.4 Monterey on Intel Macbook Pro 2019
 - Google Colab
-
-
+- Kaggle

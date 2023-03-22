@@ -35,7 +35,10 @@ nav:
   
   - Guides:
     - Overview: guides/index.md
-    - Network Training:
+    - Reproduce Evaluation:
+      - Overview: guides/evaluation/index.md
+      - Setup: guides/evaluation/setup.md
+    - Train Models:
       - Overview: guides/training/index.md
       - About Datasets: guides/training/dataset.md
       - Checkpoints: guides/training/checkpoints.md
@@ -45,6 +48,3 @@ nav:
 
   - Downloads:
     - Overview: downloads/index.md
-
-  - Changelog:
-    - Overview: changelog/index.md
