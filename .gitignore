@@ -2,6 +2,7 @@ dataset/
 datasets/
 train-data/
 evaluation-data/
+extraction-data/
 lightning_logs/
 misc/
 network/__pycache__

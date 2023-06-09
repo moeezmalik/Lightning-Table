@@ -20,6 +20,7 @@ import pandas as pd
 import numpy as np
 import re
 import pickle
+import fitz
 
 from statistics import mode, StatisticsError
 
@@ -222,6 +223,7 @@ class Datasheet():
 
     def __init__(
         self,
+        path_to_pdf = None,
         path_to_excel = None,
         path_to_clf = None,
         path_to_vec = None
@@ -242,14 +244,23 @@ class Datasheet():
         # Dictionary type for extracted temperature coefficients
         self.extracted_temp = None
 
-        # Calling the constructor functions
+        # Dictionary type for extracted mechanical properties
+        self.extracted_mech = None
 
+        # Dictionary type for misc. properties
+        self.extracted_misc = None
+
+        # Calling the constructor functions
         if path_to_excel is not None:
             self.load_tables_from_excel(
                 path_to_excel=path_to_excel,
                 path_to_clf=path_to_clf,
                 path_to_vec=path_to_vec
             )
+
+        # Open the PDF document as well
+        if path_to_pdf is not None:
+            self.pdf_doc = fitz.Document(filename=path_to_pdf)
 
     def load_tables_from_excel(
         self,
@@ -482,7 +493,37 @@ class Datasheet():
 
         return None
 
+    def extract_mech_props(self) -> None:
+        """
+        This function implements the routines to find and extract
+        the required mechanical properties from either the
+        processed excel files or the PDF data sheet.
+        """
+
+        # Get the table that contains the electrical properties in the
+        # datasheet
+        mech_table = None
+
+        for table in self.tables:
+            if table.pred_class == 'd':
+                mech_table = table
         
+        if mech_table is not None:
+            print(mech_table.raw_df)
+        else:
+            print("No Mech Table Found")
+
+    def extract_misc_props(self) -> None:
+        """
+        This function will attempt to extract the miscellaneous properties
+        from the document such as the PDF creation data. For this purpose
+        the PDF file itself might be utilised.
+        """
+
+        full_creation_date = self.pdf_doc.metadata.get("creationDate")
+        year = full_creation_date[2:6]
+
+        self.extracted_misc = {"year": year}
     
     ##################################
     # Internal functions for the class

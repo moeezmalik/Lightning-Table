@@ -855,7 +855,7 @@ class CompletePipelineEvaluation():
 
         # Load the yaml file that contains all the patterns for
         # detecting the correct columns and the values
-        with open(self.path_to_models_folder + "patterns.yaml", "r") as stream:
+        with open(self.path_to_models_folder + "patterns.yaml", "r", encoding='utf-8') as stream:
             try:
                 patterns = yaml.safe_load(stream)
             except yaml.YAMLError as e:
