@@ -23,6 +23,7 @@ import pickle
 import fitz
 
 from statistics import mode, StatisticsError
+from itertools import chain
 
 # Other libraries
 
@@ -493,12 +494,23 @@ class Datasheet():
 
         return None
 
-    def extract_mech_props(self) -> None:
+    def extract_mech_props(
+            self,
+            patterns: dict
+            ) -> None:
         """
         This function implements the routines to find and extract
         the required mechanical properties from either the
         processed excel files or the PDF data sheet.
+
+        Parameters:
+            patterns:
+                Theses are regex patterns that will be used to detect the
+                digits for required mechanical properties.
         """
+        
+        length = None
+        width = None
 
         # Get the table that contains the electrical properties in the
         # datasheet
@@ -507,11 +519,46 @@ class Datasheet():
         for table in self.tables:
             if table.pred_class == 'd':
                 mech_table = table
-        
+
         if mech_table is not None:
-            print(mech_table.raw_df)
+
+            temp_list = mech_table.raw_df.values.tolist()
+            temp_list = list(chain.from_iterable(temp_list))
+            table_string = ' '.join(temp_list)
+
+            dim_series_pattern = patterns.get("dim").get("series")
+            dim_val_pattern = patterns.get("dim").get("vals")
+
+            match = re.search(pattern=dim_series_pattern, string=table_string)
+
+            if match:
+                matched_string = match.group()
+                
+                values = re.findall(pattern=dim_val_pattern, string=matched_string)
+
+                try:
+                    values = [float(x) for x in values]
+
+                    if len(values) == 2:
+                        if values[0] > values[1]:
+                            width = values[1]
+                            length = values[0]
+                        else:
+                            width = values[0]
+                            length = values[1]
+
+                except ValueError:
+                    print("Not a valid dimension")
+
+
         else:
             print("No Mech Table Found")
+
+        # Save the values
+        self.extracted_mech = {
+            "length": length,
+            "width": width
+            }
 
     def extract_misc_props(self) -> None:
         """

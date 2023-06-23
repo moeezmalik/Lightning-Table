@@ -113,23 +113,37 @@ class FolderExtraction():
 
             year = prop_type.get("misc").get("year")
 
+            length = prop_type.get("mech").get("length")
+            width = prop_type.get("mech").get("width")
+
             # Assuming equal lengths of extracted arrays of values
-            value_count = []
+            if electrical is not None:
+                value_count = []
 
-            for value_type, value_list in electrical.items():
-                if value_list is not None:
-                    value_count.append(len(value_list))
-
-            most_freq_count = mode(value_count)
+                for value_type, value_list in electrical.items():
+                    if value_list is not None:
+                        value_count.append(len(value_list))
+                        
+                most_freq_count = mode(value_count)
+            else:
+                most_freq_count = 1
 
             curr_file_list = [[name] * most_freq_count]
             curr_file_list.append([year] * most_freq_count)
+
+            curr_file_list.append([length] * most_freq_count)
+            curr_file_list.append([width] * most_freq_count)
 
             # Adding electrical properties
             elec_prop_types = ["eff", "pmpp", "vmpp", "impp", "voc", "isc", "ff"]
 
             for prop in elec_prop_types:
-                vals = electrical.get(prop)
+
+                if electrical is not None:
+                    vals = electrical.get(prop)
+                else:
+                    vals = None
+
                 if vals is None:
                     curr_file_list.append([""] * most_freq_count)
                 else:
@@ -139,7 +153,12 @@ class FolderExtraction():
             thermal_prop_types = ["isc", "pmpp", "voc"]
 
             for prop in thermal_prop_types:
-                vals = thermal.get(prop)
+
+                if thermal is not None:
+                    vals = thermal.get(prop)
+                else:
+                    vals = None
+
                 if vals is None:
                     curr_file_list.append([""] * most_freq_count)
                 else:
@@ -155,16 +174,18 @@ class FolderExtraction():
                                 columns=[
                                     "name",
                                     "year",
-                                    "eff",
-                                    "pmpp",
-                                    "vmpp",
-                                    "impp",
-                                    "voc",
-                                    "isc",
-                                    "ff",
-                                    "isc",
-                                    "pmpp",
-                                    "voc"
+                                    "length",
+                                    "width",
+                                    "E/eff",
+                                    "E/pmpp",
+                                    "E/vmpp",
+                                    "E/impp",
+                                    "E/voc",
+                                    "E/isc",
+                                    "E/ff",
+                                    "T/isc",
+                                    "T/pmpp",
+                                    "T/voc"
                                     ]
                                 )
             
@@ -309,6 +330,7 @@ class FolderExtraction():
         # Get type specific patterns
         elec_patterns = patterns.get("electrical")
         therm_patterns = patterns.get("temperature")
+        mech_patterns = patterns.get("mechanical")
 
         curr_ds = Datasheet(
             path_to_pdf=path_to_pdf_file,
@@ -323,10 +345,11 @@ class FolderExtraction():
         curr_ds.extract_temp_props(patterns=therm_patterns)
         therm_extracted = curr_ds.extracted_temp
 
+        curr_ds.extract_mech_props(patterns=mech_patterns)
+        mech_extracted = curr_ds.extracted_mech
+
         curr_ds.extract_misc_props()
         misc_extracted = curr_ds.extracted_misc
-
-        curr_ds.extract_mech_props()
 
         if elec_extracted is not None:
             for key, item in elec_extracted.items():
@@ -349,6 +372,7 @@ class FolderExtraction():
         return {
             "electrical" : elec_extracted,
             "thermal" : therm_extracted,
+            "mech": mech_extracted,
             "misc": misc_extracted
         }
 
