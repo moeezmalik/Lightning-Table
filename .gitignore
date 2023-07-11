@@ -9,4 +9,5 @@ network/__pycache__
 training-results/
 checkpoint/
 inference-checkpoints/
+test-data/
 .DS_Store
